@@ -1,20 +1,23 @@
+//reading csv file
+const csv = require('csv-parser');
+const fs = require('fs');
+
+fs.createReadStream('virt_src_2020-03-31.csv')
+  .pipe(csv())
+  .on('data.', (row) => {
+    console.log(row);
+  })
+  .on('end', () => {
+    console.log('CSV file successfully processed');
+  });
+
 var map;
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 47.471, lng: -120.635 },
         zoom: 6.5
     });
-    // Load GeoJSON.
-  map.data.loadGeoJson(
-    "https://storage.googleapis.com/mapsdevsite/json/google.json"
-  );
-  var georssLayer = new google.maps.KmlLayer({
-    url: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Map_of_Washington_counties%2C_blank.svg'
-  });
-  georssLayer.setMap(map);
-    var drawingManager = new google.maps.drawing.DrawingManager();
-    drawingManager.setMap(map);
-    
+
 //Adams County
     var Adams;
     var adamsCoords = [
@@ -28,6 +31,14 @@ function initMap() {
         { lat: 47.26, lng: -118.977},
         { lat: 47.259, lng: -117.96}
     ];
+   Adams = new google.maps.Polygon({
+        path: adamsCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    var adamsLine
+    Adams.setMap(map);
+
 
 //Asotin County
     var Asotin;
@@ -56,7 +67,14 @@ function initMap() {
         { lat: 46.420935, lng: -117.201797},
         { lat: 46.430165, lng: -117.057813}
     ];
-    
+    Asotin = new google.maps.Polygon({
+        path: asotinCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    Asotin.setMap(map);
+
+
 //Benton County
     var Benton;
     var bentonCoords = [
@@ -75,6 +93,12 @@ function initMap() {
         { lat: 46.639898, lng: -119.652139},
         { lat: 46.728435, lng: -119.517887}
     ];
+    Benton = new google.maps.Polygon({
+        path: bentonCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    Benton.setMap(map);
 
 //Chelan County
     var Chelan;
@@ -82,41 +106,176 @@ function initMap() {
 
     ];
 
+    var Clallam;
+    var clallamCoords = [
+        { lat: 48.427482, lng: -124.780049},
+        { lat: 48.183253, lng: -123.537076},
+        { lat: 48.143104, lng: -122.938161},
+        { lat: 47.865219, lng: -122.953209},
+        { lat: 47.865219, lng: -122.953209},
+        { lat: 47.887424, lng: -124.813155}
+    ];
+    Clallam = new google.maps.Polygon({
+        path: clallamCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    Clallam.setMap(map);
 
+    var Clark;
+    var clarkCoords = [
+        { lat: 46.056445, lng: -122.247909},
+        { lat: 45.553855, lng: -122.250656},
+        { lat: 45.550971, lng: -122.312454},
+        { lat: 45.575007, lng: -122.364639},
+        { lat: 45.568278, lng: -122.411331},
+        { lat: 45.607681, lng: -122.613204},
+        { lat: 45.653776, lng: -122.754653},
+        { lat: 45.682566, lng: -122.772506},
+        { lat: 45.757352, lng: -122.757400},
+        { lat: 45.813853, lng: -122.794479},
+        { lat: 45.856909, lng: -122.779373},
+        { lat: 45.912355, lng: -122.728561},
+        { lat: 45.941012, lng: -122.692855},
+        { lat: 45.951952, lng: -122.555387},
+        { lat: 45.977823, lng: -122.521889},
+        { lat: 45.978254, lng: -122.492113},
+        { lat: 45.962733, lng: -122.361223},
+        { lat: 45.964458, lng: -122.318420},
+        { lat: 46.006699, lng: -122.312217},
+        { lat: 46.048046, lng: -122.286783},
+        { lat: 46.056445, lng: -122.247909},
+    ];
+    Clark = new google.maps.Polygon({
+        path: clarkCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    Clark.setMap(map);
 
-    var WACoords = [adamsCoords, asotinCoords, bentonCoords, chelanCoords];
-    var WACounties = [Adams, Asotin, Benton, Chelan];
-    var countyNum = WACoords.length;
-    var loopNum = 0;
-    while (countyNum > loopNum) {
-        WACounties[loopNum] = new google.maps.Polygon({
-            path: WACoords[loopNum],
-            strokeColor: "#fc0303",
-            strokeWeight: 1,
-            fillColor: "#FFFFFF",
-        });
-        WACounties[loopNum].setMap(map);
-        loopNum++;
-    };
+    var Columbia;
+    var columbiaCoords = [
+        { lat: 46.617449, lng: -117.851999},
+        { lat: 46.566598, lng: -117.854154},
+        { lat: 46.470692, lng: -117.864931},
+        { lat: 46.471187, lng: -117.737051},
+        { lat: 46.442347, lng: -117.737769},
+        { lat: 46.439997, lng: -117.738566},
+        { lat: 46.441408, lng: -117.717216},
+        { lat: 46.397857, lng: -117.717216},
+        { lat: 46.395243, lng: -117.698837},
+        { lat: 46.383943, lng: -117.696688},
+        { lat: 46.383016, lng: -117.674932},
+        { lat: 46.337974, lng: -117.674932},
+        { lat: 46.337789, lng: -117.613694},
+        { lat: 46.123248, lng:-117.613960},
+        { lat: 46.001893, lng: -117.606129},
+        { lat: 46.001332, lng: -117.992370},
+        { lat: 46.206144, lng: -117.990832},
+        { lat: 46.209338, lng: -118.113912},
+        { lat: 46.294446, lng: -118.115450},
+        { lat: 46.297635, lng: -118.243146},
+        { lat: 46.558502, lng: -118.241607},
+        { lat: 46.561309, lng: -118.227649},
+        { lat: 46.591248, lng: -118.227429},
+        { lat: 46.555425, lng: -118.171477},
+        { lat: 46.572020, lng: -118.089195},
+        { lat: 46.583708, lng: -118.003623},
+        { lat: 46.617449, lng: -117.851999}
+    ];
+    Columbia = new google.maps.Polygon({
+        path: columbiaCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    Columbia.setMap(map);
+
+    var Cowlitz;
+    var cowlitzCoords = [
+        { lat: 46.385669, lng: -123.217104},
+        { lat: 46.384963, lng: -122.240806},
+        { lat: 46.055400, lng: -122.247682},
+        { lat: 46.060495, lng: -122.276836},
+        { lat: 46.013457, lng: -122.330776},
+        { lat: 45.965486, lng: -122.337387},
+        { lat: 45.962422, lng: -122.374847},
+        { lat: 45.994580, lng: -122.492369},
+        { lat: 45.930757, lng: -122.656166},
+        { lat: 45.933311, lng: -122.702440},
+        { lat: 45.870441, lng: -122.725944},
+        { lat: 45.857143, lng: -122.778095},
+        { lat: 46.075146, lng: -122.885334},
+        { lat: 46.189674, lng: -123.121847},
+        { lat: 46.192725, lng: -123.157838},
+        { lat: 46.177977, lng: -123.211457},
+        { lat: 46.385669, lng: -123.217104},
+    ];
+    Cowlitz = new google.maps.Polygon({
+        path: cowlitzCoords,
+        clickable: true,
+        geodesic: true,
+    });
+    Cowlitz.setMap(map);
+
+    var Douglas;
+    var Ferry;
+    var Franklin;
+    var Garfield;
+    var Grant;
+    var GraysHarbor;
+    var Island;
+    var Jefferson;
+    var King;
+    var Kitsap;
+    var Kittitas;
+    var Klickitat;
+    var Lewis;
+    var Lincoln;
+    var Mason;
+    var Okanogan;
+    var Pacific;
+    var PendOreille;
+    var Pierce;
+    var SanJuan;
+    var Skagit;
+    var Skamania;
+    var Snohomish;
+    var Spokane;
+    var Stevens;
+    var Thurston;
+    var Wahkiakum;
+    var WallaWalla;
+    var Whatcom;
+    var Whitman;
+    var Yakima;
+
+    // setTimeout(colorChange, 3000);
+    
+    // function colorChange() {
+    //     google.maps.data.setStyle({
+    //         fillColor: '#111111',
+    //     });
+    // }
+
 }
 
 
 
 
-
 // Create the script tag, set the appropriate attributes
-var script = document.createElement('script');
-script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBznGCt2XVSSEvRYuEkZSgtVCYfWkzUJbA&callback=initMap';
-script.defer = true;
-script.async = true;
+// var script = document.createElement('script');
+// script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBznGCt2XVSSEvRYuEkZSgtVCYfWkzUJbA&callback=initMap';
+// script.defer = true;
+// script.async = true;
+
 
 
 //in LatLng
 
-// // Attach your callback function to the `window` object
+// Attach your callback function to the `window` object
 // window.initMap = function() {
 //   // JS API is loaded and available
 // };
 
-// // Append the 'script' element to 'head'
+// // // Append the 'script' element to 'head'
 // document.head.appendChild(script);
