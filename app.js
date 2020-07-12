@@ -1,15 +1,23 @@
-//reading csv file
-const csv = require('csv-parser');
-const fs = require('fs');
+let mysql = require('mysql');
+let connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '221bBakerStreet!',
+    database: 'weathermap',
+    multipleStatements: true
+});
+let sql = `SELECT * FROM data033120; SELECT * FROM data042120`;
+connection.query(sql, (error, results, fields) => {
+  if (error) {
+    return console.error(error.message);
+  }
+  console.log(results[0]);
+  console.log(results[1]);
+});
+//code to run mysql data through
+    //
+//
 
-fs.createReadStream('virt_src_2020-03-31.csv')
-  .pipe(csv())
-  .on('data.', (row) => {
-    console.log(row);
-  })
-  .on('end', () => {
-    console.log('CSV file successfully processed');
-  });
 
 var map;
 function initMap() {
