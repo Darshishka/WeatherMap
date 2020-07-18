@@ -1,65 +1,394 @@
-var firebase = require("firebase/app");
-require("firebase/storage");
-
-let mysql = require('mysql');
-var data1 = [];
-var result = [];
-//code to run mysql data through
-//
-
-// Imports the Google Cloud client library
-const {Storage} = require('@google-cloud/storage');
-
-// Creates a client
-const storage = new Storage();
-
-async function getBucketMetadata() {
-  // Get bucket metadata.
-  /**
-   * TODO(developer): Uncomment the following line before running the sample.
-   */
-  const bucketName = 'data0331';
-
-  // Get Bucket Metadata
-  const [metadata] = await storage.bucket(bucketName).getMetadata();
-
-  for (const [key, value] of Object.entries(metadata)) {
-    console.log(`${key}: ${value}`);
-  }
-}
-let connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '221bBakerStreet!',
-    database: 'weathermap',
-    multipleStatements: true,
-});
-var getData = function(callback) {
-    var sql = `SELECT * FROM data033120 where id = 1`;
-    connection.query(sql, (err, res, fields) => {
-        if (err)  return callback(err);
-     else
-           result.push(res);
-           result = JSON.stringify(result);
-   callback(null, result);
-    });
-};
-
-
-getData(function (err, result) {
-    if (err) console.log("Database error!");
-    else console.log(result);
-    
-});
-
 var map;
-var infoWindow;
-function initMap(result) {
+var infoWindow; 
+function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 47.471, lng: -120.635 },
         zoom: 6.5
     });
-
+    var dataWA0331 = [
+    {
+        "num": 53061,
+        "county name": "Snohomish",
+        "state": "Washington",
+        "center_latitude": 48.070464,
+        "center_longitude": -121.936784,
+        "direction_real": -0.26415161657732256,
+        "direction_imaginary": -0.010234562353389265,
+        "magnitude": 1227
+      },
+      {
+        "num": 53063,
+        "county name": "Spokane",
+        "state": "Washington",
+        "center_latitude": 47.620375,
+        "center_longitude": -117.40337099999999,
+        "direction_real": 0.27142852341586376,
+        "direction_imaginary": 0.07065574910637196,
+        "magnitude": 140
+      },
+      {
+        "num": 53033,
+        "county name": "King",
+        "state": "Washington",
+        "center_latitude": 47.490598999999996,
+        "center_longitude": -121.833996,
+        "direction_real": 0.060349895069705894,
+        "direction_imaginary": -0.10849008499160107,
+        "magnitude": 2332
+      },
+      {
+        "num": 53071,
+        "county name": "Walla Walla",
+        "state": "Washington",
+        "center_latitude": 46.254606,
+        "center_longitude": -118.48037,
+        "direction_real": -0.0016086212959010027,
+        "direction_imaginary": -0.08772649516770059,
+        "magnitude": 7
+      },
+      {
+        "num": 53007,
+        "county name": "Chelan",
+        "state": "Washington",
+        "center_latitude": 47.860974,
+        "center_longitude": -120.619041,
+        "direction_real": 0.2135035331509556,
+        "direction_imaginary": -0.06365801122513659,
+        "magnitude": 15
+      },
+      {
+        "num": 53011,
+        "county name": "Clark",
+        "state": "Washington",
+        "center_latitude": 45.77173,
+        "center_longitude": -122.48595300000001,
+        "direction_real": 0.053708760684784806,
+        "direction_imaginary": -0.07017882610064419,
+        "magnitude": 116
+      },
+      {
+        "num": 53031,
+        "county name": "Jefferson",
+        "state": "Washington",
+        "center_latitude": 47.805708,
+        "center_longitude": -123.52705700000001,
+        "direction_real": 0.08942433125081095,
+        "direction_imaginary": 0.04671269559503344,
+        "magnitude": 14
+      },
+      {
+        "num": 53053,
+        "county name": "Pierce",
+        "state": "Washington",
+        "center_latitude": 47.051413000000004,
+        "center_longitude": -122.15324,
+        "direction_real": 0.21299429929536018,
+        "direction_imaginary": -0.05834886324927879,
+        "magnitude": 353
+      },
+      {
+        "num": 53037,
+        "county name": "Kittitas",
+        "state": "Washington",
+        "center_latitude": 47.124441,
+        "center_longitude": -120.676709,
+        "direction_real": 0.039176507725159126,
+        "direction_imaginary": -0.0917834561269828,
+        "magnitude": 8
+      },
+      {
+        "num": 53035,
+        "county name": "Kitsap",
+        "state": "Washington",
+        "center_latitude": 47.639595,
+        "center_longitude": -122.649634,
+        "direction_real": -0.099045561553325,
+        "direction_imaginary": -0.1693368518180165,
+        "magnitude": 63
+      },
+      {
+        "num": 53057,
+        "county name": "Skagit",
+        "state": "Washington",
+        "center_latitude": 48.493292,
+        "center_longitude": -121.81577,
+        "direction_real": 0.013890248774458769,
+        "direction_imaginary": 0.011427293625146717,
+        "magnitude": 101
+      },
+      {
+        "num": 53073,
+        "county name": "Whatcom",
+        "state": "Washington",
+        "center_latitude": 48.842653000000006,
+        "center_longitude": -121.836432,
+        "direction_real": 0.3033310399876825,
+        "direction_imaginary": 0.016472790803376824,
+        "magnitude": 116
+      },
+      {
+        "num": 53029,
+        "county name": "Island",
+        "state": "Washington",
+        "center_latitude": 48.158553999999995,
+        "center_longitude": -122.670649,
+        "direction_real": -0.06355001827763829,
+        "direction_imaginary": -0.18991948871264697,
+        "magnitude": 106
+      },
+      {
+        "num": 53067,
+        "county name": "Thurston",
+        "state": "Washington",
+        "center_latitude": 46.935821999999995,
+        "center_longitude": -122.830152,
+        "direction_real": -0.2883589534019393,
+        "direction_imaginary": 0.010797694679375525,
+        "magnitude": 48
+      },
+      {
+        "num": 53013,
+        "county name": "Columbia",
+        "state": "Washington",
+        "center_latitude": 46.29285,
+        "center_longitude": -117.911634,
+        "direction_real": -0.008646744014882302,
+        "direction_imaginary": -0.001256376261913772,
+        "magnitude": 1
+      },
+      {
+        "num": 53027,
+        "county name": "Grays Harbor",
+        "state": "Washington",
+        "center_latitude": 47.113732,
+        "center_longitude": -123.82673500000001,
+        "direction_real": 0.0208812549041113,
+        "direction_imaginary": 0.0027613222930114034,
+        "magnitude": 1
+      },
+      {
+        "num": 53077,
+        "county name": "Yakima",
+        "state": "Washington",
+        "center_latitude": 46.456558,
+        "center_longitude": -120.740145,
+        "direction_real": 0.4038638854381844,
+        "direction_imaginary": -0.17507142946728038,
+        "magnitude": 147
+      },
+      {
+        "num": 53025,
+        "county name": "Grant",
+        "state": "Washington",
+        "center_latitude": 47.213633,
+        "center_longitude": -119.46778799999998,
+        "direction_real": 0.06370518279663884,
+        "direction_imaginary": -0.11398805004589718,
+        "magnitude": 62
+      },
+      {
+        "num": 53039,
+        "county name": "Klickitat",
+        "state": "Washington",
+        "center_latitude": 45.870446,
+        "center_longitude": -120.77930500000001,
+        "direction_real": -0.0033724836232096322,
+        "direction_imaginary": 0.005739105017433133,
+        "magnitude": 7
+      },
+      {
+        "num": 53041,
+        "county name": "Lewis",
+        "state": "Washington",
+        "center_latitude": 46.580071000000004,
+        "center_longitude": -122.377444,
+        "direction_real": 0.05734322178503248,
+        "direction_imaginary": 0.014556459201031657,
+        "magnitude": 10
+      },
+      {
+        "num": 53043,
+        "county name": "Lincoln",
+        "state": "Washington",
+        "center_latitude": 47.582743,
+        "center_longitude": -118.41769199999999,
+        "direction_real": -0.0015394006194640042,
+        "direction_imaginary": 0.009086557087684355,
+        "magnitude": 1
+      },
+      {
+        "num": 53021,
+        "county name": "Franklin",
+        "state": "Washington",
+        "center_latitude": 46.53458,
+        "center_longitude": -118.906944,
+        "direction_real": -0.12443224495194727,
+        "direction_imaginary": -0.02452798122911304,
+        "magnitude": 33
+      },
+      {
+        "num": 53045,
+        "county name": "Mason",
+        "state": "Washington",
+        "center_latitude": 47.354126,
+        "center_longitude": -123.17385,
+        "direction_real": 0.13849401065796485,
+        "direction_imaginary": -0.04369767004174463,
+        "magnitude": 2
+      },
+      {
+        "num": 53005,
+        "county name": "Benton",
+        "state": "Washington",
+        "center_latitude": 46.228125,
+        "center_longitude": -119.516659,
+        "direction_real": -0.07413710806909535,
+        "direction_imaginary": 0.16499642019568483,
+        "magnitude": 101
+      },
+      {
+        "num": 53009,
+        "county name": "Clallam",
+        "state": "Washington",
+        "center_latitude": 48.110903,
+        "center_longitude": -123.88986000000001,
+        "direction_real": -0.005788644116535124,
+        "direction_imaginary": -0.00959629840631493,
+        "magnitude": 6
+      },
+      {
+        "num": 53015,
+        "county name": "Cowlitz",
+        "state": "Washington",
+        "center_latitude": 46.196785,
+        "center_longitude": -122.67846000000002,
+        "direction_real": 0.06198621813175009,
+        "direction_imaginary": -0.15782975137611288,
+        "magnitude": 13
+      },
+      {
+        "num": 53055,
+        "county name": "San Juan",
+        "state": "Washington",
+        "center_latitude": 48.50719,
+        "center_longitude": -123.103769,
+        "direction_real": -0.25148286479672777,
+        "direction_imaginary": -0.04397582828494251,
+        "magnitude": 4
+      },
+      {
+        "num": 53065,
+        "county name": "Stevens",
+        "state": "Washington",
+        "center_latitude": 48.388727,
+        "center_longitude": -117.854454,
+        "direction_real": 0.10624319637912549,
+        "direction_imaginary": -0.03868805572373901,
+        "magnitude": 4
+      },
+      {
+        "num": 53075,
+        "county name": "Whitman",
+        "state": "Washington",
+        "center_latitude": 46.905944,
+        "center_longitude": -117.53538999999999,
+        "direction_real": -0.022707382184762537,
+        "direction_imaginary": 0.0026188174369821127,
+        "magnitude": 6
+      },
+      {
+        "num": 53001,
+        "county name": "Adams",
+        "state": "Washington",
+        "center_latitude": 47.011238,
+        "center_longitude": -118.51286100000002,
+        "direction_real": -0.04401807026508209,
+        "direction_imaginary": -0.07564095120446268,
+        "magnitude": 7
+      },
+      {
+        "num": 53017,
+        "county name": "Douglas",
+        "state": "Washington",
+        "center_latitude": 47.741763,
+        "center_longitude": -119.694622,
+        "direction_real": 0.2697604141223877,
+        "direction_imaginary": 0.012558732341744872,
+        "magnitude": 5
+      },
+      {
+        "num": 53019,
+        "county name": "Ferry",
+        "state": "Washington",
+        "center_latitude": 48.473256,
+        "center_longitude": -118.53358899999999,
+        "direction_real": -0.09147572242966362,
+        "direction_imaginary": 0.07306897564586023,
+        "magnitude": 1
+      },
+      {
+        "num": 53047,
+        "county name": "Okanogan",
+        "state": "Washington",
+        "center_latitude": 48.548453,
+        "center_longitude": -119.74223500000001,
+        "direction_real": 0.21266935201727222,
+        "direction_imaginary": -0.07246918125748891,
+        "magnitude": 3
+      },
+      {
+        "num": 53059,
+        "county name": "Skamania",
+        "state": "Washington",
+        "center_latitude": 46.024784999999994,
+        "center_longitude": -121.953232,
+        "direction_real": 0.17580306436146032,
+        "direction_imaginary": 0.07522582545634293,
+        "magnitude": 1
+      },
+      {
+        "num": 53051,
+        "county name": "Pend Oreille",
+        "state": "Washington",
+        "center_latitude": 48.543825,
+        "center_longitude": -117.23219099999999,
+        "direction_real": 0,
+        "direction_imaginary": 0,
+        "magnitude": 0
+      },
+      {
+        "num": 53003,
+        "county name": "Asotin",
+        "state": "Washington",
+        "center_latitude": 46.181861,
+        "center_longitude": -117.22778100000001,
+        "direction_real": 0,
+        "direction_imaginary": 0,
+        "magnitude": 0
+      },
+      {
+        "num": 53069,
+        "county name": "Wahkiakum",
+        "state": "Washington",
+        "center_latitude": 46.294638,
+        "center_longitude": -123.424458,
+        "direction_real": 0,
+        "direction_imaginary": 0,
+        "magnitude": 0
+      },
+      {
+        "num": 53049,
+        "county name": "Pacific",
+        "state": "Washington",
+        "center_latitude": 46.556587,
+        "center_longitude": -123.78241899999999,
+        "direction_real": 0,
+        "direction_imaginary": 0,
+        "magnitude": 0
+      }
+    ];
+    console.log(dataWA0331);        
+    
     // Adams County
         var adamsCoords = [
             { lat: 47.259, lng: -117.96},
@@ -77,7 +406,9 @@ function initMap(result) {
             clickable: true,
             geodesic: true,
         });
-        var adamsLine;
+//if loop
+        var adamsLine = dataWA0331[0]["county name"];
+        console.log(adamsLine);
         Adams.setMap(map);
     
     
@@ -285,9 +616,9 @@ function initMap(result) {
         var Yakima;
 }
 
-// // Attach your callback function to the `window` object
+// Attach your callback function to the `window` object
 // window.initMap = function() {
-//     // JS API is loaded and available
+    
 // };
 
 
@@ -298,9 +629,6 @@ function initMap(result) {
 // script.defer = true;
 // script.async = true;
 
-
-
-//in LatLng
 
 
 // // // Append the 'script' element to 'head'
