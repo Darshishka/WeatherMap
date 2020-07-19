@@ -5,6 +5,14 @@ function initMap() {
         center: { lat: 47.471, lng: -120.635 },
         zoom: 6.5
     });
+
+    var kmlLayer = new google.maps.KmlLayer({
+        url: 'http://googlemaps.github.io/kml-samples/kml/Placemark/placemark.kml',
+        suppressInfoWindows: true,
+        map: map
+      });
+
+//Gets all data from 03/31/2020 for Washington
     var dataWA0331 = [
     {
         "num": 53061,
@@ -387,9 +395,312 @@ function initMap() {
         "magnitude": 0
       }
     ];
-    console.log(dataWA0331);        
+    console.log(dataWA0331);       
     
-    // Adams County
+    var Washington = []; //nested with may levels including all the data
+    
+
+//loop
+var adams;
+for (i = 0; i < dataWA0331.length; i++) {
+  console.log(dataWA0331[i]["magnitude"]);
+}
+
+//Gets coordinates of all counties in Washington
+//Washington
+//Adams
+    var adams;
+    for (i = 0; i < dataWA0331.length; i++) {
+        if (dataWA0331[i]["county name"] === "Adams") {
+            adams = dataWA0331[i];
+            var adamsCntr = {lat: adams["center_latitude"], lng: adams["center_longitude"]};
+        }
+    }
+//Asotin
+    var asotin;
+    for (i = 0; i < dataWA0331.length; i++) {
+        if (dataWA0331[i]["county name"] === "Asotin") {
+            asotin = dataWA0331[i];
+            var asotinCntr = {lat: asotin["center_latitude"], lng: asotin["center_longitude"]};
+        }
+    }
+        
+//Benton
+    var benton;
+    for (i = 0; i < dataWA0331.length; i++) {
+        if (dataWA0331[i]["county name"] === "Benton") {
+            benton = dataWA0331[i];
+            var bentonCntr = {lat: benton["center_latitude"], lng: benton["center_longitude"]};
+        }
+    }
+//Chelan
+
+
+//Clallam
+    var clallam;
+    var clallamCntr;
+    for (i = 0; i < dataWA0331.length; i++) {
+        if (dataWA0331[i]["county name"] === "Clallam") {
+            clallam = dataWA0331[i];
+            clallamCntr = {lat: clallam["center_latitude"], lng: clallam["center_longitude"]};
+        }
+    }
+
+//Clark
+    var clark;
+    for (i = 0; i < dataWA0331.length; i++) {
+        if (dataWA0331[i]["county name"] === "Clark") {
+            clark = dataWA0331[i];
+            var clarkCntr = {lat: clark["center_latitude"], lng: clark["center_longitude"]};
+        }
+    }
+
+//Columbia
+  var columbia;
+  for (i = 0; i < dataWA0331.length; i++) {
+      if (dataWA0331[i]["county name"] === "Columbia") {
+          columbia = dataWA0331[i];
+          var columbiaCntr = {lat: columbia["center_latitude"], lng: columbia["center_longitude"]};
+      }
+  }
+//Cowlitz
+  var cowlitz;
+  for (i = 0; i < dataWA0331.length; i++) {
+      if (dataWA0331[i]["county name"] === "Cowlitz") {
+          cowlitz= dataWA0331[i];
+          var cowlitzCntr = {lat: cowlitz["center_latitude"], lng: cowlitz["center_longitude"]};
+      }
+  }
+
+//Douglas
+    var douglas;
+    for (i = 0; i < dataWA0331.length; i++) {
+        if (dataWA0331[i]["county name"] === "Douglas") {
+            douglas = dataWA0331[i];
+            var douglasCntr = {lat: douglas["center_latitude"], lng: douglas["center_longitude"]};
+        }
+    }
+
+//Ferry
+  var ferry;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "Ferry") {
+      ferry= dataWA0331[i];
+      var ferryCntr = {lat: ferry["center_latitude"], lng: ferry["center_longitude"]};
+    }
+  }
+
+//Franklin
+  var franklin;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "Franklin") {
+        franklin = dataWA0331[i];
+        var franklinCntr = {lat: franklin["center_latitude"], lng: franklin["center_longitude"]};
+    }
+  }
+
+//Garfield
+  var garfield;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "Garfield") {
+        garfield = dataWA0331[i];
+        var garfieldCntr = {lat: garfield["center_latitude"], lng: garfield["center_longitude"]};
+    }
+  }
+
+
+  var grant;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+
+
+  var graysHarbor;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+
+  var island;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var jefferson;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var king;  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var kitsap;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var kittitas;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var klickitat;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var lewis;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var lincoln;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var mason;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var okanogan;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var pacific;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var pendOreille;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var pierce;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var sanJuan;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var skagit;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var skamania;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var snohomish;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var spokane;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var stevens;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var thurston;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var wahkiakum;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var wallaWalla;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var whatcom;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var whitman;
+  for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+  var yakima;
+    for (i = 0; i < dataWA0331.length; i++) {
+    if (dataWA0331[i]["county name"] === "name") {
+        name = dataWA0331[i];
+        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
+    }
+  }
+// Adams County
         var adamsCoords = [
             { lat: 47.259, lng: -117.96},
             { lat: 46.916, lng: -117.96},
@@ -406,13 +717,17 @@ function initMap() {
             clickable: true,
             geodesic: true,
         });
-//if loop
-        var adamsLine = dataWA0331[0]["county name"];
-        console.log(adamsLine);
+        var marker = new google.maps.Marker({
+            position: adamsCntr,
+            map: map,
+            icon: {
+                path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
+                scale: 4
+            },
+            title: "Adams County"
+        });
         Adams.setMap(map);
-    
-    
-    //Asotin County
+//Asotin County
         var asotinCoords = [
             { lat:46.430165, lng: -117.057813},
             { lat: 46.423572, lng: -117.036569},
@@ -443,10 +758,16 @@ function initMap() {
             clickable: true,
             geodesic: true,
         });
+
+        var marker = new google.maps.Marker({
+            position: asotinCntr,
+            map: map,
+            title: "Asotin County"
+        });
         Asotin.setMap(map);
     
     
-    //Benton County
+//Benton County
         var bentonCoords = [
             { lat: 46.728435, lng: -119.517887},
             { lat: 46.527260, lng: -119.271607},
@@ -468,14 +789,21 @@ function initMap() {
             clickable: true,
             geodesic: true,
         });
+
+        var marker = new google.maps.Marker({
+            position: bentonCntr,
+            map: map,
+            title: "Benton"
+        });
         Benton.setMap(map);
     
-    //Chelan County
+//Chelan County
         var Chelan;
         var chelanCoords = [
     
         ];
-    
+
+//Clallam County    
         var clallamCoords = [
             { lat: 48.427482, lng: -124.780049},
             { lat: 48.183253, lng: -123.537076},
@@ -488,6 +816,13 @@ function initMap() {
             path: clallamCoords,
             clickable: true,
             geodesic: true,
+        });
+
+        //console.log(clallam);
+        var marker = new google.maps.Marker({
+            position: clallamCntr,
+            map: map,
+            title: "Clallam County"
         });
         Clallam.setMap(map);
     
@@ -519,8 +854,48 @@ function initMap() {
             clickable: true,
             geodesic: true,
         });
+
+        //console.log(clark);
+
+
+//Assign copy to each county_name.setMap(map):
+//
+//
+        var lineSymbol = {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+          };
+        
+          // Create the polyline and add the symbol via the 'icons' property.
+          var line = new google.maps.Polyline({
+            //[start, end]
+            path: [clarkCntr, cowlitzCntr],
+            icons: [
+              {
+                icon: lineSymbol,
+                offset: "100%",
+                size: clark["magnitude"],
+                repeat: "50%"
+              }
+            ],
+            map: map
+          });
+          animateCircle(line);
+          function animateCircle(line) {
+            var count = 0;
+            window.setInterval(function() {
+              count = (count + 1) % 200;
+        
+              var icons = line.get('icons');
+              icons[0].offset = (count / 2) + '%';
+              line.set('icons', icons);
+          }, 20);
+        }
         Clark.setMap(map);
-    
+//
+//
+//
+
+
         var columbiaCoords = [
             { lat: 46.617449, lng: -117.851999},
             { lat: 46.566598, lng: -117.854154},
@@ -555,6 +930,12 @@ function initMap() {
             clickable: true,
             geodesic: true,
         });
+
+        var marker = new google.maps.Marker({
+            position: columbiaCntr,
+            map: map,
+            title: "Columbia County"
+        });
         Columbia.setMap(map);
     
         var cowlitzCoords = [
@@ -581,39 +962,16 @@ function initMap() {
             clickable: true,
             geodesic: true,
         });
+
+        //console.log(cowlitz);
+        var marker = new google.maps.Marker({
+            position: cowlitzCntr,
+            map: map,
+            title: "Cowlitz County"
+        });
         Cowlitz.setMap(map);
         
-        var Douglas;
-        var Ferry;
-        var Franklin;
-        var Garfield;
-        var Grant;
-        var GraysHarbor;
-        var Island;
-        var Jefferson;
-        var King;
-        var Kitsap;
-        var Kittitas;
-        var Klickitat;
-        var Lewis;
-        var Lincoln;
-        var Mason;
-        var Okanogan;
-        var Pacific;
-        var PendOreille;
-        var Pierce;
-        var SanJuan;
-        var Skagit;
-        var Skamania;
-        var Snohomish;
-        var Spokane;
-        var Stevens;
-        var Thurston;
-        var Wahkiakum;
-        var WallaWalla;
-        var Whatcom;
-        var Whitman;
-        var Yakima;
+
 }
 
 // Attach your callback function to the `window` object
