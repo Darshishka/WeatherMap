@@ -1,705 +1,593 @@
 var map;
-var infoWindow; 
+var infoWindow;    
+var WaLatLng = [];
+var WaCounties = []; 
+var dataWA0331 = [
+{
+    "num": 53061,
+    "county name": "Snohomish",
+    "state": "Washington",
+    "center_latitude": 48.070464,
+    "center_longitude": -121.936784,
+    "direction_real": -0.26415161657732256,
+    "direction_imaginary": -0.010234562353389265,
+    "magnitude": 1227
+  },
+  {
+    "num": 53063,
+    "county name": "Spokane",
+    "state": "Washington",
+    "center_latitude": 47.620375,
+    "center_longitude": -117.40337099999999,
+    "direction_real": 0.27142852341586376,
+    "direction_imaginary": 0.07065574910637196,
+    "magnitude": 140
+  },
+  {
+    "num": 53033,
+    "county name": "King",
+    "state": "Washington",
+    "center_latitude": 47.490598999999996,
+    "center_longitude": -121.833996,
+    "direction_real": 0.060349895069705894,
+    "direction_imaginary": -0.10849008499160107,
+    "magnitude": 2332
+  },
+  {
+    "num": 53071,
+    "county name": "Walla Walla",
+    "state": "Washington",
+    "center_latitude": 46.254606,
+    "center_longitude": -118.48037,
+    "direction_real": -0.0016086212959010027,
+    "direction_imaginary": -0.08772649516770059,
+    "magnitude": 7
+  },
+  {
+    "num": 53007,
+    "county name": "Chelan",
+    "state": "Washington",
+    "center_latitude": 47.860974,
+    "center_longitude": -120.619041,
+    "direction_real": 0.2135035331509556,
+    "direction_imaginary": -0.06365801122513659,
+    "magnitude": 15
+  },
+  {
+    "num": 53011,
+    "county name": "Clark",
+    "state": "Washington",
+    "center_latitude": 45.77173,
+    "center_longitude": -122.48595300000001,
+    "direction_real": 0.053708760684784806,
+    "direction_imaginary": -0.07017882610064419,
+    "magnitude": 116
+  },
+  {
+    "num": 53031,
+    "county name": "Jefferson",
+    "state": "Washington",
+    "center_latitude": 47.805708,
+    "center_longitude": -123.52705700000001,
+    "direction_real": 0.08942433125081095,
+    "direction_imaginary": 0.04671269559503344,
+    "magnitude": 14
+  },
+  {
+    "num": 53053,
+    "county name": "Pierce",
+    "state": "Washington",
+    "center_latitude": 47.051413000000004,
+    "center_longitude": -122.15324,
+    "direction_real": 0.21299429929536018,
+    "direction_imaginary": -0.05834886324927879,
+    "magnitude": 353
+  },
+  {
+    "num": 53037,
+    "county name": "Kittitas",
+    "state": "Washington",
+    "center_latitude": 47.124441,
+    "center_longitude": -120.676709,
+    "direction_real": 0.039176507725159126,
+    "direction_imaginary": -0.0917834561269828,
+    "magnitude": 8
+  },
+  {
+    "num": 53035,
+    "county name": "Kitsap",
+    "state": "Washington",
+    "center_latitude": 47.639595,
+    "center_longitude": -122.649634,
+    "direction_real": -0.099045561553325,
+    "direction_imaginary": -0.1693368518180165,
+    "magnitude": 63
+  },
+  {
+    "num": 53057,
+    "county name": "Skagit",
+    "state": "Washington",
+    "center_latitude": 48.493292,
+    "center_longitude": -121.81577,
+    "direction_real": 0.013890248774458769,
+    "direction_imaginary": 0.011427293625146717,
+    "magnitude": 101
+  },
+  {
+    "num": 53073,
+    "county name": "Whatcom",
+    "state": "Washington",
+    "center_latitude": 48.842653000000006,
+    "center_longitude": -121.836432,
+    "direction_real": 0.3033310399876825,
+    "direction_imaginary": 0.016472790803376824,
+    "magnitude": 116
+  },
+  {
+    "num": 53029,
+    "county name": "Island",
+    "state": "Washington",
+    "center_latitude": 48.158553999999995,
+    "center_longitude": -122.670649,
+    "direction_real": -0.06355001827763829,
+    "direction_imaginary": -0.18991948871264697,
+    "magnitude": 106
+  },
+  {
+    "num": 53067,
+    "county name": "Thurston",
+    "state": "Washington",
+    "center_latitude": 46.935821999999995,
+    "center_longitude": -122.830152,
+    "direction_real": -0.2883589534019393,
+    "direction_imaginary": 0.010797694679375525,
+    "magnitude": 48
+  },
+  {
+    "num": 53013,
+    "county name": "Columbia",
+    "state": "Washington",
+    "center_latitude": 46.29285,
+    "center_longitude": -117.911634,
+    "direction_real": -0.008646744014882302,
+    "direction_imaginary": -0.001256376261913772,
+    "magnitude": 1
+  },
+  {
+    "num": 53027,
+    "county name": "Grays Harbor",
+    "state": "Washington",
+    "center_latitude": 47.113732,
+    "center_longitude": -123.82673500000001,
+    "direction_real": 0.0208812549041113,
+    "direction_imaginary": 0.0027613222930114034,
+    "magnitude": 1
+  },
+  {
+    "num": 53077,
+    "county name": "Yakima",
+    "state": "Washington",
+    "center_latitude": 46.456558,
+    "center_longitude": -120.740145,
+    "direction_real": 0.4038638854381844,
+    "direction_imaginary": -0.17507142946728038,
+    "magnitude": 147
+  },
+  {
+    "num": 53025,
+    "county name": "Grant",
+    "state": "Washington",
+    "center_latitude": 47.213633,
+    "center_longitude": -119.46778799999998,
+    "direction_real": 0.06370518279663884,
+    "direction_imaginary": -0.11398805004589718,
+    "magnitude": 62
+  },
+  {
+    "num": 53039,
+    "county name": "Klickitat",
+    "state": "Washington",
+    "center_latitude": 45.870446,
+    "center_longitude": -120.77930500000001,
+    "direction_real": -0.0033724836232096322,
+    "direction_imaginary": 0.005739105017433133,
+    "magnitude": 7
+  },
+  {
+    "num": 53041,
+    "county name": "Lewis",
+    "state": "Washington",
+    "center_latitude": 46.580071000000004,
+    "center_longitude": -122.377444,
+    "direction_real": 0.05734322178503248,
+    "direction_imaginary": 0.014556459201031657,
+    "magnitude": 10
+  },
+  {
+    "num": 53043,
+    "county name": "Lincoln",
+    "state": "Washington",
+    "center_latitude": 47.582743,
+    "center_longitude": -118.41769199999999,
+    "direction_real": -0.0015394006194640042,
+    "direction_imaginary": 0.009086557087684355,
+    "magnitude": 1
+  },
+  {
+    "num": 53021,
+    "county name": "Franklin",
+    "state": "Washington",
+    "center_latitude": 46.53458,
+    "center_longitude": -118.906944,
+    "direction_real": -0.12443224495194727,
+    "direction_imaginary": -0.02452798122911304,
+    "magnitude": 33
+  },
+  {
+    "num": 53045,
+    "county name": "Mason",
+    "state": "Washington",
+    "center_latitude": 47.354126,
+    "center_longitude": -123.17385,
+    "direction_real": 0.13849401065796485,
+    "direction_imaginary": -0.04369767004174463,
+    "magnitude": 2
+  },
+  {
+    "num": 53005,
+    "county name": "Benton",
+    "state": "Washington",
+    "center_latitude": 46.228125,
+    "center_longitude": -119.516659,
+    "direction_real": -0.07413710806909535,
+    "direction_imaginary": 0.16499642019568483,
+    "magnitude": 101
+  },
+  {
+    "num": 53009,
+    "county name": "Clallam",
+    "state": "Washington",
+    "center_latitude": 48.110903,
+    "center_longitude": -123.88986000000001,
+    "direction_real": -0.005788644116535124,
+    "direction_imaginary": -0.00959629840631493,
+    "magnitude": 6
+  },
+  {
+    "num": 53015,
+    "county name": "Cowlitz",
+    "state": "Washington",
+    "center_latitude": 46.196785,
+    "center_longitude": -122.67846000000002,
+    "direction_real": 0.06198621813175009,
+    "direction_imaginary": -0.15782975137611288,
+    "magnitude": 13
+  },
+  {
+    "num": 53055,
+    "county name": "San Juan",
+    "state": "Washington",
+    "center_latitude": 48.50719,
+    "center_longitude": -123.103769,
+    "direction_real": -0.25148286479672777,
+    "direction_imaginary": -0.04397582828494251,
+    "magnitude": 4
+  },
+  {
+    "num": 53065,
+    "county name": "Stevens",
+    "state": "Washington",
+    "center_latitude": 48.388727,
+    "center_longitude": -117.854454,
+    "direction_real": 0.10624319637912549,
+    "direction_imaginary": -0.03868805572373901,
+    "magnitude": 4
+  },
+  {
+    "num": 53075,
+    "county name": "Whitman",
+    "state": "Washington",
+    "center_latitude": 46.905944,
+    "center_longitude": -117.53538999999999,
+    "direction_real": -0.022707382184762537,
+    "direction_imaginary": 0.0026188174369821127,
+    "magnitude": 6
+  },
+  {
+    "num": 53001,
+    "county name": "Adams",
+    "state": "Washington",
+    "center_latitude": 47.011238,
+    "center_longitude": -118.51286100000002,
+    "direction_real": -0.04401807026508209,
+    "direction_imaginary": -0.07564095120446268,
+    "magnitude": 7
+  },
+  {
+    "num": 53017,
+    "county name": "Douglas",
+    "state": "Washington",
+    "center_latitude": 47.741763,
+    "center_longitude": -119.694622,
+    "direction_real": 0.2697604141223877,
+    "direction_imaginary": 0.012558732341744872,
+    "magnitude": 5
+  },
+  {
+    "num": 53019,
+    "county name": "Ferry",
+    "state": "Washington",
+    "center_latitude": 48.473256,
+    "center_longitude": -118.53358899999999,
+    "direction_real": -0.09147572242966362,
+    "direction_imaginary": 0.07306897564586023,
+    "magnitude": 1
+  },
+  {
+    "num": 53047,
+    "county name": "Okanogan",
+    "state": "Washington",
+    "center_latitude": 48.548453,
+    "center_longitude": -119.74223500000001,
+    "direction_real": 0.21266935201727222,
+    "direction_imaginary": -0.07246918125748891,
+    "magnitude": 3
+  },
+  {
+    "num": 53059,
+    "county name": "Skamania",
+    "state": "Washington",
+    "center_latitude": 46.024784999999994,
+    "center_longitude": -121.953232,
+    "direction_real": 0.17580306436146032,
+    "direction_imaginary": 0.07522582545634293,
+    "magnitude": 1
+  },
+  {
+    "num": 53051,
+    "county name": "Pend Oreille",
+    "state": "Washington",
+    "center_latitude": 48.543825,
+    "center_longitude": -117.23219099999999,
+    "direction_real": 0,
+    "direction_imaginary": 0,
+    "magnitude": 0
+  },
+  {
+    "num": 53003,
+    "county name": "Asotin",
+    "state": "Washington",
+    "center_latitude": 46.181861,
+    "center_longitude": -117.22778100000001,
+    "direction_real": 0,
+    "direction_imaginary": 0,
+    "magnitude": 0
+  },
+  {
+    "num": 53069,
+    "county name": "Wahkiakum",
+    "state": "Washington",
+    "center_latitude": 46.294638,
+    "center_longitude": -123.424458,
+    "direction_real": 0,
+    "direction_imaginary": 0,
+    "magnitude": 0
+  },
+  {
+    "num": 53049,
+    "county name": "Pacific",
+    "state": "Washington",
+    "center_latitude": 46.556587,
+    "center_longitude": -123.78241899999999,
+    "direction_real": 0,
+    "direction_imaginary": 0,
+    "magnitude": 0
+  }
+];
+
+//temp var
+//TODO: makes givesTo[] including randomized direction and check that counties dont give and recieve 
+//todo EXAMPLE: countyA => countyB   countyB =X> countyA
+//todo: have versions of data to show what real data could look like
+var bordersWith = [
+  Adams = {
+    Lincoln, Whitman, Franklin, Grant
+  },
+  Asotin = {
+    Garfield,Whitman
+  },
+  Benton = {
+    Klickitat, Yakima, Grant, Franklin, WallaWalla
+  },
+  Chelan = {
+    King, Snohomish, Skagit, Okanogan, Douglas, Kittitas
+  },
+  Clallam = {
+    Jefferson, SanJuan, Island
+  },
+  Clark = {
+    Cowlitz, Skamania
+  },
+  Columbia = {
+    WallaWalla, Whitman, Garfield
+  },
+  Cowlitz = {
+    Wahkiakum, Lewis, Skamania, Clark
+  },
+  Douglas = {
+    Okanogan, Grant, Kittitas, Chelan
+  },
+  Ferry = {
+    Okanogan, Lincoln, Stevens
+  },
+  Franklin = {
+    Adams, Whitman, WallaWalla, Benton, Grant
+  },
+  Garfield = {
+    Whitman, Asotin, Columbia
+  },
+  Grant = {
+    Douglas, Lincoln, Adams, Franklin, Benton, Yakima, Kittitas
+  },
+  GraysHarbor = {
+    Jefferson, Mason, Thurston, Lewis, Pacific
+  },
+  Island = {
+    SanJuan, Whatcom, Skagit, Snohomish, Kitsap, Jefferson
+  },
+  Jefferson = {
+    Clallam, Island, Kitsap, Mason, GraysHarbor
+  },
+  King = {
+    Kitsap, Pierce, Kittitas, Chelan, Snohomish
+  },
+  Kitsap = {
+    Island, Snohomish, Kittitas, Pierce, Mason, Jefferson
+  },
+  Kittitas = {
+    Chelan, Douglas, Grant, Yakima, Pierce, Kittitas
+  },
+  Klickitat = {
+    Skamania, Yakima, Benton
+  },
+  Lewis = {
+    Thurston, Pierce, Yakima, Skamania, Cowlitz, Wahkiakum, Pacific, GraysHarbor
+  },
+  Lincoln = {
+    Ferry, Stevens, Spokane, Whitman, Adams, Grant, Douglas
+  },
+  Mason = {
+    Jefferson, Kitsap, Pierce, Thurston, GraysHarbor
+  },
+  Okanogan = {
+    Ferry, Lincoln, Grant, Douglas, Chelan, Skagit, Whatcom
+  },
+  Pacific = {
+    GraysHarbor, Lewis, Wahkiakum, Cowlitz
+  },
+  PendOreille = {
+    Spokane, Stevens
+  },
+  Pierce = {
+    Kitsap, King, Kittitas, Yakima, Lincoln, Lewis, Thurston, Mason
+  },
+  SanJuan = {
+    Whatcom, Skagit, Island, Jefferson, Clallam
+  },
+  Skagit = {
+    Whatcom, Okanogan, Chelan, Snohomish, Island, SanJuan
+  },
+  Skamania = {
+    Lewis, Yakima, Klickitat, Clark, Cowlitz
+  },
+  Snohomish = {
+    Skagit, Chelan, King, Kittitas, Island
+  },
+  Spokane = {
+    PendOreille, Whitman, Lincoln, Stevens
+  },
+  Stevens = {
+    PendOreille, Spokane, Lincoln, Ferry
+  },
+  Thurston = {
+    Pierce, Lewis, GraysHarbor, Mason
+  },
+  Wahkiakum = {
+    Pacific, Lewis, Cowlitz
+  },
+  WallaWalla = {
+    Franklin, Whitman, Columbia, Benton
+  },
+  Whatcom = {
+    SanJuan, Okanogan, Skagit
+  },
+  Whitman = {
+    Spokane, Asotin, Garfield, Columbia, WallaWalla, Franklin, Adams, Lincoln
+  },
+  Yakima = {
+    Kittitas, GraysHarbor, Benton, Klickitat, Skamania, Lewis, Pierce, King
+  }
+]
+//need:
+//[]    length of bordersWith list
+//[]    random num of borders to draw line to
+//[]    random index num of county to be destCounty looped by the number of random line num
+//[]    set lines
+//[]    removes start county name from destCounty border list
+
+var countyName;
+var currCounty;
+
+
 function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 47.471, lng: -120.635 },
-        zoom: 6.5
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 47.471, lng: -120.635 },
+    disableDefaultUI: true,
+    zoom: 6.5
+  });
+  
+  var kmlLayer = new google.maps.KmlLayer({
+    url: 'http://googlemaps.github.io/kml-samples/kml/Placemark/placemark.kml',
+    suppressInfoWindows: true,
+    map: map
+  });
+
+  
+  for (i = 0; i < dataWA0331.length; i++) {
+    currCounty = dataWA0331[i]["county name"].replace(/\s+/g,'');
+    WaCounties = currCounty;
+    console.log(currCounty);
+    WaLatLng[i] = {lat: dataWA0331[i]["center_latitude"], lng: dataWA0331[i]["center_longitude"]};
+    countyName = dataWA0331[i]["county name"];
+    var lineSymbol = {
+      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+    };
+//fixme temp for()
+
+console.log(bordersWith)
+    console.log(dataWA0331); 
+    var destCounty = {lat: 47.764550, lng: -120.359167};
+
+
+    
+    var line = new google.maps.Polyline({
+      //var destination_county;
+      //path: [WaLatLng, destination_county],
+      position: WaLatLng[i],
+      path: [
+        WaLatLng[i], 
+        destCounty
+      ],
+      map: map,
+      title: countyName,
+      icons: [
+        {
+          icon: lineSymbol,
+          offset: "100%",
+          size: 10,
+          repeat: "50%"
+        }]
     });
+    animateCircle(line);
+    function animateCircle(line) {
+      var count = 0;
+      window.setInterval(function() {
+        count = (count + 1) % 200;
 
-    var kmlLayer = new google.maps.KmlLayer({
-        url: 'http://googlemaps.github.io/kml-samples/kml/Placemark/placemark.kml',
-        suppressInfoWindows: true,
-        map: map
-      });
+        var icons = line.get('icons');
+        icons[0].offset = (count / 2) + '%';
+        line.set('icons', icons);
+      }, 20);
+    }
+    line.setMap(map);
+  }    
+  var value = Object.values(WaCounties);
+  console.log(WaCounties)
 
-//Gets all data from 03/31/2020 for Washington
-    var dataWA0331 = [
-    {
-        "num": 53061,
-        "county name": "Snohomish",
-        "state": "Washington",
-        "center_latitude": 48.070464,
-        "center_longitude": -121.936784,
-        "direction_real": -0.26415161657732256,
-        "direction_imaginary": -0.010234562353389265,
-        "magnitude": 1227
-      },
-      {
-        "num": 53063,
-        "county name": "Spokane",
-        "state": "Washington",
-        "center_latitude": 47.620375,
-        "center_longitude": -117.40337099999999,
-        "direction_real": 0.27142852341586376,
-        "direction_imaginary": 0.07065574910637196,
-        "magnitude": 140
-      },
-      {
-        "num": 53033,
-        "county name": "King",
-        "state": "Washington",
-        "center_latitude": 47.490598999999996,
-        "center_longitude": -121.833996,
-        "direction_real": 0.060349895069705894,
-        "direction_imaginary": -0.10849008499160107,
-        "magnitude": 2332
-      },
-      {
-        "num": 53071,
-        "county name": "Walla Walla",
-        "state": "Washington",
-        "center_latitude": 46.254606,
-        "center_longitude": -118.48037,
-        "direction_real": -0.0016086212959010027,
-        "direction_imaginary": -0.08772649516770059,
-        "magnitude": 7
-      },
-      {
-        "num": 53007,
-        "county name": "Chelan",
-        "state": "Washington",
-        "center_latitude": 47.860974,
-        "center_longitude": -120.619041,
-        "direction_real": 0.2135035331509556,
-        "direction_imaginary": -0.06365801122513659,
-        "magnitude": 15
-      },
-      {
-        "num": 53011,
-        "county name": "Clark",
-        "state": "Washington",
-        "center_latitude": 45.77173,
-        "center_longitude": -122.48595300000001,
-        "direction_real": 0.053708760684784806,
-        "direction_imaginary": -0.07017882610064419,
-        "magnitude": 116
-      },
-      {
-        "num": 53031,
-        "county name": "Jefferson",
-        "state": "Washington",
-        "center_latitude": 47.805708,
-        "center_longitude": -123.52705700000001,
-        "direction_real": 0.08942433125081095,
-        "direction_imaginary": 0.04671269559503344,
-        "magnitude": 14
-      },
-      {
-        "num": 53053,
-        "county name": "Pierce",
-        "state": "Washington",
-        "center_latitude": 47.051413000000004,
-        "center_longitude": -122.15324,
-        "direction_real": 0.21299429929536018,
-        "direction_imaginary": -0.05834886324927879,
-        "magnitude": 353
-      },
-      {
-        "num": 53037,
-        "county name": "Kittitas",
-        "state": "Washington",
-        "center_latitude": 47.124441,
-        "center_longitude": -120.676709,
-        "direction_real": 0.039176507725159126,
-        "direction_imaginary": -0.0917834561269828,
-        "magnitude": 8
-      },
-      {
-        "num": 53035,
-        "county name": "Kitsap",
-        "state": "Washington",
-        "center_latitude": 47.639595,
-        "center_longitude": -122.649634,
-        "direction_real": -0.099045561553325,
-        "direction_imaginary": -0.1693368518180165,
-        "magnitude": 63
-      },
-      {
-        "num": 53057,
-        "county name": "Skagit",
-        "state": "Washington",
-        "center_latitude": 48.493292,
-        "center_longitude": -121.81577,
-        "direction_real": 0.013890248774458769,
-        "direction_imaginary": 0.011427293625146717,
-        "magnitude": 101
-      },
-      {
-        "num": 53073,
-        "county name": "Whatcom",
-        "state": "Washington",
-        "center_latitude": 48.842653000000006,
-        "center_longitude": -121.836432,
-        "direction_real": 0.3033310399876825,
-        "direction_imaginary": 0.016472790803376824,
-        "magnitude": 116
-      },
-      {
-        "num": 53029,
-        "county name": "Island",
-        "state": "Washington",
-        "center_latitude": 48.158553999999995,
-        "center_longitude": -122.670649,
-        "direction_real": -0.06355001827763829,
-        "direction_imaginary": -0.18991948871264697,
-        "magnitude": 106
-      },
-      {
-        "num": 53067,
-        "county name": "Thurston",
-        "state": "Washington",
-        "center_latitude": 46.935821999999995,
-        "center_longitude": -122.830152,
-        "direction_real": -0.2883589534019393,
-        "direction_imaginary": 0.010797694679375525,
-        "magnitude": 48
-      },
-      {
-        "num": 53013,
-        "county name": "Columbia",
-        "state": "Washington",
-        "center_latitude": 46.29285,
-        "center_longitude": -117.911634,
-        "direction_real": -0.008646744014882302,
-        "direction_imaginary": -0.001256376261913772,
-        "magnitude": 1
-      },
-      {
-        "num": 53027,
-        "county name": "Grays Harbor",
-        "state": "Washington",
-        "center_latitude": 47.113732,
-        "center_longitude": -123.82673500000001,
-        "direction_real": 0.0208812549041113,
-        "direction_imaginary": 0.0027613222930114034,
-        "magnitude": 1
-      },
-      {
-        "num": 53077,
-        "county name": "Yakima",
-        "state": "Washington",
-        "center_latitude": 46.456558,
-        "center_longitude": -120.740145,
-        "direction_real": 0.4038638854381844,
-        "direction_imaginary": -0.17507142946728038,
-        "magnitude": 147
-      },
-      {
-        "num": 53025,
-        "county name": "Grant",
-        "state": "Washington",
-        "center_latitude": 47.213633,
-        "center_longitude": -119.46778799999998,
-        "direction_real": 0.06370518279663884,
-        "direction_imaginary": -0.11398805004589718,
-        "magnitude": 62
-      },
-      {
-        "num": 53039,
-        "county name": "Klickitat",
-        "state": "Washington",
-        "center_latitude": 45.870446,
-        "center_longitude": -120.77930500000001,
-        "direction_real": -0.0033724836232096322,
-        "direction_imaginary": 0.005739105017433133,
-        "magnitude": 7
-      },
-      {
-        "num": 53041,
-        "county name": "Lewis",
-        "state": "Washington",
-        "center_latitude": 46.580071000000004,
-        "center_longitude": -122.377444,
-        "direction_real": 0.05734322178503248,
-        "direction_imaginary": 0.014556459201031657,
-        "magnitude": 10
-      },
-      {
-        "num": 53043,
-        "county name": "Lincoln",
-        "state": "Washington",
-        "center_latitude": 47.582743,
-        "center_longitude": -118.41769199999999,
-        "direction_real": -0.0015394006194640042,
-        "direction_imaginary": 0.009086557087684355,
-        "magnitude": 1
-      },
-      {
-        "num": 53021,
-        "county name": "Franklin",
-        "state": "Washington",
-        "center_latitude": 46.53458,
-        "center_longitude": -118.906944,
-        "direction_real": -0.12443224495194727,
-        "direction_imaginary": -0.02452798122911304,
-        "magnitude": 33
-      },
-      {
-        "num": 53045,
-        "county name": "Mason",
-        "state": "Washington",
-        "center_latitude": 47.354126,
-        "center_longitude": -123.17385,
-        "direction_real": 0.13849401065796485,
-        "direction_imaginary": -0.04369767004174463,
-        "magnitude": 2
-      },
-      {
-        "num": 53005,
-        "county name": "Benton",
-        "state": "Washington",
-        "center_latitude": 46.228125,
-        "center_longitude": -119.516659,
-        "direction_real": -0.07413710806909535,
-        "direction_imaginary": 0.16499642019568483,
-        "magnitude": 101
-      },
-      {
-        "num": 53009,
-        "county name": "Clallam",
-        "state": "Washington",
-        "center_latitude": 48.110903,
-        "center_longitude": -123.88986000000001,
-        "direction_real": -0.005788644116535124,
-        "direction_imaginary": -0.00959629840631493,
-        "magnitude": 6
-      },
-      {
-        "num": 53015,
-        "county name": "Cowlitz",
-        "state": "Washington",
-        "center_latitude": 46.196785,
-        "center_longitude": -122.67846000000002,
-        "direction_real": 0.06198621813175009,
-        "direction_imaginary": -0.15782975137611288,
-        "magnitude": 13
-      },
-      {
-        "num": 53055,
-        "county name": "San Juan",
-        "state": "Washington",
-        "center_latitude": 48.50719,
-        "center_longitude": -123.103769,
-        "direction_real": -0.25148286479672777,
-        "direction_imaginary": -0.04397582828494251,
-        "magnitude": 4
-      },
-      {
-        "num": 53065,
-        "county name": "Stevens",
-        "state": "Washington",
-        "center_latitude": 48.388727,
-        "center_longitude": -117.854454,
-        "direction_real": 0.10624319637912549,
-        "direction_imaginary": -0.03868805572373901,
-        "magnitude": 4
-      },
-      {
-        "num": 53075,
-        "county name": "Whitman",
-        "state": "Washington",
-        "center_latitude": 46.905944,
-        "center_longitude": -117.53538999999999,
-        "direction_real": -0.022707382184762537,
-        "direction_imaginary": 0.0026188174369821127,
-        "magnitude": 6
-      },
-      {
-        "num": 53001,
-        "county name": "Adams",
-        "state": "Washington",
-        "center_latitude": 47.011238,
-        "center_longitude": -118.51286100000002,
-        "direction_real": -0.04401807026508209,
-        "direction_imaginary": -0.07564095120446268,
-        "magnitude": 7
-      },
-      {
-        "num": 53017,
-        "county name": "Douglas",
-        "state": "Washington",
-        "center_latitude": 47.741763,
-        "center_longitude": -119.694622,
-        "direction_real": 0.2697604141223877,
-        "direction_imaginary": 0.012558732341744872,
-        "magnitude": 5
-      },
-      {
-        "num": 53019,
-        "county name": "Ferry",
-        "state": "Washington",
-        "center_latitude": 48.473256,
-        "center_longitude": -118.53358899999999,
-        "direction_real": -0.09147572242966362,
-        "direction_imaginary": 0.07306897564586023,
-        "magnitude": 1
-      },
-      {
-        "num": 53047,
-        "county name": "Okanogan",
-        "state": "Washington",
-        "center_latitude": 48.548453,
-        "center_longitude": -119.74223500000001,
-        "direction_real": 0.21266935201727222,
-        "direction_imaginary": -0.07246918125748891,
-        "magnitude": 3
-      },
-      {
-        "num": 53059,
-        "county name": "Skamania",
-        "state": "Washington",
-        "center_latitude": 46.024784999999994,
-        "center_longitude": -121.953232,
-        "direction_real": 0.17580306436146032,
-        "direction_imaginary": 0.07522582545634293,
-        "magnitude": 1
-      },
-      {
-        "num": 53051,
-        "county name": "Pend Oreille",
-        "state": "Washington",
-        "center_latitude": 48.543825,
-        "center_longitude": -117.23219099999999,
-        "direction_real": 0,
-        "direction_imaginary": 0,
-        "magnitude": 0
-      },
-      {
-        "num": 53003,
-        "county name": "Asotin",
-        "state": "Washington",
-        "center_latitude": 46.181861,
-        "center_longitude": -117.22778100000001,
-        "direction_real": 0,
-        "direction_imaginary": 0,
-        "magnitude": 0
-      },
-      {
-        "num": 53069,
-        "county name": "Wahkiakum",
-        "state": "Washington",
-        "center_latitude": 46.294638,
-        "center_longitude": -123.424458,
-        "direction_real": 0,
-        "direction_imaginary": 0,
-        "magnitude": 0
-      },
-      {
-        "num": 53049,
-        "county name": "Pacific",
-        "state": "Washington",
-        "center_latitude": 46.556587,
-        "center_longitude": -123.78241899999999,
-        "direction_real": 0,
-        "direction_imaginary": 0,
-        "magnitude": 0
-      }
-    ];
-    console.log(dataWA0331);       
-    
-    var Washington = []; //nested with may levels including all the data
-    
-
-//loop
-var adams;
-for (i = 0; i < dataWA0331.length; i++) {
-  console.log(dataWA0331[i]["magnitude"]);
-}
-
-//Gets coordinates of all counties in Washington
+    //Gets coordinates of all counties in Washington
 //Washington
 //Adams
-    var adams;
-    for (i = 0; i < dataWA0331.length; i++) {
-        if (dataWA0331[i]["county name"] === "Adams") {
-            adams = dataWA0331[i];
-            var adamsCntr = {lat: adams["center_latitude"], lng: adams["center_longitude"]};
-        }
-    }
-//Asotin
-    var asotin;
-    for (i = 0; i < dataWA0331.length; i++) {
-        if (dataWA0331[i]["county name"] === "Asotin") {
-            asotin = dataWA0331[i];
-            var asotinCntr = {lat: asotin["center_latitude"], lng: asotin["center_longitude"]};
-        }
-    }
-        
-//Benton
-    var benton;
-    for (i = 0; i < dataWA0331.length; i++) {
-        if (dataWA0331[i]["county name"] === "Benton") {
-            benton = dataWA0331[i];
-            var bentonCntr = {lat: benton["center_latitude"], lng: benton["center_longitude"]};
-        }
-    }
-//Chelan
-
-
-//Clallam
-    var clallam;
-    var clallamCntr;
-    for (i = 0; i < dataWA0331.length; i++) {
-        if (dataWA0331[i]["county name"] === "Clallam") {
-            clallam = dataWA0331[i];
-            clallamCntr = {lat: clallam["center_latitude"], lng: clallam["center_longitude"]};
-        }
-    }
-
-//Clark
-    var clark;
-    for (i = 0; i < dataWA0331.length; i++) {
-        if (dataWA0331[i]["county name"] === "Clark") {
-            clark = dataWA0331[i];
-            var clarkCntr = {lat: clark["center_latitude"], lng: clark["center_longitude"]};
-        }
-    }
-
-//Columbia
-  var columbia;
-  for (i = 0; i < dataWA0331.length; i++) {
-      if (dataWA0331[i]["county name"] === "Columbia") {
-          columbia = dataWA0331[i];
-          var columbiaCntr = {lat: columbia["center_latitude"], lng: columbia["center_longitude"]};
-      }
-  }
-//Cowlitz
-  var cowlitz;
-  for (i = 0; i < dataWA0331.length; i++) {
-      if (dataWA0331[i]["county name"] === "Cowlitz") {
-          cowlitz= dataWA0331[i];
-          var cowlitzCntr = {lat: cowlitz["center_latitude"], lng: cowlitz["center_longitude"]};
-      }
-  }
-
-//Douglas
-    var douglas;
-    for (i = 0; i < dataWA0331.length; i++) {
-        if (dataWA0331[i]["county name"] === "Douglas") {
-            douglas = dataWA0331[i];
-            var douglasCntr = {lat: douglas["center_latitude"], lng: douglas["center_longitude"]};
-        }
-    }
-
-//Ferry
-  var ferry;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "Ferry") {
-      ferry= dataWA0331[i];
-      var ferryCntr = {lat: ferry["center_latitude"], lng: ferry["center_longitude"]};
-    }
-  }
-
-//Franklin
-  var franklin;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "Franklin") {
-        franklin = dataWA0331[i];
-        var franklinCntr = {lat: franklin["center_latitude"], lng: franklin["center_longitude"]};
-    }
-  }
-
-//Garfield
-  var garfield;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "Garfield") {
-        garfield = dataWA0331[i];
-        var garfieldCntr = {lat: garfield["center_latitude"], lng: garfield["center_longitude"]};
-    }
-  }
-
-
-  var grant;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-
-
-  var graysHarbor;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-
-  var island;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var jefferson;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var king;  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var kitsap;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var kittitas;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var klickitat;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var lewis;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var lincoln;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var mason;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var okanogan;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var pacific;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var pendOreille;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var pierce;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var sanJuan;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var skagit;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var skamania;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var snohomish;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var spokane;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var stevens;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var thurston;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var wahkiakum;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var wallaWalla;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var whatcom;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var whitman;
-  for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
-  var yakima;
-    for (i = 0; i < dataWA0331.length; i++) {
-    if (dataWA0331[i]["county name"] === "name") {
-        name = dataWA0331[i];
-        var name Cntr = {lat: name["center_latitude"], lng: name["center_longitude"]};
-    }
-  }
+    
 // Adams County
         var adamsCoords = [
             { lat: 47.259, lng: -117.96},
@@ -716,15 +604,6 @@ for (i = 0; i < dataWA0331.length; i++) {
             path: adamsCoords,
             clickable: true,
             geodesic: true,
-        });
-        var marker = new google.maps.Marker({
-            position: adamsCntr,
-            map: map,
-            icon: {
-                path: google.maps.SymbolPath.FORWARD_OPEN_ARROW,
-                scale: 4
-            },
-            title: "Adams County"
         });
         Adams.setMap(map);
 //Asotin County
@@ -758,12 +637,6 @@ for (i = 0; i < dataWA0331.length; i++) {
             clickable: true,
             geodesic: true,
         });
-
-        var marker = new google.maps.Marker({
-            position: asotinCntr,
-            map: map,
-            title: "Asotin County"
-        });
         Asotin.setMap(map);
     
     
@@ -790,12 +663,6 @@ for (i = 0; i < dataWA0331.length; i++) {
             geodesic: true,
         });
 
-        var marker = new google.maps.Marker({
-            position: bentonCntr,
-            map: map,
-            title: "Benton"
-        });
-        Benton.setMap(map);
     
 //Chelan County
         var Chelan;
@@ -816,13 +683,6 @@ for (i = 0; i < dataWA0331.length; i++) {
             path: clallamCoords,
             clickable: true,
             geodesic: true,
-        });
-
-        //console.log(clallam);
-        var marker = new google.maps.Marker({
-            position: clallamCntr,
-            map: map,
-            title: "Clallam County"
         });
         Clallam.setMap(map);
     
@@ -861,35 +721,35 @@ for (i = 0; i < dataWA0331.length; i++) {
 //Assign copy to each county_name.setMap(map):
 //
 //
-        var lineSymbol = {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-          };
+        // var lineSymbol = {
+        //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+        //   };
         
-          // Create the polyline and add the symbol via the 'icons' property.
-          var line = new google.maps.Polyline({
-            //[start, end]
-            path: [clarkCntr, cowlitzCntr],
-            icons: [
-              {
-                icon: lineSymbol,
-                offset: "100%",
-                size: clark["magnitude"],
-                repeat: "50%"
-              }
-            ],
-            map: map
-          });
-          animateCircle(line);
-          function animateCircle(line) {
-            var count = 0;
-            window.setInterval(function() {
-              count = (count + 1) % 200;
+        //   // Create the polyline and add the symbol via the 'icons' property.
+        //   var line = new google.maps.Polyline({
+        //     //[start, end]
+        //     path: [clarkCntr, cowlitzCntr],
+        //     icons: [
+        //       {
+        //         icon: lineSymbol,
+        //         offset: "100%",
+        //         size: clark["magnitude"],
+        //         repeat: "50%"
+        //       }
+        //     ],
+        //     map: map
+        //   });
+        //   animateCircle(line);
+        //   function animateCircle(line) {
+        //     var count = 0;
+        //     window.setInterval(function() {
+        //       count = (count + 1) % 200;
         
-              var icons = line.get('icons');
-              icons[0].offset = (count / 2) + '%';
-              line.set('icons', icons);
-          }, 20);
-        }
+        //       var icons = line.get('icons');
+        //       icons[0].offset = (count / 2) + '%';
+        //       line.set('icons', icons);
+        //   }, 20);
+        // }
         Clark.setMap(map);
 //
 //
@@ -930,12 +790,6 @@ for (i = 0; i < dataWA0331.length; i++) {
             clickable: true,
             geodesic: true,
         });
-
-        var marker = new google.maps.Marker({
-            position: columbiaCntr,
-            map: map,
-            title: "Columbia County"
-        });
         Columbia.setMap(map);
     
         var cowlitzCoords = [
@@ -961,13 +815,6 @@ for (i = 0; i < dataWA0331.length; i++) {
             path: cowlitzCoords,
             clickable: true,
             geodesic: true,
-        });
-
-        //console.log(cowlitz);
-        var marker = new google.maps.Marker({
-            position: cowlitzCntr,
-            map: map,
-            title: "Cowlitz County"
         });
         Cowlitz.setMap(map);
         

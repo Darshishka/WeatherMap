@@ -1,3 +1,43 @@
 {
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "highlight.regexes": {
+        "(// ?CONSOLE:?)(.*)" : [
+            {
+                "overviewRulerColor": "#ffcc00",
+                "backgroundColor": "#87ceeb",
+                "color": "#1f1f1f",
+                "fontWeight": "bold"
+              },
+        ],
+        "(// ?TODO:?)(.*)": [
+          {
+            "overviewRulerColor": "#ffcc00",
+            "backgroundColor": "#ffffff",
+            "color": "#1f1f1f",
+            "fontWeight": "bold"
+          },
+          {
+            "backgroundColor": "#c0c0c0",
+            "color": "#1f1f1f"
+          }
+        ],
+        "(// ?FIXME:?)(.*)": [
+          {
+            "overviewRulerColor": "#ff0000",
+            "backgroundColor": "#ff0000",
+            "color": "#1f1f1f",
+            "fontWeight": "bold"
+          },
+          {
+            "backgroundColor": "#d90000",
+            "color": "#1f1f1f"
+          }
+        ],
+        "(// )(@\\w+)": [
+          {},
+          {
+            "color": "#4de0ff"
+          }
+        ]
+      }
 }
