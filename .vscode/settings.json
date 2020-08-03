@@ -1,6 +1,14 @@
 {
     "editor.mouseWheelZoom": true,
     "highlight.regexes": {
+      "(// ?NOTE:?)(.*)" : [
+        {
+            "overviewRulerColor": "#ffcc00",
+            "backgroundColor": "#87ceeb",
+            "color": "#1f1f1f",
+            "fontWeight": "bold"
+          },
+    ],
         "(// ?CONSOLE:?)(.*)" : [
             {
                 "overviewRulerColor": "#ffcc00",
