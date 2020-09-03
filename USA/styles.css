@@ -31,18 +31,19 @@ footer {
 html {
   background-color: aliceblue;
 }
-nav a, nav button {
+nav a, nav button, .dropdown-toggle {
   position: relative;
   display: inline-block;
-  padding: 3%;
+  padding: 2%;
 }
 h2 {
-  color: ;
+  background-color: \;
 }
-h2:hover, .dropdown-toggle:hover{
+h2:hover, .btn:hover {
   font-weight: bolder;
   text-decoration: none;
-  background-color: cadetblue;
+  background-color: steelblue;
+  color: aliceblue;
 }
 #content {
   position: relative;
