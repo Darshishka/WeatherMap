@@ -2,13 +2,19 @@
   "name": "usa",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "scripts/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Darcy Atlas",
   "license": "ISC",
   "dependencies": {
-    "uniq": "^1.0.1"
+    "@googlemaps/google-maps-services-js": "^3.1.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "node": "^14.8.0",
+    "php": "^1.0.1",
+    "request": "^2.88.2",
+    "requirejs": "^2.3.6"
   }
 }

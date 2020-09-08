@@ -1,7 +1,7 @@
-
+create database nyt_db;
 use nyt_db;
 CREATE TABLE data(
-   date   DATE  NOT NULL PRIMARY KEY
+   date   DATE  NOT NULL
   ,state  VARCHAR(24) NOT NULL
   ,fips   INTEGER  NOT NULL
   ,cases  INTEGER  NOT NULL
