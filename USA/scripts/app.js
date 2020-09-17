@@ -1,20 +1,18 @@
 const { title } = require("process");
+const { callbackify } = require("util");
+const { STATUS_CODES } = require("http");
 
 var mapUSA;
-var mapWA;
-var infoWindow;
-var stateName;
 var currState;
 var currStateCoords;
 var currStateData = [];
 var info;
 var contents = [];
-var dataState;
+var dataState = [];
+var dates;
 var nytState;
-var data;
 var cases;
-var y = 0;
-
+var blankArr = [];
 
 function initMapUSA() {
   mapUSA = new google.maps.Map(document.getElementById("map"), {
@@ -25,41 +23,80 @@ function initMapUSA() {
     zoom: 4.3,
     mapId: 'f68311c1c85e61',
   });
-  for (i = 0; i < state.length; i++) {
+  sortData();
+};
+
+function sortData () {
+  var stateData = [];
+  var x = 0;
+  var i = 0;
+  do {
     currState = state[i]["state"];
-    currStateCoords = state[i]["center"];
-    dataState = state[i]["state"];
-    cases;
-    
-    // for (y = 0; y < nytData.length; y++) {
-    //   // console.log(nytData[y]["state"]);
-    //   // console.log(nytData[y]);
-    //   if(nytData[y]["state"] === currState) {
-    //     data[1] = nytData[y]["cases"] + ", ";
-    //     y++;
-    //   } else {
-    //     y++;
-    //   }
-    //   console.log(data);
-    // }
+    if (currState === nytData[x]["state"]) {
+      console.log(currState);
+      stateData.push(x)
+      console.log(stateData);
+      console.log(x);
+      x++;
+    }else {
+      x++;
+    }
+  }while (x < nytData.length && i < state.length);
+  // var x = 0
+  // var i = 0;
+  // var y = 0;
+  // while (x != nytData.length) {
+  //   x++
+  //   currState = state[i]["state"];
+  //   currStateCoords = state[i]["center"];
+  //   if (currState === nytData[y]["state"]) {
+  //     dataState = y;
+  //     y++
+  //     return y;
+  //   } else 
+  //   {
+  //     y++
+  //   }
+  //   i++;
     var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(state[i]["center"]),
+    });
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(currStateCoords),
       map: mapUSA,
-      title: state[i]["state"],
-      content: cases,
+      title: currState,
+      content: `<br>`,
       icon: {
+        strokeColor: "#FF0000",
+        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+        scale: 2
+      }
+    });
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(currStateCoords),
+      map: mapUSA,
+      title: currState,
+      content: `test`,
+      icon: {
+        strokeColor: "#00FF00",
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
         scale: 2
       }
     });
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'mouseover', function () {
-      infowindow.setContent(this.title);
-      infowindow.open(map, this);                        
+      infowindow.setContent(this.title + "<br>Click for more info");
+      infowindow.open(infowindow, this);     
     });
-    // google.maps.event.addListener(marker, "mouseout", function () {
-    //   infoWindow.close(this.info)
-    // });  
+    google.maps.event.addListener(marker, `click`, function () {
+      var current = this.title;
+      infowindow.setContent(this.content);
+      infowindow.open(marker, this);
+    });
+        // google.maps.event.addListener(marker, "mouseout", function () {
+        //   infoWindow.close(this.info)
+        // });  
+    // google.maps.event.addListener(marker, `mouseout`, function () {
+    //   infowindow.close();
+    // });
     marker.setMap(mapUSA);
-  };
 };
