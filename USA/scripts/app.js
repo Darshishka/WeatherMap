@@ -30,18 +30,16 @@ function sortData () {
   var stateData = [];
   var x = 0;
   var i = 0;
-  do {
-    currState = state[i]["state"];
-    if (currState === nytData[x]["state"]) {
-      console.log(currState);
-      stateData.push(x)
-      console.log(stateData);
-      console.log(x);
-      x++;
-    }else {
-      x++;
-    }
-  }while (x < nytData.length && i < state.length);
+  currState = state[i]["state"];
+  $.each(state, function(key, value) {
+    $.each(nytData, function(index, item) {
+      if (value.state === item.state) {
+        stateData = item;
+        console.log(value.state + " : " + item.state)
+      }
+      console.log(item);
+    })
+  })
   // var x = 0
   // var i = 0;
   // var y = 0;
