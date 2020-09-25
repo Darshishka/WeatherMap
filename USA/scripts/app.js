@@ -13,6 +13,7 @@ var dates;
 var nytState;
 var cases;
 var blankArr = [];
+var x = 0;
 
 function initMapUSA() {
   mapUSA = new google.maps.Map(document.getElementById("map"), {
@@ -28,18 +29,19 @@ function initMapUSA() {
 
 function sortData () {
   var stateData = [];
-  var x = 0;
   var i = 0;
   currState = state[i]["state"];
-  $.each(state, function(key, value) {
-    $.each(nytData, function(index, item) {
-      if (value.state === item.state) {
-        stateData = item;
-        console.log(value.state + " : " + item.state)
+  //concat??
+  
+  for (i; i < state.length; i++) {
+    $.each(nytData, function(key, value) {
+      if (value.state === currState) {
+        stateData.push(value)
       }
-      console.log(item);
+      console.log(stateData)
     })
-  })
+    stateData = [];
+  }
   // var x = 0
   // var i = 0;
   // var y = 0;
@@ -62,7 +64,7 @@ function sortData () {
       position: new google.maps.LatLng(currStateCoords),
       map: mapUSA,
       title: currState,
-      content: `<br>`,
+      content: value,
       icon: {
         strokeColor: "#FF0000",
         path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
