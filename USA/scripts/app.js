@@ -35,14 +35,39 @@ function sortData () {
   for (i; i < state.length; i++) {
     stateData = [];
     currState = state[i]["state"];
+    currStateCoords = state[i]["center"];
     $.each(nytData, function(key, value) {
       if (value.state === currState) {
         stateData.push(value)
       }
-      
     })
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(currStateCoords),
+      map: mapUSA,
+      title: currState,
+      content: stateData,
+      icon: {
+        strokeColor: "#FF0000",
+        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+        scale: 2
+      }
+    });
+    var infowindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(marker, 'mouseover', function () {
+      infowindow.setContent(this.title);
+      infowindow.open(infowindow, this);     
+    });
+    google.maps.event.addListener(marker, `click`, function () {
+      var current = this.title;
+      $.each(nytData, function(index, item) {
+        if (item.state === current) {
+          
+        }
+      });
+      infowindow.setContent(this.content);
+      infowindow.open(marker, this);
+    });
     console.log(stateData)
-    
   }
   // var x = 0
   // var i = 0;
@@ -60,30 +85,30 @@ function sortData () {
   //     y++
   //   }
   //   i++;
-    var marker = new google.maps.Marker({
-    });
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(currStateCoords),
-      map: mapUSA,
-      title: currState,
-      content: value,
-      icon: {
-        strokeColor: "#FF0000",
-        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 2
-      }
-    });
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(currStateCoords),
-      map: mapUSA,
-      title: currState,
-      content: `test`,
-      icon: {
-        strokeColor: "#00FF00",
-        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        scale: 2
-      }
-    });
+    // var marker = new google.maps.Marker({
+    // });
+    // var marker = new google.maps.Marker({
+    //   position: new google.maps.LatLng(currStateCoords),
+    //   map: mapUSA,
+    //   title: currState,
+    //   content: value,
+    //   icon: {
+    //     strokeColor: "#FF0000",
+    //     path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+    //     scale: 2
+    //   }
+    // });
+    // var marker = new google.maps.Marker({
+    //   position: new google.maps.LatLng(currStateCoords),
+    //   map: mapUSA,
+    //   title: currState,
+    //   content: `test`,
+    //   icon: {
+    //     strokeColor: "#00FF00",
+    //     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+    //     scale: 2
+    //   }
+    // });
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'mouseover', function () {
       infowindow.setContent(this.title + "<br>Click for more info");
