@@ -30,17 +30,19 @@ function initMapUSA() {
 function sortData () {
   var stateData = [];
   var i = 0;
-  currState = state[i]["state"];
   //concat??
   
   for (i; i < state.length; i++) {
+    stateData = [];
+    currState = state[i]["state"];
     $.each(nytData, function(key, value) {
       if (value.state === currState) {
         stateData.push(value)
       }
-      console.log(stateData)
+      
     })
-    stateData = [];
+    console.log(stateData)
+    
   }
   // var x = 0
   // var i = 0;
