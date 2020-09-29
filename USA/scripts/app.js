@@ -3,6 +3,7 @@ const { callbackify } = require("util");
 const { STATUS_CODES } = require("http");
 const e = require("express");
 
+console.log(nytData);
 var mapUSA;
 var currState;
 var currStateCoords;
@@ -29,6 +30,7 @@ function initMapUSA() {
 };
 
 function sortData () {
+  console.log(nytData);
   var stateData = [];
   var i = 0;
   //concat??
@@ -42,10 +44,12 @@ function sortData () {
         stateData.push(value)
       }
     })
-//Gets last few 2 of cases to calculate
-    var toCalc = stateData.slice((stateData.length -2), stateData.length);
-    if (toCalc[0]["cases"] < toCalc[1]["cases"]) {
-      console.log(toCalc[0]["state"] + " rise");
+//Gets last few(2) of cases to calculate
+var length = stateData.length;
+    var toCalc = stateData.slice((length -20), length);
+    console.log(toCalc)
+    if (toCalc[18]["cases"] < toCalc[19]["cases"]) {
+      console.log(toCalc[19]["state"] + " rise");
           var marker = new google.maps.Marker({
       position: new google.maps.LatLng(currStateCoords),
       map: mapUSA,
@@ -57,8 +61,8 @@ function sortData () {
         scale: 2
       }
     });
-    } else if (toCalc[0]["cases"] > toCalc[1]["cases"]) {
-      console.log(toCalc[0]["state"] + " fall");
+    } else if (toCalc[18]["cases"] > toCalc[19]["cases"]) {
+      console.log(toCalc[19]["state"] + " fall");
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(currStateCoords),
         map: mapUSA,
@@ -86,25 +90,29 @@ function sortData () {
       //     infoData += JSON.stringify(item)
       //   }
       // });
-      infowindow.setContent(`<div id="myPieChart"/>`);
+      infowindow.setContent(`<div id="${currState}Chart"/>`);
       google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
+      toCalc;
       // Define the chart to be drawn.
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Element');
-      data.addColumn('number', 'Percentage');
-      data.addRows([
-        ['Nitrogen', 0.78],
-        ['Oxygen', 0.21],
-        ['Other', 0.01]
+      var data = new google.visualization.DataTable([
+        [`Date`, `Cases`, `Deaths`],
       ]);
-
+      data.addRows(toCalc)
+      for (var d = 0; d < 20; d++) {
+        data.addRows([
+          [toCalc],
+        ]);
+      };
+      var options = {
+        title: "Cases"
+      };
       // Instantiate and draw the chart.
-      var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
-      chart.draw(data, null);
-    }
+      var chart = new google.visualization.AreaChart(document.getElementById(`${currState}Chart`));
+      chart.draw(data, options);
+    }//drawChart()
       infowindow.open(marker, this);
       infoData = [];
     });
