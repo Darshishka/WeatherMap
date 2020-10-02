@@ -3,6 +3,14 @@ const { callbackify } = require("util");
 const { STATUS_CODES } = require("http");
 const e = require("express");
 
+
+
+//add blue predivtion arrow as same button as green/red arrow
+//add key
+
+
+
+console.log(nytData);
 var mapUSA;
 var currState;
 var currStateCoords;
@@ -20,9 +28,9 @@ var x = 0;
 function initMapUSA() {
   const mapUSA = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 39.712162, lng: -95.165789 },
-    // disableDefaultUI: true,
-    // gestureHandling: 'none',
-    // zoomControl: false,
+    disableDefaultUI: true,
+    gestureHandling: 'none',
+    zoomControl: false,
     zoom: 4.3,
     mapId: 'f68311c1c85e61',
   });
@@ -102,7 +110,9 @@ var length = stateData.length;
     };
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'mouseover', function () {
-      infowindow.setContent(this.title + "Graph with last few days of cases" + this.title + ".");
+      infowindow.setContent(
+        '<btn >Graph</btn>'
+      );
       infowindow.open(infowindow, this);     
     });
     var infoData;
