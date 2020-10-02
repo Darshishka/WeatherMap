@@ -3,12 +3,11 @@ const { callbackify } = require("util");
 const { STATUS_CODES } = require("http");
 const e = require("express");
 
-console.log(nytData);
 var mapUSA;
 var currState;
 var currStateCoords;
 var currStateData = [];
-var info;
+var pathArr;
 var contents = [];
 var dataState = [];
 var dates;
@@ -17,8 +16,9 @@ var cases;
 var blankArr = [];
 var x = 0;
 
+
 function initMapUSA() {
-  mapUSA = new google.maps.Map(document.getElementById("map"), {
+  const mapUSA = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 39.712162, lng: -95.165789 },
     // disableDefaultUI: true,
     // gestureHandling: 'none',
@@ -26,11 +26,34 @@ function initMapUSA() {
     zoom: 4.3,
     mapId: 'f68311c1c85e61',
   });
+
+
+//Creates state
+for (var i = 0; i < state.length; i++) {
+    currState = state[i]["state"];
+    const polygon = new google.maps.Polygon({
+      id: `${currState}`,
+      path: state[i]["path"],
+      geodesic: true,
+      strokeColor: "#0099ff",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+      fillColor: "#0099ff",
+      fillOpacity: 0.25
+    });
+    polygon.setMap(mapUSA);
+    google.maps.event.addListener(polygon, `mouseover`, function(event) {
+      console.log(this.id);
+// connect each state outline to the creation of the icon and info
+    });
+    infowindow = new google.maps.InfoWindow();
+  }
   sortData();
 };
 
 function sortData () {
   console.log(nytData);
+  
   var stateData = [];
   var i = 0;
   //concat??
@@ -39,11 +62,12 @@ function sortData () {
     stateData = [];
     currState = state[i]["state"];
     currStateCoords = state[i]["center"];
+
     $.each(nytData, function(key, value) {
       if (value.state === currState) {
         stateData.push(value)
       }
-    })
+    });
 //Gets last few(2) of cases to calculate
 var length = stateData.length;
     var toCalc = stateData.slice((length -20), length);
