@@ -96,15 +96,19 @@ const infowindow = new google.maps.InfoWindow();
               {lable: `Date`, type: `date`},
               {lable: `Cases`, type: `number`}
             ]});
-            //for each in tocalc add row
-            // rows: [{c:[{v: `${toCalc[0]["date"]}`},
-            //   {v: `${toCalc[0]["cases"]}`}
-            // ]
+            $.each(toCalc, function(k, v) {
+              var year = v.date.substring(0,4);
+              var month = v.date.substring(5,7);
+              var day = v.date.substring(8,10);
+              var date = year + month + day;
+              console.log(date)
+              data.addRow([new Date(year, month, day), v.cases])
+            });
           var options = {
-            title: `${polygon.id} Cases`,
-            hAxis: {title: 'Cases'},
-            vAxis: {title: `Date`},
-
+            title: `${polygon.id} Daily Cases`,
+            hAxis: {title: 'Dates'},
+            vAxis: {title: `Cases`},
+            width: `800`
           };
           var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
           chart.draw(data, options);
