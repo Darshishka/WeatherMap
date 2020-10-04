@@ -126,7 +126,7 @@ var length = stateData.length;
       // });
       infowindow.setContent(`<div id="${currState}Chart"/>`);
       google.charts.load('current', {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       toCalc;

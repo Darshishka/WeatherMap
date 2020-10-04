@@ -2,6 +2,7 @@ const { title } = require("process");
 const { callbackify } = require("util");
 const { STATUS_CODES } = require("http");
 const e = require("express");
+const { info } = require("console");
 
 var mapUSA;
 var currState;
@@ -27,23 +28,24 @@ function initMapUSA() {
     mapId: 'f68311c1c85e61',
   });
 
-
+const infowindow = new google.maps.InfoWindow();
 //Creates state
-var stateData = [];
-for (var i = 0; i < state.length; i++) {
-  currState = state[i]["state"];
-  currStateCoords = state[i]["center"];
-  $.each(nytData, function(key, value) {
-    if (value.state === currState) {
-      stateData.push(value)
-    }
-  });
-  var length = stateData.length;
-      var toCalc = stateData.slice((length -20), length);
-      console.log(toCalc)
-      if (toCalc[18]["cases"] < toCalc[19]["cases"]) {
-        console.log(toCalc[19]["state"] + " rise");
-            var marker = new google.maps.Marker({
+  var stateData = [];
+
+  for (var i = 0; i < state.length; i++) {
+    currState = state[i]["state"];
+    currStateCoords = state[i]["center"];
+    $.each(nytData, function(key, value) {
+      if (value.state === currState) {
+        stateData.push(value)
+      }
+    });
+    var length = stateData.length;
+    var toCalc = stateData.slice((length -20), length);
+    console.log(toCalc)
+    if (toCalc[18]["cases"] < toCalc[19]["cases"]) {
+      console.log(toCalc[19]["state"] + " rise");
+      const marker = new google.maps.Marker({
         position: new google.maps.LatLng(currStateCoords),
         map: mapUSA,
         title: currState,
@@ -54,41 +56,65 @@ for (var i = 0; i < state.length; i++) {
           scale: 2
         }
       });
-      } else if (toCalc[18]["cases"] > toCalc[19]["cases"]) {
-        console.log(toCalc[19]["state"] + " fall");
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(currStateCoords),
-          map: mapUSA,
-          title: currState,
-          content: stateData,
-          icon: {
-            strokeColor: "#FF0000",
-            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-            scale: 2
-          }
-        });
-        marker.setMap(mapUSA);
-        
-      };
-      const polygon = new google.maps.Polygon({
-        id: `${currState}`,
-        path: state[i]["path"],
-        geodesic: true,
-        strokeColor: "#0099ff",
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        fillColor: "#0099ff",
-        fillOpacity: 0.25
+    } else if (toCalc[18]["cases"] > toCalc[19]["cases"]) {
+      console.log(toCalc[19]["state"] + " fall");
+      const marker = new google.maps.Marker({
+        position: new google.maps.LatLng(currStateCoords),
+        map: mapUSA,
+        title: currState,
+        content: stateData,
+        icon: {
+          strokeColor: "#FF0000",
+          path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+          scale: 2
+        }
       });
-      var infowindow = new google.maps.InfoWindow();
-      google.maps.event.addListener(polygon, 'mouseover', function () {
-        infowindow.setContent(state[i]);
-        infowindow.open(infowindow, this);     
-      });
-      polygon.setMap(mapUSA);
+    };
+    const polygon = new google.maps.Polygon({
+      id: `${currState}`,
+      path: state[i]["path"],
+      geodesic: true,
+      strokeColor: "#0099ff",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+      fillColor: "#0099ff",
+      fillOpacity: 0.25
+    });
+    polygon.addListener('mouseover', () => {
+      console.log(polygon.id);
+      $.each(state, function(index, item) {
+        if (item.state === polygon.id) {
+          infowindow.setPosition(item.center);
+          infowindow.setContent(item.state + `<br><div id="chart"/>`);
+          infowindow.setMap(mapUSA)
+          google.charts.load('current', {packages: ['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+        }
+        function drawChart() {
+          var data = new google.visualization.DataTable({
+            cols: [
+              {lable: `Date`, type: `date`},
+              {lable: `Cases`, type: `number`}
+            ]});
+            //for each in tocalc add row
+            // rows: [{c:[{v: `${toCalc[0]["date"]}`},
+            //   {v: `${toCalc[0]["cases"]}`}
+            // ]
+          var options = {
+            title: `${polygon.id} Cases`,
+            hAxis: {title: 'Cases'},
+            vAxis: {title: `Date`},
 
+          };
+          var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
+          chart.draw(data, options);
+        };
+      });
+    });
+    polygon.setMap(mapUSA);
   }
 };
+
 
 function sortData () {
   console.log(nytData);
@@ -100,7 +126,6 @@ function sortData () {
     stateData = [];
     currState = state[i]["state"];
 
-//Gets last few(2) of cases to calculate
     var infoData;
     google.maps.event.addListener(marker, `click`, function () {
       var current = this.title;
