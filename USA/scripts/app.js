@@ -27,9 +27,9 @@ var x = 0;
 function initMapUSA() {
   mapUSA = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 39.712162, lng: -95.165789 },
-    disableDefaultUI: true,
-    gestureHandling: 'none',
-    zoomControl: false,
+    // disableDefaultUI: true,
+    // gestureHandling: 'none',
+    // zoomControl: false,
     zoom: 4.3,
     mapId: 'f68311c1c85e61',
   });
