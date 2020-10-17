@@ -8,20 +8,23 @@ function parse() {
     for (i = 0; i < data.length; i++) {
         var comma = data[i].indexOf(",");
         output.push(`{lat: ${data[i].substr(comma+1)}, lng: ${data[i].substr(0,comma)}}`);
-        output.push(`<br>`)
+        output.push(`,\n`)
     };
     output = output.join(``);
     console.log(output);
     document.getElementById("output").innerHTML = output;
-    document.execCommand("copy");
-    
-    //need to switch sides of comma
 };
+function copy() {
+    /* Get the text field */
+  var copyText = document.getElementById("output");
 
-//each space " " is one data point
-    //data is in a string  
-        //identify start of point index
-        //identify space index
-        //substring the inxedes
-        //last index is next starting index
-    //each data point has a Lat and Lng which are in reverse order
+  /* Select the text field */
+  copyText.select();
+//   copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  // alert("Copied the text: " + copyText.value);
+};
