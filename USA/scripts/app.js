@@ -84,7 +84,8 @@ const infowindow = new google.maps.InfoWindow();
     polygon.addListener(`click`, () => {
       console.log(polygon.id);
       polygon.setMap(null);
-      wa();
+      var polyId = polygon.id;
+      counties(polyId);
     });
     polygon.addListener('mouseover', () => {
       console.log(polygon.id);
@@ -124,11 +125,13 @@ const infowindow = new google.maps.InfoWindow();
     });
     polygon.setMap(mapUSA);
   }
-  function wa() {
-    for (i = 0; i < pathsWA.length; i++) {
+  function counties(polyId) {
+    //state name to 2 state abbr.
+    pathsNY;
+    for (i = 0; i < pathsNY.length; i++) {
       const polygon = new google.maps.Polygon({
-        id: `${WA[i]}`,
-        path: pathsWA[i],
+        id: `${NY[i]}`,
+        path: pathsNY[i],
         geodesic: true,
         strokeColor: "#0099ff",
         strokeOpacity: 1.0,
@@ -141,7 +144,7 @@ const infowindow = new google.maps.InfoWindow();
         // infowindow.setPosition()
       })
       polygon.setMap(mapUSA)
-      mapUSA.setCenter({lat: 47.751076, lng:	-120.740135});
+      mapUSA.setCenter({lat: 43.000000, lng:	-75.000000});
       mapUSA.setZoom(6.5);
     };
   };
