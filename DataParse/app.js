@@ -1,14 +1,14 @@
 function parse() {
     var data = document.getElementById("inputText").value;
     //every space is one point
-    data = data.split(" ");
-//add to array then shift
+    //add to array then shift
     var i;
     var output = [];
+    data = data.split(" ");
     for (i = 0; i < data.length; i++) {
-        var comma = data[i].indexOf(",");
-        output.push(`{lat: ${data[i].substr(comma+1)}, lng: ${data[i].substr(0,comma)}}`);
-        output.push(`,\n`)
+      var comma = data[i].indexOf(",");
+      output.push(`{lat: ${data[i].substr(comma+1)}, lng: ${data[i].substr(0,comma)}}`);
+      output.push(`,\n`)
     };
     output = output.join(``);
     console.log(output);

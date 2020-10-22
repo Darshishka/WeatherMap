@@ -52,7 +52,7 @@ const infowindow = new google.maps.InfoWindow();
         title: currState,
         content: `test`,
         icon: {
-          strokeColor: "#00FF00",
+          strokeColor: "#808080",
           path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
           scale: 2
         }
@@ -75,10 +75,10 @@ const infowindow = new google.maps.InfoWindow();
       id: `${currState}`,
       path: state[i]["path"],
       geodesic: true,
-      strokeColor: "#0099ff",
+      strokeColor: "#4b2e83",
       strokeOpacity: 1.0,
       strokeWeight: 2,
-      fillColor: "#0099ff",
+      fillColor: "#85754d",
       fillOpacity: 0.25
     });
     polygon.addListener(`click`, () => {
@@ -126,17 +126,16 @@ const infowindow = new google.maps.InfoWindow();
     polygon.setMap(mapUSA);
   }
   function counties(polyId) {
-    //state name to 2 state abbr.
-    pathsNY;
-    for (i = 0; i < pathsNY.length; i++) {
+    pathsOR;
+    for (i = 0; i < pathsOR.length; i++) {
       const polygon = new google.maps.Polygon({
-        id: `${NY[i]}`,
-        path: pathsNY[i],
+        id: `${OR[i]}`,
+        path: pathsOR[i],
         geodesic: true,
-        strokeColor: "#0099ff",
+        strokeColor: "#4b2e83",
         strokeOpacity: 1.0,
         strokeWeight: 2,
-        fillColor: "#0099ff",
+        fillColor: "#85754d",
         fillOpacity: 0.25
       })
       polygon.addListener("mouseover", () => {
