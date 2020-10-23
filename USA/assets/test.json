@@ -1,0 +1,12 @@
+[{
+    "id": "AL",
+    "state": "Alabama",
+    "fips": "01",
+    "center": {"lat": 32.318230, "lng":	-86.902298},
+    "borders": [
+      "Mississippi",
+      "Tennessee",
+      "Georgia",
+      "Florida"
+    ]
+}]
