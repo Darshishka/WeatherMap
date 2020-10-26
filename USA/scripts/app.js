@@ -126,11 +126,11 @@ const infowindow = new google.maps.InfoWindow();
     polygon.setMap(mapUSA);
   }
   function counties(polyId) {
-    pathsOR;
-    for (i = 0; i < pathsOR.length; i++) {
+    pathsCA;
+    for (i = 0; i < pathsCA.length; i++) {
       const polygon = new google.maps.Polygon({
-        id: `${OR[i]}`,
-        path: pathsOR[i],
+        id: `${CA[i]}`,
+        path: pathsCA[i],
         geodesic: true,
         strokeColor: "#4b2e83",
         strokeOpacity: 1.0,
@@ -143,8 +143,8 @@ const infowindow = new google.maps.InfoWindow();
         // infowindow.setPosition()
       })
       polygon.setMap(mapUSA)
-      mapUSA.setCenter({lat: 43.000000, lng:	-75.000000});
-      mapUSA.setZoom(6.5);
+      mapUSA.setCenter({lat: 36.778259, lng: -119.417931});
+      mapUSA.setZoom(4.5);
     };
   };
 };
