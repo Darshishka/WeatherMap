@@ -4645,7 +4645,20 @@ var pathsHI = [
 var HI = [
     "Hawaii",
     "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
+    "Honolulu",
     "Kalawao",
     "Kauai",
+    "Kauai",
+    "Kauai",
+    "Maui",
+    "Maui",
     "Maui"
 ];
