@@ -126,11 +126,11 @@ const infowindow = new google.maps.InfoWindow();
     polygon.setMap(mapUSA);
   }
   function counties(polyId) {
-    pathsNH;
-    for (i = 0; i < pathsNH.length; i++) {
+    pathsMA;
+    for (i = 0; i < pathsMA.length; i++) {
       const polygon = new google.maps.Polygon({
-        id: `${NH[i]}`,
-        path: pathsNH[i],
+        id: `${MA[i]}`,
+        path: pathsMA[i],
         geodesic: true,
         strokeColor: "#4b2e83",
         strokeOpacity: 1.0,
