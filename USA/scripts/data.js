@@ -131,6 +131,8 @@ var state = [
     },
     {
       "id": "AZ",
+      "countyPath": pathsAZ,
+      "countyName": AZ,
       "state": "Arizona",
       "fips": 04,
       "center": {lat: 34.048927, lng:	-111.093735},
@@ -305,6 +307,8 @@ var state = [
     },
     {
       "id": "CA",
+      "countyPath": pathsCA,
+      "countyName": CA,
       "state": "California",
       "fips": 06,
       "center": {lat: 36.778259, lng: -119.417931},
@@ -450,6 +454,8 @@ var state = [
     },
     {
       "id": "CT",
+      "countyPath": pathsCT,
+      "countyName": CT,
       "state": "Connecticut",
       "fips": 09,
       "center": {lat: 41.599998, lng:	-72.699997},
@@ -495,6 +501,8 @@ var state = [
     },
     {
       "id": "DE",
+      "countyPath": pathsDE,
+      "countyName": DE,
       "state": "Delaware",
       "fips": 10,
       "center": {lat: 39.000000, lng:	-75.500000},
@@ -712,6 +720,8 @@ var state = [
     },
     {
       "id": "HI",
+      "countyPath": pathsHI,
+      "countyName": HI,
       "state": "Hawaii",
       "fips": 15,
       "center": {lat: 19.741755, lng:	-155.844437},
@@ -1467,6 +1477,8 @@ var state = [
     },
     {
       "id": "MD",
+      "countyPath": pathsMD,
+      "countyName": MD,
       "state": "Maryland",
       "fips": 24,
       "center": {lat: 39.045753, lng:	-76.641273},
@@ -1591,6 +1603,8 @@ var state = [
     },
     {
       "id": "MA",
+      "countyPath": pathsMA,
+      "countyName": MA,
       "state": "Massachusetts",
       "fips": 25,
       "center": {lat: 42.407211, lng:	-71.382439},
@@ -2262,6 +2276,8 @@ var state = [
     },
     {
       "id": "NH",
+      "countyPath": pathsNH,
+      "countyName": NH,
       "state": "New Hampshire",
       "fips": 33,
       "center": {lat: 44.000000, lng:	-71.500000},
@@ -2472,6 +2488,8 @@ var state = [
     },
     {
       "id": "NY",
+      "countyPath": pathsNY,
+      "countyName": NY,
       "state": "New York",
       "fips": 36,
       "center": {lat: 43.000000, lng:	-75.000000},
@@ -2842,6 +2860,8 @@ var state = [
     },
     {
       "id": "OR",
+      "countyPath": pathsOR,
+      "countyName": OR,
       "state": "Oregon",
       "fips": 41,
       "center": {lat: 44.000000, lng:	-120.500000},
@@ -3447,6 +3467,8 @@ var state = [
     },
     {
       "id": "VT",
+      "countyPath": pathsVT,
+      "countyName": VT,
       "state": "Vermont",
       "fips": 50,
       "center": {lat: 44.000000, lng: -72.699997},
@@ -3733,6 +3755,8 @@ var state = [
     },
     {
       "id": "WA",
+      "countyPath": pathsWA,
+      "countyName": WA,
       "state": "Washington",
       "fips": 53,
       "center": {lat: 47.751076, lng:	-120.740135},

@@ -125,26 +125,34 @@ const infowindow = new google.maps.InfoWindow();
     });
     polygon.setMap(mapUSA);
   }
+
+  //Gets counties
   function counties(polyId) {
-    pathsMD;
-    for (i = 0; i < pathsMD.length; i++) {
-      const polygon = new google.maps.Polygon({
-        id: `${MD[i]}`,
-        path: pathsMD[i],
-        geodesic: true,
-        strokeColor: "#4b2e83",
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        fillColor: "#85754d",
-        fillOpacity: 0.25
-      })
-      polygon.addListener("mouseover", () => {
-        infowindow.setContent(polygon.id);
-        // infowindow.setPosition()
-      })
-      polygon.setMap(mapUSA)
-      mapUSA.setCenter({lat: 36.778259, lng: -119.417931});
-      mapUSA.setZoom(4.5);
+    for (var s = 0; s < state.length; s++) {
+      if (state[s]["state"] === polyId) {
+        var polyData = state[s];
+        for (i = 0; i < polyData["countyPath"].length; i++) {
+          const polygon = new google.maps.Polygon({
+            id: polyData["countyName"][i],
+            path: polyData["countyPath"][i],
+            geodesic: true,
+            strokeColor: "#4b2e83",
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+            fillColor: "#85754d",
+            fillOpacity: 0.25
+          })
+          polygon.addListener("mouseover", () => {
+            infowindow.setContent(polygon.id);
+            // infowindow.setPosition()
+          })
+          polygon.setMap(mapUSA)
+          mapUSA.setCenter(polyData["center"]);
+          mapUSA.setZoom(4.5);
+        };
+      } else {
+        s++
+      };
     };
   };
 };
