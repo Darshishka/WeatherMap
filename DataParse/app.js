@@ -20,6 +20,7 @@ input.addEventListener('change', () => {
   
     let reader = new FileReader(); 
   
+
     reader.onload = (e) => { 
       
         const file = e.target.result; 
@@ -29,11 +30,32 @@ input.addEventListener('change', () => {
         var lines = file.split(/\r\n|\n/);
         var l;
         for (l = 0; l < lines.length; l++) {
+          var start = [];
+          var end = [];
+          var county;
           lines[l] = lines[l].trim();
+          if (lines[l].startsWith("<SimpleData name=\"NAME\"><![CDATA[")) { 
+            lines[l] = lines[l].slice(33);
+            lines[l] = lines[l].slice(0, (lines[l].length - 16));
+            county = lines[l]
+            // textarea.value += `${county}\n`;
+          }
+          if (lines[l].startsWith("<end><![CDATA[")) {
+            lines[l] = lines[l].slice(14);
+            lines[l] = lines[l].slice(0, (lines[l].length - 9));
+            var date = lines[l];
+            if (date === "2000-12-31") {
+              textarea.value += `${county}\n`;
+              textarea.value += `${date}\n\n`;
+            }
+          }
+          if (lines[l].startsWith("<coordinates>")) {
+                        
+          }
+          // if (lines)
         }
-        console.log(lines.length);
-        textarea.value = lines.join('\n');
-        var data = textarea.value;
+        // textarea.value = lines.join('\n');
+        textarea.value.trim()
         
     }; 
   
