@@ -2213,6 +2213,8 @@ var state = [
     },
     {
       "id": "NV",
+      "countyPath": pathsNV,
+      "countyName": NV,
       "state": "Nevada",
       "fips": 32,
       "center": {lat: 39.876019, lng:	-117.224121},
@@ -2398,6 +2400,8 @@ var state = [
     },
     {
       "id": "NJ",
+      "countyPath": pathsNJ,
+      "countyName": NJ,
       "state": "New Jersey",
       "fips": 34,
       "center": {lat: 39.833851, lng:	-74.871826},

@@ -1,12 +1,39 @@
-<!DOCTYPE html>
-<html>
-  <head>
-      <script src="app.js"></script>
-  </head>
-  <body>
-    <textarea id="inputText" type="text"></textarea>
-    <button type="submit" onclick="parse()">submit</button>
-    <textarea type="text" id="output">Output</textarea>
-    <button onclick="copy()">Copy</button>
-  </body>
-</html>
+<!DOCTYPE html> 
+<html> 
+
+<head> 
+	<title>Text file reading</title> 
+	<meta charset="utf-8"> 
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0"> 
+
+</head> 
+<style type="text/css"> 
+	div { 
+		display: flex; 
+		flex-direction: column; 
+		align-items: center; 
+	} 
+	
+	input { 
+		margin-top: 10px; 
+	} 
+	
+	textarea { 
+		margin-top: 15px; 
+		width: 70%; 
+	} 
+</style> 
+
+<body>
+  <a href="https://publications.newberry.org/ahcbp/index.html">https://publications.newberry.org/ahcbp/index.html</a>
+		<div> 
+			<input type="file"> 
+			<textarea cols="30" rows="20"
+					placeholder="text will appear here"> 
+			</textarea> 
+		</div> 
+	<script src="app.js"></script> 
+</body> 
+
+</html> 
