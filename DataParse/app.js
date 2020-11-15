@@ -24,39 +24,84 @@ input.addEventListener('change', () => {
     reader.onload = (e) => { 
       
         const file = e.target.result; 
-  
+        textarea.value = "";
         // This is a regular expression to identify carriage  
         // Returns and line breaks 
         var lines = file.split(/\r\n|\n/);
         var l;
-        for (l = 0; l < lines.length; l++) {
-          var start = [];
-          var end = [];
-          var county;
-          lines[l] = lines[l].trim();
-          if (lines[l].startsWith("<SimpleData name=\"NAME\"><![CDATA[")) { 
-            lines[l] = lines[l].slice(33);
-            lines[l] = lines[l].slice(0, (lines[l].length - 16));
-            county = lines[l]
-            // textarea.value += `${county}\n`;
+        var x;
+        var start = [];
+        var end = [];
+        $.each(lines, function (index, item) { 
+          if (item.includes("<SimpleData name=\"NAME\"")) {
+            start.push(index);
+          } else if (item.includes("</Placemark>")) {
+            end.push(index);
           }
-          if (lines[l].startsWith("<end><![CDATA[")) {
-            lines[l] = lines[l].slice(14);
-            lines[l] = lines[l].slice(0, (lines[l].length - 9));
-            var date = lines[l];
-            if (date === "2000-12-31") {
-              textarea.value += `${county}\n`;
-              textarea.value += `${date}\n\n`;
+          
+        });
+        $.each(lines, function (index, item) {
+          for (l = 0; l < lines.length; l++) {
+            var county = [];
+            if (start[l] === index) {
+              x = index;
+              while (x < end[l]) {
+                county.push(lines[x]);
+                // console.log(county);
+                x++
+              }
+              console.log(county.length);
+              if (county.includes("<end><![CDATA[2000-12-31]]></end>")) {
+                textarea.value += county;
+              }
             }
           }
-          if (lines[l].startsWith("<coordinates>")) {
-                        
-          }
-          // if (lines)
-        }
+        });
+          //need lines between start and end
+            //if the l in lines[l] === start[0] add to temp array of lines then join lines
+        // console.log(start);
+        // console.log(end);
+        
         // textarea.value = lines.join('\n');
         textarea.value.trim()
+
         
+
+        // for (l = 0; l < lines.length; l++) {
+        //   var county;
+        //   var date;
+        //   lines[l] = lines[l].trim();
+        //   if (lines[l].startsWith("<SimpleData name=\"NAME\"><![CDATA[")) { 
+        //     lines[l] = lines[l].slice(33);
+        //     lines[l] = lines[l].slice(0, (lines[l].length - 16));
+        //     county = lines[l]
+        //     // textarea.value += `${county}\n`;
+        //   }
+        //   if (lines[l].startsWith("<end><![CDATA[")) {
+        //     lines[l] = lines[l].slice(14);
+        //     lines[l] = lines[l].slice(0, (lines[l].length - 9));
+        //     date = lines[l];
+        //     // if (date === "2000-12-31") {
+        //       textarea.value += `${county}\n`;
+        //       textarea.value += `${date}\n`;
+        //     // }
+        //   }
+        // }
+        // if (lines[l].startsWith("<coordinates>")) {
+        //   var x = l + 1;
+        //   var end = false;
+        // }
+        // while (end === false) {
+        //    if (lines[x].startsWith("</coordinates>")) {
+        //      end = true;
+        //    } else if (lines[l].startsWith("-")) {
+        //      textarea.value += `${lines[x]}`
+        //      console.log("line " + x + ": " + lines[x])
+        //      x++
+
+        //    }
+           
+        // }
     }; 
   
     reader.onerror = (e) => alert(e.target.error.name); 
