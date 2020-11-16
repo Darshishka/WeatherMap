@@ -1,7 +1,7 @@
 let input = document.querySelector('input') 
   
 let textarea = document.querySelector('textarea') 
-  
+
 // This event listener has been implemented to identify a 
 // Change in the input section of the html code 
 // It will be triggered when a file is chosen. 
@@ -50,13 +50,7 @@ input.addEventListener('change', () => {
                 // console.log(county);
                 x++
               }
-              if (county.includes("<end><![CDATA[2000-12-31]]></end>")) {
-                console.log(county)
-                console.log("yes")
-              } else {
-                console.log(county.length)
-                
-              }
+              check(county);
             }
             }
         });
@@ -113,7 +107,14 @@ input.addEventListener('change', () => {
     reader.readAsText(file); 
 }); 
 
-
+function check(county) {
+  county = county.toString()
+  if (county.includes('2000-12-31')) {
+    textarea.value += county;
+  } else {
+    console.log(false)
+  }
+};
 
 // const { readFile } = require("fs");
 
