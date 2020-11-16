@@ -32,17 +32,17 @@ input.addEventListener('change', () => {
         var x;
         var start = [];
         var end = [];
+        var counties = [];
         $.each(lines, function (index, item) { 
           if (item.includes("<SimpleData name=\"NAME\"")) {
             start.push(index);
           } else if (item.includes("</Placemark>")) {
             end.push(index);
           }
-          
         });
         $.each(lines, function (index, item) {
+          var county = [];
           for (l = 0; l < lines.length; l++) {
-            var county = [];
             if (start[l] === index) {
               x = index;
               while (x < end[l]) {
@@ -50,13 +50,17 @@ input.addEventListener('change', () => {
                 // console.log(county);
                 x++
               }
-              console.log(county.length);
               if (county.includes("<end><![CDATA[2000-12-31]]></end>")) {
-                textarea.value += county;
+                console.log(county)
+                console.log("yes")
+              } else {
+                console.log(county.length)
+                
               }
             }
-          }
+            }
         });
+
           //need lines between start and end
             //if the l in lines[l] === start[0] add to temp array of lines then join lines
         // console.log(start);
