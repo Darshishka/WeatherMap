@@ -60,7 +60,7 @@ input.addEventListener('change', () => {
         // console.log(start);
         // console.log(end);
         
-        // textarea.value = lines.join('\n');
+        textarea.value = lines.join('\n');
         textarea.value.trim()
 
         
@@ -108,14 +108,31 @@ input.addEventListener('change', () => {
 }); 
 
 function check(county) {
-  county = county.toString()
-  if (county.includes('2000-12-31')) {
-    textarea.value += county;
+  tempCounty = county.toString();
+  if (tempCounty.includes('2000-12-31')) {
+    sort(county);
   } else {
     console.log(false)
   }
 };
+function sort(county) {
+  county[0] = county[0].slice(46);
+  county[0] = county[0].replace("]]></SimpleData>", "");
+  var frstLttr = county[0][0];
+  var countyName = county[0].toLowerCase();
+  countyName = frstLttr + countyName.slice(1);
+  var num = 0;
+  for (var e = 0; e < county.length; e++) {
+    if (county[e].includes("<coordinates>")) {
+      num++
+      // console.log(num)
+    }
+  }
+  console.log(num)
+  textarea.value += `var ${countyName}Path = [`
 
+  console.log(countyName)
+};
 // const { readFile } = require("fs");
 
 
