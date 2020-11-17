@@ -115,23 +115,21 @@ function check(county) {
     console.log(false)
   }
 };
+var counties = [];
 function sort(county) {
   county[0] = county[0].slice(46);
   county[0] = county[0].replace("]]></SimpleData>", "");
   var frstLttr = county[0][0];
   var countyName = county[0].toLowerCase();
   countyName = frstLttr + countyName.slice(1);
-  var num = 0;
-  for (var e = 0; e < county.length; e++) {
-    if (county[e].includes("<coordinates>")) {
-      num++
-      // console.log(num)
-    }
-  }
-  console.log(num)
+  counties.push(`${countyName}`);
   textarea.value += `var ${countyName}Path = [`
+  while (county.indexOf(`<coordinates>`) != -1) {
+    county.indexOf()
+  }
 
-  console.log(countyName)
+  console.log(countyName);
+  console.log(counties);
 };
 // const { readFile } = require("fs");
 
