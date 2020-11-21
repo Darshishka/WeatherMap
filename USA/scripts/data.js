@@ -3915,6 +3915,8 @@ var state = [
     },
     {
       "id": "WV",
+      "countyPath": pathsWV,
+      "countyName": WV,
       "state": "West Virginia",
       "fips": 54,
       "center": {lat: 39.000000, lng: -80.500000},
