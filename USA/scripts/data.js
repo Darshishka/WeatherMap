@@ -1,3 +1,5 @@
+// const { notDeepEqual } = require("assert");
+
 var state = [
     {
       "id": "AL",
@@ -535,8 +537,11 @@ var state = [
     },
     {
       "id": "FL",
+      "countyPath": pathsFL,
+      "countyName": FL,
       "state": "Florida",
       "fips": 12,
+      "zoom": 6,
       "center": {lat: 27.994402, lng:	-81.760254},
       "path" : [
         {lat: 30.9988, lng: -87.6050},
@@ -761,6 +766,8 @@ var state = [
     },
     {
       "id": "ID",
+      "countyPath": pathsID,
+      "countyName": ID,
       "state": "Idaho",
       "fips": 16,
       "center": {lat: 44.068203, lng:	-114.742043},
@@ -1410,6 +1417,8 @@ var state = [
     },
     {
       "id": "ME",
+      // "countyPath": pathsME,
+      // "countyName": ,
       "state": "Maine",
       "fips": 23,
       "center": {lat: 45.367584, lng:	-68.972168},
@@ -2213,8 +2222,8 @@ var state = [
     },
     {
       "id": "NV",
-      "countyPath": pathsNV,
-      "countyName": NV,
+      // "countyPath": pathsNV,
+      // "countyName": NV,
       "state": "Nevada",
       "fips": 32,
       "center": {lat: 39.876019, lng:	-117.224121},
@@ -2400,8 +2409,8 @@ var state = [
     },
     {
       "id": "NJ",
-      "countyPath": pathsNJ,
-      "countyName": NJ,
+      // "countyPath": pathsNJ,
+      // "countyName": NJ,
       "state": "New Jersey",
       "fips": 34,
       "center": {lat: 39.833851, lng:	-74.871826},
@@ -2469,6 +2478,8 @@ var state = [
     },
     {
       "id": "NM",
+      "countyPath": pathsNM,
+      "countyName": NM,
       "state": "New Mexico",
       "fips": 35,
       "center": {lat: 34.307144, lng:	-106.018066},
@@ -2492,8 +2503,8 @@ var state = [
     },
     {
       "id": "NY",
-      "countyPath": pathsNY,
-      "countyName": NY,
+      // "countyPath": pathsNY,
+      // "countyName": NY,
       "state": "New York",
       "fips": 36,
       "center": {lat: 43.000000, lng:	-75.000000},
@@ -2708,6 +2719,8 @@ var state = [
     },
     {
       "id": "ND",
+      "countyPath": pathsND,
+      "countyName": ND,
       "state": "North Dakota",
       "fips": 38,
       "center": {lat: 47.650589, lng:	-100.437012},
@@ -3053,6 +3066,8 @@ var state = [
     },
     {
       "id": "RI",
+      "countyPath": pathsRI,
+      "countyName": RI,
       "state": "Rhode Island",
       "fips": 44,
       "center": {lat: 41.700001, lng:	-71.500000},
@@ -3085,6 +3100,8 @@ var state = [
     },
     {
       "id": "SC",
+      "countyPath": pathsSC,
+      "countyName": SC,
       "state": "South Carolina",
       "fips": 45,
       "center": {lat: 33.836082, lng:	-81.163727},
@@ -3451,6 +3468,8 @@ var state = [
     },
     {
       "id": "UT",
+      "countyPath": pathsUT,
+      "countyName": UT,
       "state": "Utah",
       "fips": 49,
       "center": {lat: 39.419220, lng:	-111.950684},
@@ -4085,6 +4104,8 @@ var state = [
     },
     {
       "id": "WY",
+      "countyPath": pathsWY,
+      "countyName": WY,
       "state": "Wyoming",
       "fips": 56,
       "center": {lat:	43.075970, lng:	-107.290283},

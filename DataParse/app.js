@@ -54,52 +54,6 @@ input.addEventListener('change', () => {
             }
             }
         });
-
-          //need lines between start and end
-            //if the l in lines[l] === start[0] add to temp array of lines then join lines
-        // console.log(start);
-        // console.log(end);
-        
-        // textarea.value = lines.join('\n');
-        textarea.value.trim()
-
-        
-
-        // for (l = 0; l < lines.length; l++) {
-        //   var county;
-        //   var date;
-        //   lines[l] = lines[l].trim();
-        //   if (lines[l].startsWith("<SimpleData name=\"NAME\"><![CDATA[")) { 
-        //     lines[l] = lines[l].slice(33);
-        //     lines[l] = lines[l].slice(0, (lines[l].length - 16));
-        //     county = lines[l]
-        //     // textarea.value += `${county}\n`;
-        //   }
-        //   if (lines[l].startsWith("<end><![CDATA[")) {
-        //     lines[l] = lines[l].slice(14);
-        //     lines[l] = lines[l].slice(0, (lines[l].length - 9));
-        //     date = lines[l];
-        //     // if (date === "2000-12-31") {
-        //       textarea.value += `${county}\n`;
-        //       textarea.value += `${date}\n`;
-        //     // }
-        //   }
-        // }
-        // if (lines[l].startsWith("<coordinates>")) {
-        //   var x = l + 1;
-        //   var end = false;
-        // }
-        // while (end === false) {
-        //    if (lines[x].startsWith("</coordinates>")) {
-        //      end = true;
-        //    } else if (lines[l].startsWith("-")) {
-        //      textarea.value += `${lines[x]}`
-        //      console.log("line " + x + ": " + lines[x])
-        //      x++
-
-        //    }
-           
-        // }
     }; 
   
     reader.onerror = (e) => alert(e.target.error.name); 
@@ -108,14 +62,54 @@ input.addEventListener('change', () => {
 }); 
 
 function check(county) {
-  county = county.toString()
-  if (county.includes('2000-12-31')) {
-    textarea.value += county;
+  tempCounty = county.toString();
+  if (tempCounty.includes('2000-12-31')) {
+    sort(county);
   } else {
     console.log(false)
   }
 };
-
+var counties = [];
+var countiesPaths = [];
+function sort(county) {
+  county[0] = county[0].slice(46);
+  county[0] = county[0].replace("]]></SimpleData>", "");
+  var frstLttr = county[0][0];
+  var countyName = county[0].toLowerCase();
+  countyName = frstLttr + countyName.slice(1);
+  if (countyName.indexOf(" ") != -1) {
+    countyName = countyName.split(" ");
+    countyName[1] = countyName[1].charAt(0).toUpperCase() + countyName[1].slice(1);
+    countyName = countyName[0] + " " + countyName[1]
+  }
+  counties.push(`${countyName}`);
+  var coords = [];
+  var pathCount = 1;
+  for (var c = 0; c < county.length; c++) {
+    county[c] = county[c].trim("");
+    if (county[c].includes("<coordinates>")) {
+      textarea.value += `var ${countyName}Path${pathCount} = [\n`;
+      countiesPaths.push(`${countyName}Path${pathCount}`);
+      pathCount++;
+    }else if (county[c].startsWith("-")) {
+      county[c] = county[c].slice(0, (county[c].length -2))
+      var comma = county[c].indexOf(",");
+      textarea.value += (`{lat: ${county[c].substr(comma+1)}, lng: ${county[c].substr(0,comma)}},\n`);
+    } else if (county[c].includes("</coordinates")) {
+      textarea.value += `];\n\n`
+    }
+  }
+  console.log(counties);
+  console.log(countiesPaths);
+  textarea.value += `\n\n`;
+  // for (var f = 0; f < counties.length; f++) {
+  //   textarea.value += `\"${counties[f]}\",\n`;
+  // }
+  // textarea.value += `\n\n`;
+  // for (var w = 0; w < countiesPaths.length; w++) {
+  //   textarea.value += `${countiesPaths[w]},\n`;
+  // }
+};
 // const { readFile } = require("fs");
 
 

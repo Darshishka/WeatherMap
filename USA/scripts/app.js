@@ -79,7 +79,7 @@ const infowindow = new google.maps.InfoWindow();
       strokeOpacity: 1.0,
       strokeWeight: 2,
       fillColor: "#85754d",
-      fillOpacity: 0.25
+      fillOpacity: 0.25,
     });
     polygon.addListener(`click`, () => {
       console.log(polygon.id);
@@ -108,7 +108,6 @@ const infowindow = new google.maps.InfoWindow();
               var month = v.date.substring(5,7);
               var day = v.date.substring(8,10);
               var date = year + month + day;
-              console.log(date)
               data.addRow([new Date(year, month, day), v.cases])
             });
           var options = {
@@ -128,8 +127,11 @@ const infowindow = new google.maps.InfoWindow();
 
   //Gets counties
   function counties(polyId) {
+    // some states don't pass 130
     for (var s = 0; s < state.length; s++) {
-      if (state[s]["state"] === polyId) {
+      //console.log(polyId);
+      if (state[s]["state"] === polyId.toString()) {
+        console.log(state[s]["state"]);
         var polyData = state[s];
         for (i = 0; i < polyData["countyPath"].length; i++) {
           const polygon = new google.maps.Polygon({
@@ -144,11 +146,11 @@ const infowindow = new google.maps.InfoWindow();
           })
           polygon.addListener("mouseover", () => {
             infowindow.setContent(polygon.id);
-            // infowindow.setPosition()
+            infowindow.setPosition(polyData["center"])
           })
           polygon.setMap(mapUSA)
           mapUSA.setCenter(polyData["center"]);
-          mapUSA.setZoom(4.5);
+          mapUSA.setZoom(polyData["zoom"]);
         };
       } else {
         s++
@@ -168,7 +170,6 @@ function sortData () {
   for (i; i < state.length; i++) {
     stateData = [];
     currState = state[i]["state"];
-
     var infoData;
     google.maps.event.addListener(marker, `click`, function () {
       var current = this.title;
