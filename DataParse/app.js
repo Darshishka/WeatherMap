@@ -109,6 +109,14 @@ function sort(county) {
   // for (var w = 0; w < countiesPaths.length; w++) {
   //   textarea.value += `${countiesPaths[w]},\n`;
   // }
+  counties.push(`${countyName}`);
+  textarea.value += `var ${countyName}Path = [`
+  while (county.indexOf(`<coordinates>`) != -1) {
+    county.indexOf()
+  }
+
+  console.log(countyName);
+  console.log(counties);
 };
 // const { readFile } = require("fs");
 
