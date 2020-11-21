@@ -2,4 +2,4 @@
 ## Collaborators/Partners:
 - Prof. Les Atlas | University of Washington
 
-To see the current version go to the file [USA](https://github.com/Darshishka/WeatherMap/tree/master/USA)
+To see the current live version go [here](https://darshishka.github.io/WeatherMap/USA/)
