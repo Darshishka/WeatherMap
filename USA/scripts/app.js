@@ -5,6 +5,7 @@ const e = require("express");
 const { info } = require("console");
 const { get, map } = require("jquery");
 
+
 var mapUSA;
 var currState;
 var currStateCoords;
@@ -19,15 +20,30 @@ var blankArr = [];
 var x = 0;
 
 
+
 function initMapUSA() {
   const mapUSA = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 39.712162, lng: -95.165789 },
-    disableDefaultUI: true,
-    gestureHandling: 'none',
-    zoomControl: false,
-    zoom: 4.3,
+    center: { lat: 50, lng: -100.165789 },
+    // disableDefaultUI: true,
+    // gestureHandling: 'none',
+    // zoomControl: false,
+    zoom: 3,
     mapId: 'f68311c1c85e61',
   });
+  window.addEventListener("hashchange", (HashChangeEvent) =>  {
+    //set view to that state
+    console.log(location.hash)
+    
+    
+  });
+  var select = document.getElementById("stateControl"); 
+  select.addEventListener(`click`, function() {
+    location.hash = document.getElementById("stateControl");
+    locHash = location.hash;
+    locHash = locHash.substring(1);
+    counties(locHash);
+  })
+  var att = document.createAttribute("class");
   const infowindow = new google.maps.InfoWindow();
   //Creates state
   var stateData = [];
@@ -35,6 +51,8 @@ function initMapUSA() {
   for (var i = 0; i < state.length; i++) {
     currState = state[i]["state"];
     currStateCoords = state[i]["center"];
+    select.innerHTML += `<a class="dropdown-item" value="${currState}" href="#${currState}">${currState}<a>`;
+    // select.setAttributeNode(att)
     $.each(nytData, function(key, value) {
       if (value.state === currState) {
         stateData.push(value)
@@ -77,19 +95,27 @@ function initMapUSA() {
       strokeColor: "#4b2e83",
       strokeOpacity: 1.0,
       strokeWeight: 2,
+      visability: true,
       fillColor: "#85754d",
       fillOpacity: 0.25,
     });
     polygon.addListener(`click`, () => {
+      //check if counties showing
+      //hide counties show state
+      //hide CLICKED state and show counties
+      //change location.hash
+      location.hash = document.getElementById("stateControl").value;
+      locHash = location.hash;
+      location.hash = polygon.id
       console.log(polygon.id);
       polygon.setMap(null);
-      var polyId = polygon.id;
-      counties(polyId);
+      counties(polygon);
     });
     polygon.addListener('mouseover', () => {
       console.log(polygon.id);
       $.each(state, function(index, item) {
         if (item.state === polygon.id) {
+          
           infowindow.setPosition(item.center);
           infowindow.setContent(item.state + `<br><div id="chart"/>`);
           infowindow.setMap(mapUSA)
@@ -106,15 +132,15 @@ function initMapUSA() {
               var year = v.date.substring(0,4);
               var month = v.date.substring(5,7);
               var day = v.date.substring(8,10);
-              var date = year + month + day;
-              data.addRow([new Date(year, month, day), v.cases])
+              var date = year + " " + month + " " + day;
+              data.addRow([new Date(year, month -1, day), v.cases])
             });
           var options = {
             title: `${polygon.id} Daily Cases`,
             hAxis: {title: 'Dates'},
             vAxis: {title: `Cases`},
-            width: `100`,
-            height: `100`
+            width: `200`,
+            height: `200`
           };
           var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
           chart.draw(data, options);
@@ -125,11 +151,13 @@ function initMapUSA() {
   }
 
   //Gets counties
-  function counties(polyId) {
-    // some states don't pass 130
+  function counties(polygon) {
+    var polyId = polygon.id
+    document.getElementById(`${polyId}`);
+    // some states don't pass this line
     for (var s = 0; s < state.length; s++) {
       //console.log(polyId);
-      if (state[s]["state"] === polyId.toString()) {
+      if (state[s]["state"] === polyId) {
         console.log(state[s]["state"]);
         var polyData = state[s];
         for (i = 0; i < polyData["countyPath"].length; i++) {
@@ -140,6 +168,7 @@ function initMapUSA() {
             strokeColor: "#4b2e83",
             strokeOpacity: 1.0,
             strokeWeight: 2,
+            visability: false,
             fillColor: "#85754d",
             fillOpacity: 0.25
           })
@@ -148,8 +177,8 @@ function initMapUSA() {
             infowindow.setPosition(polyData["center"])
           })
           polygon.setMap(mapUSA)
-          mapUSA.setCenter(polyData["center"]);
-          mapUSA.setZoom(polyData["zoom"]);
+          // mapUSA.setCenter(polyData["center"]);
+          // mapUSA.setZoom(polyData["zoom"]);
         };
       } else {
         s++

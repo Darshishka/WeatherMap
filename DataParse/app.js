@@ -63,7 +63,7 @@ input.addEventListener('change', () => {
 
 function check(county) {
   tempCounty = county.toString();
-  if (tempCounty.includes('2001-12-31')) {
+  if (tempCounty.includes('2000-12-31')) {
     sort(county);
   } else {
     console.log(false)

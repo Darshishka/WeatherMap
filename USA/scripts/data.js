@@ -3781,6 +3781,7 @@ var state = [
       "countyPath": pathsWA,
       "countyName": WA,
       "state": "Washington",
+      "zoom": 6.5,
       "fips": 53,
       "center": {lat: 47.751076, lng:	-120.740135},
       "path": [
