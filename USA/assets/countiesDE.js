@@ -8129,20 +8129,27 @@ var KentPath1 = [
     
     
     
-    var pathsDE = [
-        "KentPath1", 
-        "New CastlePath1", 
-        "New CastlePath2", 
-        "New CastlePath3", 
-    "SussexPath1",
-    "SussexPath2"
+var pathsDE = [
+    KentPath1, 
+    NewCastlePath1, 
+    NewCastlePath2, 
+    NewCastlePath3, 
+    SussexPath1,
+    SussexPath2
 ];
-                            var DE = [
-                                "Kent",
-                                "New Castle",
-                                "New Castle",
-                                "New Castle",
-                                "Sussex",
-                                "Sussex"
-                            ]
-    
+var DE = [
+    "Kent",
+    "New Castle",
+    "New Castle",
+    "New Castle",
+    "Sussex",
+    "Sussex"
+]
+var fipsDE = [
+    "10001",
+    "10003",
+    "10003",
+    "10003",
+    "10005",
+    "10005",
+];

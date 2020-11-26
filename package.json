@@ -1,7 +1,7 @@
 {
   "name": "weathermap",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Prof. Les Atlas | University of Washington",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Darshishka/WeatherMap.git"
   },
-  "author": "",
+  "author": "Darcy",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Darshishka/WeatherMap/issues"
@@ -18,11 +18,16 @@
   "homepage": "https://github.com/Darshishka/WeatherMap#readme",
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
+    "csv": "^5.3.2",
+    "csv-parse": "^4.14.1",
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
     "mysql": "^2.18.1",
+    "node.js": "0.0.1-security",
     "require": "^2.4.20",
     "requirejs": "^2.3.6",
     "uniq": "^1.0.1"
-  }
+  },
+  "devDependencies": {},
+  "keywords": []
 }

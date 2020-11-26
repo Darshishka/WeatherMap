@@ -102,13 +102,13 @@ function sort(county) {
   console.log(counties);
   console.log(countiesPaths);
   textarea.value += `\n\n`;
-  // for (var f = 0; f < counties.length; f++) {
-  //   textarea.value += `\"${counties[f]}\",\n`;
-  // }
-  // textarea.value += `\n\n`;
-  // for (var w = 0; w < countiesPaths.length; w++) {
-  //   textarea.value += `${countiesPaths[w]},\n`;
-  // }
+  for (var f = 0; f < counties.length; f++) {
+    textarea.value += `\"${counties[f]}\",\n`;
+  }
+  textarea.value += `\n\n`;
+  for (var w = 0; w < countiesPaths.length; w++) {
+    textarea.value += `${countiesPaths[w]},\n`;
+  }
   counties.push(`${countyName}`);
   textarea.value += `var ${countyName}Path = [`
   while (county.indexOf(`<coordinates>`) != -1) {

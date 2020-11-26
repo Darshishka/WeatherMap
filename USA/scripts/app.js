@@ -4,6 +4,8 @@ const { STATUS_CODES } = require("http");
 const e = require("express");
 const { info } = require("console");
 const { get, map } = require("jquery");
+var fs = require(`fs`);
+
 
 
 var mapUSA;
@@ -18,6 +20,7 @@ var nytState;
 var cases;
 var blankArr = [];
 var x = 0;
+var selected;
 
 
 
@@ -30,24 +33,18 @@ function initMapUSA() {
     zoom: 3,
     mapId: 'f68311c1c85e61',
   });
-  window.addEventListener("hashchange", (HashChangeEvent) =>  {
-    //set view to that state
-    console.log(location.hash)
-    
-    
-  });
   var select = document.getElementById("stateControl"); 
-  select.addEventListener(`click`, function() {
-    location.hash = document.getElementById("stateControl");
-    locHash = location.hash;
-    locHash = locHash.substring(1);
-    counties(locHash);
-  })
+  // select.addEventListener(`click`, function() {
+  //   location.hash = document.getElementById("stateControl");
+  //   locHash = location.hash;
+  //   locHash = locHash.substring(1);
+  //   counties(locHash);
+  //   select = locHash;
+  // })
   var att = document.createAttribute("class");
   const infowindow = new google.maps.InfoWindow();
   //Creates state
   var stateData = [];
-
   for (var i = 0; i < state.length; i++) {
     currState = state[i]["state"];
     currStateCoords = state[i]["center"];
@@ -99,17 +96,55 @@ function initMapUSA() {
       fillColor: "#85754d",
       fillOpacity: 0.25,
     });
+    polygon.addListener(`rightclick`, () => {
+      infowindow.setContent(polygon.id);
+      infowindow.setPosition(polygon["center"])
+      infowindow.open();
+      polygon.setMap(mapUSA)
+    });
     polygon.addListener(`click`, () => {
-      //check if counties showing
-      //hide counties show state
-      //hide CLICKED state and show counties
-      //change location.hash
-      location.hash = document.getElementById("stateControl").value;
-      locHash = location.hash;
-      location.hash = polygon.id
+      //create counties
+          //check if counties showing
+          //hide counties show state
+          //hide CLICKED state and show counties
+          //change location.hash
+          // location.hash = document.getElementById("stateControl").value;
+          // locHash = location.hash;
+          // location.hash = polygon.id
       console.log(polygon.id);
       polygon.setMap(null);
-      counties(polygon);
+      for (var s = 0; s < state.length; s++) {
+        if (state[s]["state"] === `${polygon.id}`) {
+          console.log(state[s]["state"]);
+          var polyData = state[s];
+          console.log(polyData);
+          for (i = 0; i < polyData["countyPath"].length; i++) {
+            // console.log(polyData["countyName"][i])
+            const polygon = new google.maps.Polygon({
+              id: polyData["countyName"][i],
+              path: polyData["countyPath"][i],
+              zIndex: polyData["countyFips"][i],
+              geodesic: true,
+              strokeColor: "#4b2e83",
+              strokeOpacity: 1.0,
+              strokeWeight: 2,
+              visability: false,
+              fillColor: "#85754d",
+              fillOpacity: 0.25
+            })
+            polygon.addListener(`mouseover`, () => {
+              var currCounty = countyData[0][`${polygon.zIndex}`];
+              console.log(currCounty)
+              infowindow.setContent("test");
+              infowindow.open();
+              console.log(polygon.zIndex)
+            })
+            polygon.setMap(mapUSA)
+          }
+        }
+
+      }
+      // counties(polygon);
     });
     polygon.addListener('mouseover', () => {
       console.log(polygon.id);
@@ -139,8 +174,8 @@ function initMapUSA() {
             title: `${polygon.id} Daily Cases`,
             hAxis: {title: 'Dates'},
             vAxis: {title: `Cases`},
-            width: `200`,
-            height: `200`
+            width: `100`,
+            height: `100`
           };
           var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
           chart.draw(data, options);
@@ -150,41 +185,60 @@ function initMapUSA() {
     polygon.setMap(mapUSA);
   }
 
-  //Gets counties
-  function counties(polygon) {
-    var polyId = polygon.id
-    document.getElementById(`${polyId}`);
-    // some states don't pass this line
-    for (var s = 0; s < state.length; s++) {
-      //console.log(polyId);
-      if (state[s]["state"] === polyId) {
-        console.log(state[s]["state"]);
-        var polyData = state[s];
-        for (i = 0; i < polyData["countyPath"].length; i++) {
-          const polygon = new google.maps.Polygon({
-            id: polyData["countyName"][i],
-            path: polyData["countyPath"][i],
-            geodesic: true,
-            strokeColor: "#4b2e83",
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-            visability: false,
-            fillColor: "#85754d",
-            fillOpacity: 0.25
-          })
-          polygon.addListener("mouseover", () => {
-            infowindow.setContent(polygon.id);
-            infowindow.setPosition(polyData["center"])
-          })
-          polygon.setMap(mapUSA)
-          // mapUSA.setCenter(polyData["center"]);
-          // mapUSA.setZoom(polyData["zoom"]);
-        };
-      } else {
-        s++
-      };
-    };
-  };
+  // //Gets counties
+  // function counties(polygon) {
+  //   var polyId = polygon.id
+  //   console.log(polyId)
+  //   document.getElementById(`${polyId}`);
+  //   // some states don't pass this line
+  //   for (var s = 0; s < state.length; s++) {
+  //     console.log(polygon.id);
+  //     if (state[s]["state"] === `${polygon.id}`) {
+  //       console.log(polygon.id);
+        
+  //       console.log(state[s]["state"]);
+  //       var polyData = state[s];
+  //       for (i = 0; i < polyData["countyPath"].length; i++) {
+  //         const polygon = new google.maps.Polygon({
+  //           id: polyData["countyName"][i],
+  //           path: polyData["countyPath"][i],
+  //           zIndex: polyData["countyFips"][i],
+  //           geodesic: true,
+  //           strokeColor: "#4b2e83",
+  //           strokeOpacity: 1.0,
+  //           strokeWeight: 2,
+  //           visability: false,
+  //           fillColor: "#85754d",
+  //           fillOpacity: 0.25
+  //         })
+  //         polygon.addListener("click", () => {
+  //           var fipsCode = polygon.zIndex;
+  //           infowindow.setContent(fipsCode);
+  //           infowindow.setPosition(polyData["center"])
+  //         })
+  //         polygon.setMap(mapUSA)
+  //         // mapUSA.setCenter(polyData["center"]);
+  //         // mapUSA.setZoom(polyData["zoom"]);
+  //       };
+  //     } else {
+  //       s++
+  //     };
+  //   };
+  // };
+
+
+  // window.addEventListener("hashchange", (HashChangeEvent) =>  {
+  //   //set view to that state
+  //   var stateHash = location.hash.substr(1);
+    
+  //   console.log(stateHash);
+  //   for (var n = 0; n < state.length; n++) {
+  //     if ( stateHash === state[n]["state"]) {
+  //       mapUSA.setCenter(state[n]["center"])
+  //       mapUSA.setZoom(state[n]["zoom"])
+  //     }
+  //   }
+  // });
 };
 
 
@@ -240,4 +294,3 @@ function sortData () {
       infowindow.open(marker, this);
     });
 };
-
