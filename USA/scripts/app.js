@@ -34,13 +34,14 @@ function initMapUSA() {
     mapId: 'f68311c1c85e61',
   });
   var select = document.getElementById("stateControl"); 
-  // select.addEventListener(`click`, function() {
-  //   location.hash = document.getElementById("stateControl");
-  //   locHash = location.hash;
-  //   locHash = locHash.substring(1);
-  //   counties(locHash);
-  //   select = locHash;
-  // })
+  select.addEventListener(`click`, function() {
+    location.hash = document.getElementById("stateControl");
+    locHash = location.hash;
+    locHash = locHash.substring(1);
+    
+    // counties(locHash);
+    select = locHash;
+  })
   var att = document.createAttribute("class");
   const infowindow = new google.maps.InfoWindow();
   //Creates state
@@ -103,20 +104,13 @@ function initMapUSA() {
       polygon.setMap(mapUSA)
     });
     polygon.addListener(`click`, () => {
-      //create counties
-          //check if counties showing
-          //hide counties show state
-          //hide CLICKED state and show counties
-          //change location.hash
-          // location.hash = document.getElementById("stateControl").value;
-          // locHash = location.hash;
-          // location.hash = polygon.id
       console.log(polygon.id);
       polygon.setMap(null);
       for (var s = 0; s < state.length; s++) {
         if (state[s]["state"] === `${polygon.id}`) {
           console.log(state[s]["state"]);
           var polyData = state[s];
+//calc rise or fall HERE
           console.log(polyData);
           for (i = 0; i < polyData["countyPath"].length; i++) {
             // console.log(polyData["countyName"][i])
@@ -135,10 +129,38 @@ function initMapUSA() {
             polygon.addListener(`mouseover`, () => {
               var currCounty = countyData[0][`${polygon.zIndex}`];
               console.log(currCounty)
-              infowindow.setContent("test");
+              infowindow.setContent(polygon.id + `<br><div id="chart"/>`);
+              infowindow.setPosition(this.polygon)
               infowindow.open();
+              infowindow.setMap(mapUSA)
+              google.charts.load('current', {packages: ['corechart']});
+              google.charts.setOnLoadCallback(drawChart(currCounty));
               console.log(polygon.zIndex)
             })
+            function drawChart(currCounty) {
+              var data = new google.visualization.DataTable({
+                cols: [
+                  {lable: `Date`, type: `date`},
+                  {lable: `Cases`, type: `number`}
+                ]});
+                $.each(currCounty, function(k, v) {
+                  var year = k.substring(0,4);
+                  var month = k.substring(5,7);
+                  var day = k.substring(8,10);
+                  var date = year + " " + month + " " + day;
+                  console.log(v)
+                  data.addRow([new Date(year, month -1, day), v])
+                });
+              var options = {
+                title: `${polygon.id} Daily Cases`,
+                hAxis: {title: 'Dates'},
+                vAxis: {title: `Cases`},
+                width: `100`,
+                height: `100`
+              };
+              var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
+              chart.draw(data, options);
+            };
             polygon.setMap(mapUSA)
           }
         }
