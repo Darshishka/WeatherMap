@@ -1,4 +1,4 @@
-var countyData = [
+var countyDataNY = [
   {
   "36001": {
     "2020-04-25": 21.339738643371142,

@@ -127,40 +127,39 @@ function initMapUSA() {
               fillOpacity: 0.25
             })
             polygon.addListener(`mouseover`, () => {
-              var currCounty = countyData[0][`${polygon.zIndex}`];
-              console.log(currCounty)
-              infowindow.setContent(polygon.id + `<br><div id="chart"/>`);
-              infowindow.setPosition(this.polygon)
+              var fips = polygon.zIndex;
+              console.log(fips);
+              console.log(polyData);
+              var currCounty = polyData["countyData"][0][fips];
+              console.log(currCounty);
+              infowindow.setContent(polygon.id + `<br><div id="chartCounty"/>`);
+              infowindow.setPosition({lat: 43.000000, lng:	-75.000000},)
               infowindow.open();
               infowindow.setMap(mapUSA)
               google.charts.load('current', {packages: ['corechart']});
               google.charts.setOnLoadCallback(drawChart(currCounty));
               console.log(polygon.zIndex)
-            })
-            function drawChart(currCounty) {
-              var data = new google.visualization.DataTable({
-                cols: [
-                  {lable: `Date`, type: `date`},
-                  {lable: `Cases`, type: `number`}
-                ]});
-                $.each(currCounty, function(k, v) {
-                  var year = k.substring(0,4);
-                  var month = k.substring(5,7);
-                  var day = k.substring(8,10);
-                  var date = year + " " + month + " " + day;
-                  console.log(v)
-                  data.addRow([new Date(year, month -1, day), v])
+              function drawChart(currCounty) {
+                var data = new google.visualization.DataTable();
+                data.addColumn('date', "Date");
+                data.addColumn('number', "Cases");
+                $.each(currCounty, function(v, k) {
+                  var year = v.substring(0,4);
+                  var month = v.substring(5,7);
+                  var day = v.substring(8,10);
+                  data.addRow([new Date(year, month, day), Number(k)])
                 });
-              var options = {
-                title: `${polygon.id} Daily Cases`,
-                hAxis: {title: 'Dates'},
-                vAxis: {title: `Cases`},
-                width: `100`,
-                height: `100`
+                var options = {
+                  title: `${polygon.id} Daily Cases`,
+                  hAxis: {title: 'Dates'},
+                  vAxis: {title: `Cases`},
+                  width: `100`,
+                  height: `100`
+                };
+                var chart = new google.visualization.AreaChart(document.getElementById('chartCounty'));
+                chart.draw(data, options);
               };
-              var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
-              chart.draw(data, options);
-            };
+            })
             polygon.setMap(mapUSA)
           }
         }

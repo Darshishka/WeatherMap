@@ -1,4 +1,4 @@
-var countyData = [
+var countyDataFL = [
 {
   "12001": {
     "2020-04-25": 4.243402121748021,
