@@ -110,10 +110,7 @@ function initMapUSA() {
         if (state[s]["state"] === `${polygon.id}`) {
           console.log(state[s]["state"]);
           var polyData = state[s];
-//calc rise or fall HERE
-          console.log(polyData);
           for (i = 0; i < polyData["countyPath"].length; i++) {
-            // console.log(polyData["countyName"][i])
             const polygon = new google.maps.Polygon({
               id: polyData["countyName"][i],
               path: polyData["countyPath"][i],
@@ -126,12 +123,36 @@ function initMapUSA() {
               fillColor: "#85754d",
               fillOpacity: 0.25
             })
+            console.log(polygon.zIndex)
+            var county = polyData["countyData"][0][polygon.zIndex]
+            var calc1 = [];
+            var calc2 = [];
+            $.each(county, function(key, val) {
+              calc1.push(val)
+              calc2.push(val)
+            })
+            calc1 = calc1.slice((calc1.length -7), calc1.length);
+            calc2 = calc2.slice((calc2.length -14), (calc2.length -7));
+            var calcSum1 = (calc1[0] + calc1[1] + calc1[2] + calc1[3] + calc1[4] + calc1[5] + calc1[6])
+            var calcSum2 = (calc2[0] + calc2[1] + calc2[2] + calc2[3] + calc2[4] + calc2[5] + calc2[6])
+            calc1 = (calcSum1/7)
+            calc2 = (calcSum2/7)
+            console.log(calc2)
+            console.log(calc1)
+            if (calc2 > calc1) {
+              console.log("fall")
+              polygon.setOptions({fillColor: `#00ff15`})
+            }
+            if (calc2 < calc1) {
+              console.log("rise")
+              polygon.setOptions({fillColor: `#ff0000`})
+            }
             polygon.addListener(`mouseover`, () => {
               var fips = polygon.zIndex;
-              console.log(fips);
-              console.log(polyData);
+              // console.log(fips);
+              // console.log(polyData);
               var currCounty = polyData["countyData"][0][fips];
-              console.log(currCounty);
+              // console.log(currCounty);
               infowindow.setContent(polygon.id + `<br><div id="chartCounty"/>`);
               infowindow.setPosition({lat: 43.000000, lng:	-75.000000},)
               infowindow.open();
@@ -156,6 +177,7 @@ function initMapUSA() {
                   width: `100`,
                   height: `100`
                 };
+                
                 var chart = new google.visualization.AreaChart(document.getElementById('chartCounty'));
                 chart.draw(data, options);
               };
