@@ -7,7 +7,7 @@ const { get, map } = require("jquery");
 var fs = require(`fs`);
 
 
-
+nytCounties;
 var mapUSA;
 var currState;
 var currStateCoords;
@@ -115,6 +115,7 @@ function initMapUSA() {
               id: polyData["countyName"][i],
               path: polyData["countyPath"][i],
               zIndex: polyData["countyFips"][i],
+              center: polyData[`center`],
               geodesic: true,
               strokeColor: "#4b2e83",
               strokeOpacity: 1.0,
@@ -124,7 +125,9 @@ function initMapUSA() {
               fillOpacity: 0.25
             })
             console.log(polygon.zIndex)
-            var county = polyData["countyData"][0][polygon.zIndex]
+            var fips = polygon.zIndex
+            var county = polyData["countyData"][0][fips]
+            console.log(county)
             var calc1 = [];
             var calc2 = [];
             $.each(county, function(key, val) {
@@ -133,20 +136,37 @@ function initMapUSA() {
             })
             calc1 = calc1.slice((calc1.length -7), calc1.length);
             calc2 = calc2.slice((calc2.length -14), (calc2.length -7));
-            var calcSum1 = (calc1[0] + calc1[1] + calc1[2] + calc1[3] + calc1[4] + calc1[5] + calc1[6])
-            var calcSum2 = (calc2[0] + calc2[1] + calc2[2] + calc2[3] + calc2[4] + calc2[5] + calc2[6])
-            calc1 = (calcSum1/7)
-            calc2 = (calcSum2/7)
-            console.log(calc2)
-            console.log(calc1)
-            if (calc2 > calc1) {
+            var sum1 = 0;
+            var sum2 = 0;
+            $.each(calc1, function(x, y) {
+              sum1 = sum1 + Number(y);
+            })
+            $.each(calc2, function(x, y) {
+              sum2 = sum2 + Number(y);
+            })
+            console.log(sum1)
+            if (sum2 > sum1) {
               console.log("fall")
-              polygon.setOptions({fillColor: `#00ff15`})
-            }
-            if (calc2 < calc1) {
+              // if ((sum2 - sum1) <= 50) {
+                polygon.setOptions({fillOpacity: 0.5, fillColor: `#fffb00`})
+              // }
+              if ((sum2 - sum1) <= 100) {
+                polygon.setOptions({fillOpacity: 1.0, fillColor: `#00ff15`})
+              }
+            }else
+            if (sum2 < sum1) {
               console.log("rise")
-              polygon.setOptions({fillColor: `#ff0000`})
-            }
+              //if difference 
+              // if ((sum1 - sum2) <= 50) {
+                polygon.setOptions({fillOpacity: 0.5, fillColor: `#ff9900`})
+              // }
+              if ((sum1 - sum2) <= 100) {
+                polygon.setOptions({fillOpacity: 1.0, fillColor: `#ff0000`})
+              }
+            }else {polygon.setOptions({fillOpacity: 0.0})}
+            // if (county === undefined) {
+            //   polygon.setOptions({fillOpacity: 0.0})
+            // }
             polygon.addListener(`mouseover`, () => {
               var fips = polygon.zIndex;
               // console.log(fips);
@@ -154,28 +174,37 @@ function initMapUSA() {
               var currCounty = polyData["countyData"][0][fips];
               // console.log(currCounty);
               infowindow.setContent(polygon.id + `<br><div id="chartCounty"/>`);
-              infowindow.setPosition({lat: 43.000000, lng:	-75.000000},)
+              infowindow.setPosition(polygon.center)
               infowindow.open();
               infowindow.setMap(mapUSA)
               google.charts.load('current', {packages: ['corechart']});
               google.charts.setOnLoadCallback(drawChart(currCounty));
-              console.log(polygon.zIndex)
-              function drawChart(currCounty) {
+              // console.log(fips)
+              // console.log(currCounty)
+              
+              function drawChart(currCounty, fips) {
                 var data = new google.visualization.DataTable();
                 data.addColumn('date', "Date");
-                data.addColumn('number', "Cases");
+                data.addColumn('number', "Pedicted Cases");
                 $.each(currCounty, function(v, k) {
                   var year = v.substring(0,4);
                   var month = v.substring(5,7);
                   var day = v.substring(8,10);
                   data.addRow([new Date(year, month, day), Number(k)])
                 });
+                console.log(data.getNumberOfRows())
+                $.each(nytCounties, function(index, value) {
+                  if (value.fips === fips) {
+                    
+                  }
+                })
+                // data.addColumn('number', "Pedicted Cases");
                 var options = {
                   title: `${polygon.id} Daily Cases`,
                   hAxis: {title: 'Dates'},
                   vAxis: {title: `Cases`},
-                  width: `100`,
-                  height: `100`
+                  width: `150`,
+                  height: `150`
                 };
                 
                 var chart = new google.visualization.AreaChart(document.getElementById('chartCounty'));
