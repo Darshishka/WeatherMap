@@ -47,10 +47,17 @@ h2:hover, .btn:hover {
 }
 #content {
   position: relative;
+  margin: 5%;
 }
 a:link {
   text-decoration: none;
 }
 .dropdown-toggle::after {
   content: none;
+}
+img {
+  height: 30%;
+  width: 30%;
+  min-width: 152px;
+  max-width: 300px;
 }
