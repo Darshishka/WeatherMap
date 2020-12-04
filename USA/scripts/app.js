@@ -120,7 +120,7 @@ function initMapUSA() {
         icon: {
           strokeColor: "#808080",
           path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-          scale: 2
+          scale: 0
         }
       });
     } else if (toCalc[18]["cases"] > toCalc[19]["cases"]) {
@@ -178,7 +178,7 @@ function initMapUSA() {
             })
             console.log(polygon.zIndex)
             var fips = polygon.zIndex
-            var county = polyData["countyName"][0][fips]
+            var county = polyData["countyData"][0][fips]
             console.log(county)
             var calc1 = [];
             var calc2 = [];
@@ -199,9 +199,9 @@ function initMapUSA() {
             console.log(sum1)
             if (sum2 > sum1) {
               console.log("fall")
-              // if ((sum2 - sum1) <= 50) {
+              if ((sum2 - sum1) <= 50) {
                 polygon.setOptions({fillOpacity: 0.5, fillColor: `#fffb00`})
-              // }
+              }
               if ((sum2 - sum1) <= 100) {
                 polygon.setOptions({fillOpacity: 1.0, fillColor: `#00ff15`})
               }
@@ -209,9 +209,9 @@ function initMapUSA() {
             if (sum2 < sum1) {
               console.log("rise")
               //if difference 
-              // if ((sum1 - sum2) <= 50) {
+              if ((sum1 - sum2) <= 50) {
                 polygon.setOptions({fillOpacity: 0.5, fillColor: `#ff9900`})
-              // }
+              }
               if ((sum1 - sum2) <= 100) {
                 polygon.setOptions({fillOpacity: 1.0, fillColor: `#ff0000`})
               }

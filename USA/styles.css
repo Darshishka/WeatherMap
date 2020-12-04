@@ -28,16 +28,11 @@ footer {
   background-color: black;
   color: white;
 }
-html {
-  background-color: aliceblue;
-}
+
 nav a, nav button, .dropdown-toggle {
   position: relative;
   display: inline-block;
   padding: 2%;
-}
-h2 {
-  background-color: \;
 }
 h2:hover, .btn:hover {
   font-weight: bolder;
@@ -47,7 +42,8 @@ h2:hover, .btn:hover {
 }
 #content {
   position: relative;
-  margin: 5%;
+  background-color: aliceblue;
+  padding: 30px;
 }
 a:link {
   text-decoration: none;
@@ -59,5 +55,5 @@ img {
   height: 30%;
   width: 30%;
   min-width: 152px;
-  max-width: 300px;
+  max-width: 200px;
 }
