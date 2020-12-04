@@ -1,3 +1,5 @@
+const { contains } = require("jquery");
+
 let input = document.querySelector('input') 
   
 let textarea = document.querySelector('textarea') 
@@ -65,6 +67,7 @@ function check(county) {
   tempCounty = county.toString();
   if (tempCounty.includes('2000-12-31')) {
     sort(county);
+    console.log(true);
   } else {
     console.log(false)
   }
