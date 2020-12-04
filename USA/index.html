@@ -83,20 +83,22 @@
 <!-- Nav end -->
     </header>
     <div class="dropdown">
-      <a class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a id="stateControlA" class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Select State...
       </a>
       <div id="stateControl" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="overflow: scroll; max-height: 160px;">
-        <a class="dropdown-item" value="USA" href="#USA">USA</a>
+      </div>
+      <a id="countyControlA" style="visibility: hidden;" class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select County...
+      </a>
+      <div id="countyControl" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="overflow: scroll; max-height: 160px;">
       </div>
     </div>
-
-    <div id="mapControl" class="input-group mb-3">
-      <div class="form-control dropdown-menu dropdown-divider" id="stateControl">
-        <a>Select State...</a>
-      </div>
     </div>
-    <div id="map" class="border border-dark allign-self-center"></div>
+    <div id="mapWrapper" style="position: relative;">
+      <div id="map" class="border border-dark allign-self-center"></div>
+      <div id="mapKey" style="position: absolute;"></div>
+    </div>
       
     <div id="content" data-spy="scroll" data-target="navbar" data-offset="0">
       <div>

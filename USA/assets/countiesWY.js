@@ -21055,3 +21055,28 @@ var pathsWY = [
 var WY = [
     "Albany", "Big Horn", "Campbell", "Carbon", "Converse", "Crook", "Fremont", "Goshen", "Hot Springs", "Johnson", "Laramie", "Lincoln", "Natrona", "Niobrara", "Park", "Platte", "Sheridan", "Sublette", "Sweetwater", "Teton", "Uinta", "Washakie", "Weston"
 ];
+var fipsWY = [
+    "56001",
+    "56003",
+    "56005",
+    "56007",
+    "56009",
+    "56011",
+    "56013",
+    "56015",
+    "56017",
+    "56019",
+    "56021",
+    "56023",
+    "56025",
+    "56027",
+    "56029",
+    "56031",
+    "56033",
+    "56035",
+    "56037",
+    "56039",
+    "56041",
+    "56043",
+    "56045",
+];
