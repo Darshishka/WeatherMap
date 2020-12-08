@@ -28,9 +28,7 @@ footer {
   background-color: black;
   color: white;
 }
-html {
-  background-color: aliceblue;
-}
+
 nav a, nav button, .dropdown-toggle {
   position: relative;
   display: inline-block;
@@ -47,7 +45,10 @@ h2:hover, .btn:hover {
   background-color: aliceblue;
   padding: 30px;
 <<<<<<< HEAD
+<<<<<<< HEAD
   margin: 5%;
+=======
+>>>>>>> f6223b9b9d5d1b8600f0a00da0db6bfa8e54a2f3
 =======
 >>>>>>> f6223b9b9d5d1b8600f0a00da0db6bfa8e54a2f3
 }

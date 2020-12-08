@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // const { contains } = require("jquery");
+=======
+const { contains } = require("jquery");
+>>>>>>> f6223b9b9d5d1b8600f0a00da0db6bfa8e54a2f3
 
 let input = document.querySelector('input') 
   
@@ -68,6 +72,7 @@ function check(county) {
   if (tempCounty.includes('2000-12-31')) {
     console.log(true);
     sort(county);
+    console.log(true);
   } else {
     console.log(false)
   }
