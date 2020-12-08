@@ -237,6 +237,9 @@ var state = [
     },
     {
       "id": "AR",
+      "countyPath": pathsAR,
+      "countyName": AR,
+      "countyFips": fipsAR,
       "state": "Arkansas",
       "fips": 05,
       "center": {lat: 34.799999, lng:	-92.199997},
@@ -438,6 +441,9 @@ var state = [
     },
     {
       "id": "CO",
+      "countyPath": pathsCO,
+      "countyName": CO,
+      "countyFips": fipsCO,
       "state": "Colorado",
       "fips": 08,
       "center": {lat: 39.113014, lng:	-105.358887},

@@ -1,3 +1,5 @@
+// const { contains } = require("jquery");
+
 let input = document.querySelector('input') 
   
 let textarea = document.querySelector('textarea') 
@@ -47,7 +49,7 @@ input.addEventListener('change', () => {
               x = index;
               while (x < end[l]) {
                 county.push(lines[x]);
-                // console.log(county);
+                console.log("line");
                 x++
               }
               check(county);
@@ -64,6 +66,7 @@ input.addEventListener('change', () => {
 function check(county) {
   tempCounty = county.toString();
   if (tempCounty.includes('2000-12-31')) {
+    console.log(true);
     sort(county);
   } else {
     console.log(false)
@@ -95,28 +98,30 @@ function sort(county) {
       county[c] = county[c].slice(0, (county[c].length -2))
       var comma = county[c].indexOf(",");
       textarea.value += (`{lat: ${county[c].substr(comma+1)}, lng: ${county[c].substr(0,comma)}},\n`);
+      console.log("coord line")
     } else if (county[c].includes("</coordinates")) {
       textarea.value += `];\n\n`
     }
   }
   console.log(counties);
   console.log(countiesPaths);
-  textarea.value += `\n\n`;
-  for (var f = 0; f < counties.length; f++) {
-    textarea.value += `\"${counties[f]}\",\n`;
-  }
-  textarea.value += `\n\n`;
-  for (var w = 0; w < countiesPaths.length; w++) {
-    textarea.value += `${countiesPaths[w]},\n`;
-  }
-  counties.push(`${countyName}`);
-  textarea.value += `var ${countyName}Path = [`
-  while (county.indexOf(`<coordinates>`) != -1) {
-    county.indexOf()
-  }
+  // textarea.value += `\n\n`;
+  // for (var f = 0; f < counties.length; f++) {
+  //   textarea.value += `\"${counties[f]}\",\n`;
+  //   console.log("line 111")
+  // }
+  // textarea.value += `\n\n`;
+  // for (var w = 0; w < countiesPaths.length; w++) {
+  //   textarea.value += `${countiesPaths[w]},\n`;
+  // }
+  // counties.push(`${countyName}`);
+  // textarea.value += `var ${countyName}Path = [`
+  // while (county.indexOf(`<coordinates>`) != -1) {
+  //   county.indexOf()
+  // }
 
-  console.log(countyName);
-  console.log(counties);
+  // console.log(countyName);
+  // console.log(counties);
 };
 // const { readFile } = require("fs");
 
