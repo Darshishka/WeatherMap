@@ -14,7 +14,7 @@
     <link href="covid-19-data/data/us-states.csv">
     <link href="covid-19-data/data/us-counties.csv">
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznGCt2XVSSEvRYuEkZSgtVCYfWkzUJbA&callback=initMapUSA&libraries=&v=weekly&map_ids=f68311c1c85e61" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznGCt2XVSSEvRYuEkZSgtVCYfWkzUJbA&callback=initMapUSA&libraries=places&v=weekly&map_ids=f68311c1c85e61" defer></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../data/us-counties.js"></script>
     <script src="../data/us-states.js"></script>
@@ -69,6 +69,9 @@
       <div id="countyControl" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="overflow: scroll; max-height: 160px;">
       </div>
     </div>
+    <div id="route-input">
+      <input id="origin-input" class="controls" type="text" placeholder="Search Box"/>
+      <input id="dest-input" class="controls" type="text" placeholder="Search Box"/>
     </div>
     <div id="mapWrapper" style="position: relative;">
       <div id="map" class="border border-dark allign-self-center"></div>

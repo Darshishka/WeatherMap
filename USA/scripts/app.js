@@ -33,6 +33,20 @@ function initMapUSA() {
     zoom: 3,
     mapId: 'f68311c1c85e61',
   });
+  const originInput = document.getElementById("origin-input");
+  const destInput = document.getElementById("dest-input");
+  const autocomplete = new google.maps.places.Autocomplete(originInput, destInput);
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo("bounds", mapUSA);
+        // Set the data fields to return when the user selects a place.
+        autocomplete.setFields([
+          "address_components",
+          "geometry",
+          "icon",
+          "name",
+        ]);
   var locHash = window.location.hash;
   window.addEventListener(`load`, () => {
     if (locHash != "") {
@@ -176,7 +190,16 @@ function initMapUSA() {
               fillColor: "#85754d",
               fillOpacity: 0.25
             })
-            console.log(polygon.zIndex)
+            var path = polyData["countyPath"][i]
+            var bounds = new google.maps.LatLngBounds();
+            var polygonCoords = [];
+            for (x = 0; x < path.length; x++) {
+              polygonCoords.push(path[x])
+            }
+            for (x = 0; x < polygonCoords.length; x++) {
+              bounds.extend(polygonCoords[x]);
+            }
+            polygon.setOptions({center: {lat: bounds["Wa"]["i"], lng: bounds["Sa"]["i"]}})
             var fips = polygon.zIndex
             var county = polyData["countyData"][0][fips]
             console.log(county)
@@ -220,6 +243,7 @@ function initMapUSA() {
             //   polygon.setOptions({fillOpacity: 0.0})
             // }
             polygon.addListener(`mouseover`, () => {
+              
               var fips = polygon.zIndex;
               // console.log(fips);
               // console.log(polyData);
@@ -242,6 +266,10 @@ function initMapUSA() {
                   var year = v.substring(0,4);
                   var month = v.substring(5,7);
                   var day = v.substring(8,10);
+//sets negative values to zero
+                  if (k < 0) {
+                    k = 0
+                  }
                   data.addRow([new Date(year, month, day), Number(k)])
                 });
                 console.log(data.getNumberOfRows())
@@ -250,7 +278,6 @@ function initMapUSA() {
                     
                   }
                 })
-                // data.addColumn('number', "Pedicted Cases");
                 var options = {
                   title: `${polygon.id} Daily Cases`,
                   hAxis: {title: 'Dates'},
@@ -363,58 +390,4 @@ function initMapUSA() {
   //     }
   //   }
   // });
-};
-
-
-
-function sortData () {
-  console.log(nytData);
-  
-  var i = 0;
-  //concat??
-  
-  for (i; i < state.length; i++) {
-    stateData = [];
-    currState = state[i]["state"];
-    var infoData;
-    google.maps.event.addListener(marker, `click`, function () {
-      var current = this.title;
-      infowindow.setContent(`<div id="${currState}Chart"/>`);
-      google.charts.load('current', {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-      toCalc;
-      // Define the chart to be drawn.
-      var data = new google.visualization.DataTable([
-        [`Date`, `Cases`, `Deaths`],
-      ]);
-      data.addRows(toCalc)
-      for (var d = 0; d < 20; d++) {
-        data.addRows([
-          [toCalc],
-        ]);
-      };
-      var options = {
-        title: "Cases"
-      };
-      // Instantiate and draw the chart.
-      var chart = new google.visualization.AreaChart(document.getElementById(`${currState}Chart`));
-      chart.draw(data, options);
-    }//drawChart()
-      infowindow.open(marker, this);
-      infoData = [];
-    });
-    console.log(stateData)
-  }
-    var infowindow = new google.maps.InfoWindow();
-    google.maps.event.addListener(marker, 'mouseover', function () {
-      infowindow.setContent(this.title + "<br>Click for more info");
-      infowindow.open(infowindow, this);     
-    });
-    google.maps.event.addListener(marker, `click`, function () {
-      var current = this.title;
-      infowindow.setContent(this.content);
-      infowindow.open(marker, this);
-    });
 };
