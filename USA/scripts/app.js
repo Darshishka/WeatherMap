@@ -155,34 +155,31 @@ function initMapUSA() {
     });
     var length = stateData.length;
     var toCalc = stateData.slice((length -20), length);
-    console.log(toCalc)
-    if (toCalc[18]["cases"] < toCalc[19]["cases"]) {
-      console.log(toCalc[19]["state"] + " rise");
-      const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(currStateCoords),
-        map: mapUSA,
-        title: currState,
-        content: `test`,
-        icon: {
-          strokeColor: "#808080",
-          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-          scale: 0
-        }
-      });
-    } else if (toCalc[18]["cases"] > toCalc[19]["cases"]) {
-      console.log(toCalc[19]["state"] + " fall");
-      const marker = new google.maps.Marker({
-        position: new google.maps.LatLng(currStateCoords),
-        map: mapUSA,
-        title: currState,
-        content: stateData,
-        icon: {
-          strokeColor: "#FF0000",
-          path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-          scale: 2
-        }
-      });
-    };
+    console.log(toCalc.length)
+    var toCalcOld = toCalc.slice(0,10);
+    var toCalcNew = toCalc.slice(10,20);
+    var stateSumOld = 0;
+    var stateSumNew = 0;
+    var color;
+    $.each(toCalcOld, function(x, y) {
+      stateSumOld = stateSumOld + Number(y["cases"]);
+    })
+    $.each(toCalcNew, function(x, y) {
+      stateSumNew = stateSumNew + Number(y["cases"]);
+    })
+    if (stateSumOld > stateSumNew) {
+      console.log("fall")
+    }else if (stateSumOld < stateSumNew) {
+      console.log("rise");
+
+    }
+    console.log(stateSumOld)
+    console.log(stateSumNew)
+    var diff = stateSumNew - stateSumOld;
+    console.log(diff)
+// if diff is bewtween two nums then that color
+
+
     const polygon = new google.maps.Polygon({
       id: `${currState}`,
       path: state[i]["path"],
@@ -205,9 +202,9 @@ function initMapUSA() {
       console.log(polygon.id);
       location.hash = polygon.id
       var fips = polygon.zIndex
-      polygon.setMap(null);
       for (var s = 0; s < state.length; s++) {
         if (state[s]["state"] === `${polygon.id}`) {
+          // polygon.setMap(null);
           console.log(state[s]["state"]);
           var polyData = state[s];
           console.log(polyData)
@@ -240,6 +237,9 @@ function initMapUSA() {
             polygon.setOptions({center: {lat: bounds["Wa"]["i"], lng: bounds["Ra"]["i"]}})
             var fips = polygon.zIndex
             var county = polyData["countyData"][0][fips]
+            if (polyData["countyData"][0] === undefined) {
+              alert("No county data yet")
+            }
             console.log(county)
             var calc1 = [];
             var calc2 = [];
