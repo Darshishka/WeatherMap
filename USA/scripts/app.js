@@ -33,20 +33,52 @@ function initMapUSA() {
     zoom: 3,
     mapId: 'f68311c1c85e61',
   });
+//Directions
   const originInput = document.getElementById("origin-input");
   const destInput = document.getElementById("dest-input");
-  const autocomplete = new google.maps.places.Autocomplete(originInput, destInput);
-        // Bind the map's bounds (viewport) property to the autocomplete object,
-        // so that the autocomplete requests use the current map bounds for the
-        // bounds option in the request.
-        autocomplete.bindTo("bounds", mapUSA);
-        // Set the data fields to return when the user selects a place.
-        autocomplete.setFields([
-          "address_components",
-          "geometry",
-          "icon",
-          "name",
-        ]);
+  const routeGo = document.getElementById("routeGo");
+  const markerArray = [];
+  const stepDisplay = new google.maps.InfoWindow();
+  const directionsService = new google.maps.DirectionsService;
+  const directionsRenderer = new google.maps.DirectionsRenderer({ map: mapUSA });
+  const searchBox = new google.maps.places.SearchBox(originInput, destInput);
+  const autocomplete = new google.maps.places.Autocomplete(originInput);
+  const autocomplete0 = new google.maps.places.Autocomplete(destInput);
+
+  // Bind the map's bounds (viewport) property to the autocomplete object,
+  // so that the autocomplete requests use the current map bounds for the
+  // bounds option in the request.
+  autocomplete.bindTo("bounds", mapUSA);
+  // Set the data fields to return when the user selects a place.
+  autocomplete.setFields([
+    "address_components",
+    "geometry",
+    "icon",
+    "name",
+  ]);
+  autocomplete0.bindTo("bounds", mapUSA);
+  autocomplete0.setFields([
+    "address_components",
+    "geometry",
+    "icon",
+    "name",
+  ]);
+  routeGo.addEventListener("click", ()=> {
+    console.log(originInput.value)
+    console.log(destInput.value)
+    calculateAndDisplayRoute(
+      directionsRenderer,
+      directionsService,
+      markerArray,
+      stepDisplay,
+      mapUSA,
+      originInput,
+      destInput
+    );
+  });
+  
+
+
   var locHash = window.location.hash;
   window.addEventListener(`load`, () => {
     if (locHash != "") {
@@ -168,14 +200,17 @@ function initMapUSA() {
       infowindow.open();
       polygon.setMap(mapUSA)
     });
+//Creates county polygons
     polygon.addListener(`click`, () => {
       console.log(polygon.id);
       location.hash = polygon.id
+      var fips = polygon.zIndex
       polygon.setMap(null);
       for (var s = 0; s < state.length; s++) {
         if (state[s]["state"] === `${polygon.id}`) {
           console.log(state[s]["state"]);
           var polyData = state[s];
+          console.log(polyData)
           for (i = 0; i < polyData["countyPath"].length; i++) {
             const polygon = new google.maps.Polygon({
               id: polyData["countyName"][i],
@@ -192,6 +227,7 @@ function initMapUSA() {
             })
             var path = polyData["countyPath"][i]
             var bounds = new google.maps.LatLngBounds();
+//Calc rise/fall for counties
             var polygonCoords = [];
             for (x = 0; x < path.length; x++) {
               polygonCoords.push(path[x])
@@ -199,7 +235,9 @@ function initMapUSA() {
             for (x = 0; x < polygonCoords.length; x++) {
               bounds.extend(polygonCoords[x]);
             }
-            polygon.setOptions({center: {lat: bounds["Wa"]["i"], lng: bounds["Sa"]["i"]}})
+            var polyCenter = {lat: bounds["Wa"]["i"], lng: bounds["Ra"]["i"]};
+            console.log(polyCenter)
+            polygon.setOptions({center: {lat: bounds["Wa"]["i"], lng: bounds["Ra"]["i"]}})
             var fips = polygon.zIndex
             var county = polyData["countyData"][0][fips]
             console.log(county)
@@ -242,22 +280,16 @@ function initMapUSA() {
             // if (county === undefined) {
             //   polygon.setOptions({fillOpacity: 0.0})
             // }
+//Sets infowindow chart base for counties
             polygon.addListener(`mouseover`, () => {
-              
               var fips = polygon.zIndex;
-              // console.log(fips);
-              // console.log(polyData);
               var currCounty = polyData["countyData"][0][fips];
-              // console.log(currCounty);
               infowindow.setContent(polygon.id + `<br><div id="chartCounty"/>`);
               infowindow.setPosition(polygon.center)
               infowindow.open();
               infowindow.setMap(mapUSA)
               google.charts.load('current', {packages: ['corechart']});
               google.charts.setOnLoadCallback(drawChart(currCounty));
-              // console.log(fips)
-              // console.log(currCounty)
-              
               function drawChart(currCounty, fips) {
                 var data = new google.visualization.DataTable();
                 data.addColumn('date', "Date");
@@ -297,6 +329,7 @@ function initMapUSA() {
       }
       // counties(polygon);
     });
+//populates infowindow with chart for counties
     polygon.addListener('mouseover', () => {
       console.log(polygon.id);
       $.each(state, function(index, item) {
@@ -335,59 +368,70 @@ function initMapUSA() {
     });
     polygon.setMap(mapUSA);
   }
-
-  // //Gets counties
-  // function counties(polygon) {
-  //   var polyId = polygon.id
-  //   console.log(polyId)
-  //   document.getElementById(`${polyId}`);
-  //   // some states don't pass this line
-  //   for (var s = 0; s < state.length; s++) {
-  //     console.log(polygon.id);
-  //     if (state[s]["state"] === `${polygon.id}`) {
-  //       console.log(polygon.id);
-        
-  //       console.log(state[s]["state"]);
-  //       var polyData = state[s];
-  //       for (i = 0; i < polyData["countyPath"].length; i++) {
-  //         const polygon = new google.maps.Polygon({
-  //           id: polyData["countyName"][i],
-  //           path: polyData["countyPath"][i],
-  //           zIndex: polyData["countyFips"][i],
-  //           geodesic: true,
-  //           strokeColor: "#4b2e83",
-  //           strokeOpacity: 1.0,
-  //           strokeWeight: 2,
-  //           visability: false,
-  //           fillColor: "#85754d",
-  //           fillOpacity: 0.25
-  //         })
-  //         polygon.addListener("click", () => {
-  //           var fipsCode = polygon.zIndex;
-  //           infowindow.setContent(fipsCode);
-  //           infowindow.setPosition(polyData["center"])
-  //         })
-  //         polygon.setMap(mapUSA)
-  //         // mapUSA.setCenter(polyData["center"]);
-  //         // mapUSA.setZoom(polyData["zoom"]);
-  //       };
-  //     } else {
-  //       s++
-  //     };
-  //   };
-  // };
-
-
-  // window.addEventListener("hashchange", (HashChangeEvent) =>  {
-  //   //set view to that state
-  //   var stateHash = location.hash.substr(1);
-    
-  //   console.log(stateHash);
-  //   for (var n = 0; n < state.length; n++) {
-  //     if ( stateHash === state[n]["state"]) {
-  //       mapUSA.setCenter(state[n]["center"])
-  //       mapUSA.setZoom(state[n]["zoom"])
-  //     }
-  //   }
-  // });
 };
+
+
+function calculateAndDisplayRoute(
+  directionsRenderer,
+  directionsService,
+  markerArray,
+  stepDisplay,
+  map,
+  originInput,
+  destInput
+) {
+  // First, remove any existing markers from the map.
+  for (let i = 0; i < markerArray.length; i++) {
+    markerArray[i].setMap(null);
+  }
+  // Retrieve the start and end locations and create a DirectionsRequest using
+  // WALKING directions.
+  directionsService.route(
+    {
+      origin: originInput.value,
+      destination: destInput.value,
+      travelMode: google.maps.TravelMode.DRIVING,
+    },
+    (result, status) => {
+      // Route the directions and pass the response to a function to create
+      // markers for each step.
+      if (status === "OK") {
+        document.getElementById("warnings-panel").innerHTML =
+          "<b>" + result.routes[0].warnings + "</b>";
+        directionsRenderer.setDirections(result);
+        showSteps(result, markerArray, stepDisplay, mapUSA);
+      } else {
+        window.alert("Directions request failed due to " + status);
+      }
+    }
+  );
+}
+
+function showSteps(directionResult, markerArray, stepDisplay, mapUSA) {
+  // For each step, place a marker, and add the text to the marker's infowindow.
+  // Also attach the marker to an array so we can keep track of it and remove it
+  // when calculating new routes.
+  const myRoute = directionResult.routes[0].legs[0];
+
+  for (let i = 0; i < myRoute.steps.length; i++) {
+    const marker = (markerArray[i] =
+      markerArray[i] || new google.maps.Marker());
+      // marker.setMap(map);
+      marker.setPosition(myRoute.steps[i].start_location);
+      attachInstructionText(
+        stepDisplay,
+        marker,
+        myRoute.steps[i].instructions,
+        mapUSA
+        );
+      }
+}
+
+function attachInstructionText(stepDisplay, marker, text, mapUSA) {
+  google.maps.event.addListener(marker, "click", () => {
+    // Open an info window when the marker is clicked on, containing the text
+    // of the step.
+    stepDisplay.setContent(text);
+    stepDisplay.open(map, marker);
+  });
+}

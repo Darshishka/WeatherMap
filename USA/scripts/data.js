@@ -3806,8 +3806,8 @@ var state = [
     },
     {
       "id": "WA",
-      "countyPath": pathsWA,
-      "countyName": WA,
+      // "countyPath": pathsWA,
+      // "countyName": WA,
       "state": "Washington",
       "zoom": 6.5,
       "fips": 53,

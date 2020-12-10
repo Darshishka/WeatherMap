@@ -20,8 +20,10 @@
     <script src="../data/us-states.js"></script>
     <script src="../USA/assets/pred.js"></script>
     <script src="../USA/assets/pred_FL.js"></script>
+    <!-- <script src="../USA/assets/countiesUSA.js"></script> -->
 
     
+
     <script src="../USA/assets/countiesNY.js"></script>
     <script src="../USA/assets/countiesOR.js"></script>
     <script src="../USA/assets/countiesCA.js"></script>
@@ -35,7 +37,6 @@
     <script src="../USA/assets/countiesRI.js"></script>
     <script src="../USA/assets/countiesNM.js"></script>
     <script src="../USA/assets/countiesFL.js"></script>
-    <!-- <script src="../USA/assets/counties.js"></script> -->
     <script src="../USA/assets/countiesCO.js"></script>
     <script src="../USA/assets/countiesDE.js"></script>
     <script src="../USA/assets/countiesAR.js"></script>
@@ -48,7 +49,6 @@
     <script src="../USA/assets/countiesWY.js"></script>
     <script src="../USA/assets/countiesWY.js"></script>
     <script src="../USA/assets/countiesNJ.js"></script>
-    
     <script src="./scripts/data.js"></script>
 
     <script src="./scripts/app.js"></script>
@@ -69,10 +69,14 @@
       <div id="countyControl" class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="overflow: scroll; max-height: 160px;">
       </div>
     </div>
-    <div id="route-input">
+    <div id="route-input" style="margin: 5px; font-weight: bold;">
+      Start:
       <input id="origin-input" class="controls" type="text" placeholder="Search Box"/>
+      End:
       <input id="dest-input" class="controls" type="text" placeholder="Search Box"/>
+      <btn id="routeGo" style="font-weight: bold;" class="btn">Go</btn>
     </div>
+    <div id="warnings-panel"></div>
     <div id="mapWrapper" style="position: relative;">
       <div id="map" class="border border-dark allign-self-center"></div>
       <div id="mapKey" style="position: absolute;"></div>
