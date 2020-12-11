@@ -155,7 +155,6 @@ function initMapUSA() {
     });
     var length = stateData.length;
     var toCalc = stateData.slice((length -20), length);
-    console.log(toCalc.length)
     var toCalcOld = toCalc.slice(0,10);
     var toCalcNew = toCalc.slice(10,20);
     var stateSumOld = 0;
@@ -167,16 +166,36 @@ function initMapUSA() {
     $.each(toCalcNew, function(x, y) {
       stateSumNew = stateSumNew + Number(y["cases"]);
     })
+    stateSumNew = stateSumNew / 10;
+    stateSumOld = stateSumOld /10
+//TODO: Automate MAX and set as darkest colors
     if (stateSumOld > stateSumNew) {
-      console.log("fall")
+      // console.log("fall")
     }else if (stateSumOld < stateSumNew) {
-      console.log("rise");
-
+      // console.log("rise");
+      if (stateSumNew > 1157000) {
+        color = `#581845`
+      }else if (stateSumNew > 964167) {
+        color = `#900C3F`
+      }else if (stateSumNew > 771334) {
+        color = `#C70039`
+      }else if (stateSumNew > 578501) {
+        color = `#FF5733`
+        
+      }else if (stateSumNew > 385668) {
+        color = `#FFC300`
+        
+      }else if (stateSumNew > 192835) {
+        color = `#FFEB00`
+        
+      }else if (stateSumNew > 96417.5){
+        color = `#FFDA00`
+      } else {
+        color = `white`
+      }
     }
-    console.log(stateSumOld)
-    console.log(stateSumNew)
-    var diff = stateSumNew - stateSumOld;
-    console.log(diff)
+    // console.log(stateSumOld)
+    // console.log(stateSumNew)
 // if diff is bewtween two nums then that color
 
 
@@ -188,8 +207,8 @@ function initMapUSA() {
       strokeOpacity: 1.0,
       strokeWeight: 2,
       visability: true,
-      fillColor: "#85754d",
-      fillOpacity: 0.25,
+      fillColor: color,
+      fillOpacity: 1,
     });
     polygon.addListener(`rightclick`, () => {
       infowindow.setContent(polygon.id);
@@ -205,6 +224,8 @@ function initMapUSA() {
       for (var s = 0; s < state.length; s++) {
         if (state[s]["state"] === `${polygon.id}`) {
           // polygon.setMap(null);
+//Calculates county color
+
           console.log(state[s]["state"]);
           var polyData = state[s];
           if (polyData["countyData"].length != undefined) {
