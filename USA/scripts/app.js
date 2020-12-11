@@ -207,6 +207,9 @@ function initMapUSA() {
           // polygon.setMap(null);
           console.log(state[s]["state"]);
           var polyData = state[s];
+          if (polyData["countyData"].length != undefined) {
+            polygon.setMap(null)
+          }
           console.log(polyData)
           for (i = 0; i < polyData["countyPath"].length; i++) {
             const polygon = new google.maps.Polygon({
@@ -238,7 +241,7 @@ function initMapUSA() {
             var fips = polygon.zIndex
             var county = polyData["countyData"][0][fips]
             if (polyData["countyData"][0] === undefined) {
-              alert("No county data yet")
+              
             }
             console.log(county)
             var calc1 = [];
