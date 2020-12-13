@@ -75,24 +75,24 @@ function initMapUSA() {
   });
 
 
-  var locHash = window.location.hash;
-  window.addEventListener(`load`, () => {
-    if (locHash != "") {
-      console.log("test")
-    }
-    locHash = window.location.hash;
-    locHash = locHash.substring(1);
-    if (locHash === "") {
-      document.getElementById("stateControlA").textContent = `Select State...`;
-      document.getElementById("countyControlA").style["visibility"] = "hidden";
-    } else {
-      locHash = locHash.replace("%20", " ")
-      document.getElementById("stateControlA").textContent = `${locHash}`;
-      document.getElementById("countyControlA").style["visibility"] = "visible";
-    }
+  // var locHash = window.location.hash;
+  // window.addEventListener(`load`, () => {
+  //   if (locHash != "") {
+  //     console.log("test")
+  //   }
+  //   locHash = window.location.hash;
+  //   locHash = locHash.substring(1);
+  //   if (locHash === "") {
+  //     document.getElementById("stateControlA").textContent = `Select State...`;
+  //     document.getElementById("countyControlA").style["visibility"] = "hidden";
+  //   } else {
+  //     locHash = locHash.replace("%20", " ")
+  //     document.getElementById("stateControlA").textContent = `${locHash}`;
+  //     document.getElementById("countyControlA").style["visibility"] = "visible";
+  //   }
     
     //go to state from hash
-  })
+  // })
   var selectState = document.getElementById("stateControl"); 
   var selectCounty = document.getElementById("countyControl"); 
   selectState.addEventListener(`click`, function() {
