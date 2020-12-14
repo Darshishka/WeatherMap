@@ -157,11 +157,12 @@ function initMapUSA() {
       }
       return staMax
     })
-    staMax = staMax/8;
+    staMax = staMax/12;
+    console.log(staMax)
     var length = stateData.length;
-    var toCalc = stateData.slice((length -20), length);
-    var toCalcOld = toCalc.slice(0,10);
-    var toCalcNew = toCalc.slice(10,20);
+    var toCalc = stateData.slice((length -14), length);
+    var toCalcOld = toCalc.slice(0,7);
+    var toCalcNew = toCalc.slice(7,14);
     var stateSumOld = 0;
     var stateSumNew = 0;
     var color;
@@ -176,27 +177,31 @@ function initMapUSA() {
 //TODO: Automate MAX and set as darkest colors
     if (stateSumOld > stateSumNew) {
       // console.log("fall")
+      color = "green"
+      // #1d005a, #2f0069, #400679
+      
     }else if (stateSumOld < stateSumNew) {
       // console.log("rise");
-      if (stateSumNew > (staMax*7)) {
-        color = `#581845`
+      if (stateSumNew > (staMax* 9)){
+        color = `#ff0000`
+      } else if (stateSumNew > (staMax*8)) {
+        color = `#ea5d00`
+      }else if (stateSumNew > (staMax*7)) {
+        color = `#cf8300`
       }else if (stateSumNew > (staMax*6)) {
-        color = `#900C3F`
+        color = `#b39f00`
       }else if (stateSumNew > (staMax*5)) {
-        color = `#C70039`
+        color = `#96b40e`
       }else if (stateSumNew > (staMax*4)) {
-        color = `#FF5733`
-        
+        color = `#79c651`
       }else if (stateSumNew > (staMax*3)) {
-        color = `#FFC300`
-        
-      }else if (stateSumNew > (staMax*2)) {
-        color = `#FFEB00`
-        
-      }else if (stateSumNew > staMax){
-        color = `#FFDA00`
-      } else {
-        color = `white`
+        color = `#5dd484`
+      }else if (stateSumNew > (staMax*2)){
+        color = `#46e0b2`
+      }else if (stateSumNew > (staMax)){
+        color = `#4beadb`
+      }else {
+        color = `#6ef1fa`
       }
     }
     // console.log(stateSumOld)
@@ -235,6 +240,7 @@ function initMapUSA() {
           var polyData = state[s];
           if (polyData["countyData"].length != undefined) {
             polygon.setMap(null)
+            mapUSA.setOptions({zoom: polyData["zoom"], center: polyData["center"]})
           }
           console.log(polyData)
           for (i = 0; i < polyData["countyPath"].length; i++) {
@@ -261,9 +267,9 @@ function initMapUSA() {
             for (x = 0; x < polygonCoords.length; x++) {
               bounds.extend(polygonCoords[x]);
             }
-            var polyCenter = {lat: bounds["Wa"]["i"], lng: bounds["Ra"]["i"]};
+            var polyCenter = {lat: bounds["Wa"], lng: bounds["Ra"]};
             console.log(polyCenter)
-            polygon.setOptions({center: {lat: bounds["Wa"]["i"], lng: bounds["Ra"]["i"]}})
+            polygon.setOptions({center: {lat: bounds["Wa"]["j"], lng: bounds["Ra"]["j"]}})
             var fips = polygon.zIndex
             var county = polyData["countyData"][0][fips]
             if (polyData["countyData"][0] === undefined) {
@@ -297,33 +303,33 @@ function initMapUSA() {
             var cntyAveg2 = sum2/10;
             if (cntyAveg1 > cntyAveg2) {
               console.log("rise")
-              if (stateSumNew > (cntyMax*7)) {
-                color = `#581845`;
+              if (cntyAveg1 > (cntyMax*7)) {
+                color = `#020042`;
                 polygon.setOptions({fillColor: color});
-              }else if (stateSumNew > (cntyMax*6)) {
-                color = `#900C3F`;
-                polygon.setOptions({fillColor: color});
-
-              }else if (stateSumNew > (cntyMax*5)) {
-                color = `#C70039`;
+              }else if (cntyAveg1 > (cntyMax*6)) {
+                color = `#002769`;
                 polygon.setOptions({fillColor: color});
 
-              }else if (stateSumNew > (cntyMax*4)) {
-                color = `#FF5733`;
+              }else if (cntyAveg1 > (cntyMax*5)) {
+                color = `#004a8f`;
+                polygon.setOptions({fillColor: color});
+
+              }else if (cntyAveg1 > (cntyMax*4)) {
+                color = `#006fb1`;
                 polygon.setOptions({fillColor: color});
                 
-              }else if (stateSumNew > (cntyMax*3)) {
-                color = `#FFC300`;
+              }else if (cntyAveg1 > (cntyMax*3)) {
+                color = `#0096cf`;
                 polygon.setOptions({fillColor: color});
 
                 
-              }else if (stateSumNew > (cntyMax*2)) {
-                color = `#FFEB00`;
+              }else if (cntyAveg1 > (cntyMax*2)) {
+                color = `#00bde9`;
                 polygon.setOptions({fillColor: color});
                 
                 
-              }else if (stateSumNew > (cntyMax)){
-                color = `#FFDA00`;
+              }else if (cntyAveg1 > (cntyMax)){
+                color = `#00e5ff`;
                 polygon.setOptions({fillColor: color});
 
               } else {
@@ -349,40 +355,43 @@ function initMapUSA() {
               infowindow.setPosition(polygon.center)
               infowindow.open();
               infowindow.setMap(mapUSA)
-              google.charts.load('current', {packages: ['corechart']});
-              google.charts.setOnLoadCallback(drawChart(currCounty));
-              function drawChart(currCounty, fips) {
-                var data = new google.visualization.DataTable();
-                data.addColumn('date', "Date");
-                data.addColumn('number', "Pedicted Cases");
-                $.each(currCounty, function(v, k) {
-                  var year = v.substring(0,4);
-                  var month = v.substring(5,7);
-                  var day = v.substring(8,10);
-//sets negative values to zero
-                  if (k < 0) {
-                    k = 0
-                  }
-                  data.addRow([new Date(year, month, day), Number(k)])
-                });
-                console.log(data.getNumberOfRows())
-                $.each(nytCounties, function(index, value) {
-                  if (value.fips === fips) {
-                    
-                  }
-                })
-                var options = {
-                  title: `${polygon.id} Daily Cases`,
-                  hAxis: {title: 'Dates'},
-                  vAxis: {title: `Cases`},
-                  width: `150`,
-                  height: `150`
+              polygon.addListener("click", () => {
+                infowindow.setPosition(new google.maps.LatLng(polygon.center))
+                google.charts.load('current', {packages: ['corechart']});
+                google.charts.setOnLoadCallback(drawChart(currCounty));
+                function drawChart(currCounty, fips) {
+                  var data = new google.visualization.DataTable();
+                  data.addColumn('date', "Date");
+                  data.addColumn('number', "Pedicted Cases");
+                  $.each(currCounty, function(v, k) {
+                    var year = v.substring(0,4);
+                    var month = v.substring(5,7);
+                    var day = v.substring(8,10);
+  //sets negative values to zero
+                    if (k < 0) {
+                      k = 0
+                    }
+                    data.addRow([new Date(year, month, day), Number(k)])
+                  });
+                  console.log(data.getNumberOfRows())
+                  $.each(nytCounties, function(index, value) {
+                    if (value.fips === fips) {
+                      
+                    }
+                  })
+                  var options = {
+                    title: `Predicted Daily Cases`,
+                    hAxis: {title: 'Dates'},
+                    vAxis: {title: `Cases`},
+                    width: `150`,
+                    height: `150`
+                  };
+                  
+                  var chart = new google.visualization.AreaChart(document.getElementById('chartCounty'));
+                  chart.draw(data, options);
                 };
-                
-                var chart = new google.visualization.AreaChart(document.getElementById('chartCounty'));
-                chart.draw(data, options);
-              };
-            })
+              })
+              })
             polygon.setMap(mapUSA)
           }
         }
@@ -391,42 +400,42 @@ function initMapUSA() {
       // counties(polygon);
     });
 //populates infowindow with chart for counties
-    polygon.addListener('mouseover', () => {
-      console.log(polygon.id);
-      $.each(state, function(index, item) {
-        if (item.state === polygon.id) {
+    // polygon.addListener('mouseover', () => {
+    //   console.log(polygon.id);
+    //   $.each(state, function(index, item) {
+    //     if (item.state === polygon.id) {
           
-          infowindow.setPosition(item.center);
-          infowindow.setContent(item.state + `<br><div id="chart"/>`);
-          infowindow.setMap(mapUSA)
-          google.charts.load('current', {packages: ['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
-        }
-        function drawChart() {
-          var data = new google.visualization.DataTable({
-            cols: [
-              {lable: `Date`, type: `date`},
-              {lable: `Cases`, type: `number`}
-            ]});
-            $.each(toCalc, function(k, v) {
-              var year = v.date.substring(0,4);
-              var month = v.date.substring(5,7);
-              var day = v.date.substring(8,10);
-              var date = year + " " + month + " " + day;
-              data.addRow([new Date(year, month -1, day), v.cases])
-            });
-          var options = {
-            title: `${polygon.id} Daily Cases`,
-            hAxis: {title: 'Dates'},
-            vAxis: {title: `Cases`},
-            width: `100`,
-            height: `100`
-          };
-          var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
-          chart.draw(data, options);
-        };
-      });
-    });
+    //       infowindow.setPosition(item.center);
+    //       infowindow.setContent(item.state + `<br><div id="chart"/>`);
+    //       infowindow.setMap(mapUSA)
+    //       google.charts.load('current', {packages: ['corechart']});
+    //       google.charts.setOnLoadCallback(drawChart);
+    //     }
+    //     function drawChart() {
+    //       var data = new google.visualization.DataTable({
+    //         cols: [
+    //           {lable: `Date`, type: `date`},
+    //           {lable: `Cases`, type: `number`}
+    //         ]});
+    //         $.each(toCalc, function(k, v) {
+    //           var year = v.date.substring(0,4);
+    //           var month = v.date.substring(5,7);
+    //           var day = v.date.substring(8,10);
+    //           var date = year + " " + month + " " + day;
+    //           data.addRow([new Date(year, month -1, day), v.cases])
+    //         });
+    //       var options = {
+    //         title: `${polygon.id} Daily Cases`,
+    //         hAxis: {title: 'Dates'},
+    //         vAxis: {title: `Cases`},
+    //         width: `100`,
+    //         height: `100`
+    //       };
+    //       var chart = new google.visualization.AreaChart(document.getElementById(`chart`));
+    //       chart.draw(data, options);
+    //     };
+    //   });
+    // });
     polygon.setMap(mapUSA);
   }
 };
