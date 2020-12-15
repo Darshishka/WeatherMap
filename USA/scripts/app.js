@@ -75,67 +75,7 @@ function initMapUSA() {
   });
 
 
-  var locHash = window.location.hash;
-  window.addEventListener(`load`, () => {
-    if (locHash != "") {
-      console.log("test")
-    }
-    locHash = window.location.hash;
-    locHash = locHash.substring(1);
-    if (locHash === "") {
-      document.getElementById("stateControlA").textContent = `Select State...`;
-      document.getElementById("countyControlA").style["visibility"] = "hidden";
-    } else {
-      locHash = locHash.replace("%20", " ")
-      document.getElementById("stateControlA").textContent = `${locHash}`;
-      document.getElementById("countyControlA").style["visibility"] = "visible";
-    }
-    
-    //go to state from hash
-  })
-  var selectState = document.getElementById("stateControl"); 
-  var selectCounty = document.getElementById("countyControl"); 
-  selectState.addEventListener(`click`, function() {
-    location.hash = document.getElementById("stateControl");
-    locHash = locHash.substring(1);
-    locHash = locHash.replace("%20", " ");
-    document.getElementById("stateControlA").textContent = `${locHash}`;
-    document.getElementById("countyControlA").style["visibility"] = "visible";
-    selectState = locHash;
-    //go to state selected
-  })
-  selectCounty.addEventListener(`click`, function() {
-    var hashState = document.getElementById("stateControlA").textContent;
-    location.hash = document.getElementById("countyControl");
-    locHash = locHash.substring(1);
-    locHash = locHash.replace("%20", " ")
-        $.each(state, function(index, value) {
-      if (`${locHash}` === `${value.state}`) {
-        console.log(value.state)
-        var countyLoad = state[index]["countyName"];
-        countyLoad = [...new Set(countyLoad)];
-        selectCounty.innerHTML += `<a class="dropdown-item" value="${countyLoad}" href="#${countyLoad}">${countyLoad}<a>`;
 
-        console.log(countyLoad)
-
-      }
-    })
-    document.getElementById("countyControlA").textContent = `${locHash}`;
-    selectCounty = locHash;
-    locHash = `${hashState}-${selectCounty}`
-    console.log(locHash)
-    //go to state selected
-  })
-  window.onhashchange =  function() {
-    locHash = location.hash;
-    locHash = locHash.substring(1);
-    selectState = locHash;
-    document.getElementById("stateControlA").textContent = `${locHash}`;
-    document.getElementById("countyControlA").style["visibility"] = "visible";
-
-
-  }
-  
   var att = document.createAttribute("class");
   const infowindow = new google.maps.InfoWindow();
   //Creates state
@@ -143,7 +83,6 @@ function initMapUSA() {
   for (var i = 0; i < state.length; i++) {
     currState = state[i]["state"];
     currStateCoords = state[i]["center"];
-    selectState.innerHTML += `<a class="dropdown-item" value="${currState}" href="#${currState}">${currState}<a>`;
     // selectState.setAttributeNode(att)
     $.each(nytData, function(key, value) {
       if (value.state === currState) {

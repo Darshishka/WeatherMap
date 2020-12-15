@@ -2530,6 +2530,7 @@ var state = [
       "state": "New York",
       "fips": 36,
       "center": {lat: 43.000000, lng:	-75.000000},
+      "zoom": 6,
       "path" : [
         {lat: 42.5142, lng: -79.7624},
         {lat: 42.7783, lng: -79.0672},
