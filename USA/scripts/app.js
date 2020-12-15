@@ -157,6 +157,7 @@ function initMapUSA() {
       }
       return staMax
     })
+
     staMax = staMax/8;
     var length = stateData.length;
     var toCalc = stateData.slice((length -20), length);
@@ -208,18 +209,12 @@ function initMapUSA() {
       id: `${currState}`,
       path: state[i]["path"],
       geodesic: true,
-      strokeColor: "#4b2e83",
+      strokeColor: color,
       strokeOpacity: 1.0,
       strokeWeight: 2,
       visability: true,
       fillColor: color,
-      fillOpacity: 1,
-    });
-    polygon.addListener(`rightclick`, () => {
-      infowindow.setContent(polygon.id);
-      infowindow.setPosition(polygon["center"])
-      infowindow.open();
-      polygon.setMap(mapUSA)
+      fillOpacity: 0.60,
     });
 //Creates county polygons
     polygon.addListener(`click`, () => {
@@ -244,12 +239,12 @@ function initMapUSA() {
               zIndex: polyData["countyFips"][i],
               center: polyData[`center`],
               geodesic: true,
-              strokeColor: "#4b2e83",
+              strokeColor: 'grey',
               strokeOpacity: 1.0,
               strokeWeight: 2,
               visability: false,
               fillColor: "#85754d",
-              fillOpacity: 1
+              fillOpacity: 0.60
             })
             var path = polyData["countyPath"][i]
             var bounds = new google.maps.LatLngBounds();
@@ -297,32 +292,34 @@ function initMapUSA() {
             var cntyAveg2 = sum2/10;
             if (cntyAveg1 > cntyAveg2) {
               console.log("rise")
-              if (stateSumNew > (cntyMax*7)) {
-                color = `#581845`;
-                polygon.setOptions({fillColor: color});
-              }else if (stateSumNew > (cntyMax*6)) {
+              if (cntyAveg1 > (cntyMax*7)) {
+                console.log(cntyAveg1)
+                console.log(cntyMax*7)
+                color = `red`;
+                polygon.setOptions({fillColor: color, strokeColor: color});
+              }else if (cntyAveg1 > (cntyMax*6)) {
                 color = `#900C3F`;
                 polygon.setOptions({fillColor: color});
 
-              }else if (stateSumNew > (cntyMax*5)) {
+              }else if (cntyAveg1 > (cntyMax*5)) {
                 color = `#C70039`;
                 polygon.setOptions({fillColor: color});
 
-              }else if (stateSumNew > (cntyMax*4)) {
+              }else if (cntyAveg1 > (cntyMax*4)) {
                 color = `#FF5733`;
                 polygon.setOptions({fillColor: color});
                 
-              }else if (stateSumNew > (cntyMax*3)) {
+              }else if (cntyAveg1 > (cntyMax*3)) {
                 color = `#FFC300`;
                 polygon.setOptions({fillColor: color});
 
                 
-              }else if (stateSumNew > (cntyMax*2)) {
+              }else if (cntyAveg1 > (cntyMax*2)) {
                 color = `#FFEB00`;
                 polygon.setOptions({fillColor: color});
                 
                 
-              }else if (stateSumNew > (cntyMax)){
+              }else if (cntyAveg1 > (cntyMax)){
                 color = `#FFDA00`;
                 polygon.setOptions({fillColor: color});
 
@@ -331,18 +328,13 @@ function initMapUSA() {
                 polygon.setOptions({fillColor: color});
 
               }
-            }else
-            if (cntyAveg2 < cntyAveg1) {
-              console.log("fall")
-              //if difference 
-              polygon.setOptions({fillOpacity: 0.0})
-
-            }
-            if (county === undefined) {
-              polygon.setOptions({fillOpacity: 0.0})
+            }else{
+              polygon.setVisible(false)
             }
 //Sets infowindow chart base for counties
             polygon.addListener(`mouseover`, () => {
+              if (polygon.getFill)
+              polygon.setOptions({fillOpacity: 1, strokeColor: color})
               var fips = polygon.zIndex;
               var currCounty = polyData["countyData"][0][fips];
               infowindow.setContent(polygon.id + `<br><div id="chartCounty"/>`);
@@ -365,7 +357,7 @@ function initMapUSA() {
                   }
                   data.addRow([new Date(year, month, day), Number(k)])
                 });
-                console.log(data.getNumberOfRows())
+                // console.log(data.getNumberOfRows())
                 $.each(nytCounties, function(index, value) {
                   if (value.fips === fips) {
                     
@@ -375,13 +367,18 @@ function initMapUSA() {
                   title: `${polygon.id} Daily Cases`,
                   hAxis: {title: 'Dates'},
                   vAxis: {title: `Cases`},
-                  width: `150`,
-                  height: `150`
+                  width: `100`,
+                  height: `100`
                 };
                 
                 var chart = new google.visualization.AreaChart(document.getElementById('chartCounty'));
                 chart.draw(data, options);
               };
+            })
+            polygon.setMap(mapUSA)
+
+            polygon.addListener("mouseout", () => {
+              polygon.setOptions({fillOpacity: 0.60})
             })
             polygon.setMap(mapUSA)
           }
@@ -390,8 +387,9 @@ function initMapUSA() {
       }
       // counties(polygon);
     });
-//populates infowindow with chart for counties
+//populates infowindow with chart for states
     polygon.addListener('mouseover', () => {
+      polygon.setOptions({fillOpacity: 1})
       console.log(polygon.id);
       $.each(state, function(index, item) {
         if (item.state === polygon.id) {
@@ -427,6 +425,9 @@ function initMapUSA() {
         };
       });
     });
+    polygon.addListener("mouseout", ()=> {
+      polygon.setOptions({fillOpacity: 0.60})
+    })
     polygon.setMap(mapUSA);
   }
 };
