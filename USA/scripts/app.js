@@ -30,14 +30,16 @@ function initMapUSA() {
     zoom: 3,
     mapId: 'f68311c1c85e61',
   });
+  const mapKey = document.getElementById("mapKey");
+
 //Directions
   const originInput = document.getElementById("origin-input");
   const destInput = document.getElementById("dest-input");
   const routeGo = document.getElementById("routeGo");
   const markerArray = [];
   const stepDisplay = new google.maps.InfoWindow();
-  const directionsService = new google.maps.DirectionsService;
-  const directionsRenderer = new google.maps.DirectionsRenderer({ map: mapUSA });
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer({ map: mapUSA, polylineOptions: { zIndex: 9999999999999999, strokeColor: "black"}});
   const searchBox = new google.maps.places.SearchBox(originInput, destInput);
   const autocomplete = new google.maps.places.Autocomplete(originInput);
   const autocomplete0 = new google.maps.places.Autocomplete(destInput);
@@ -99,6 +101,7 @@ function initMapUSA() {
 
     staMax = staMax/8;
     var length = stateData.length;
+    var stateDATA = stateData;
     var toCalc = stateData.slice((length -20), length);
     var toCalcOld = toCalc.slice(0,10);
     var toCalcNew = toCalc.slice(10,20);
@@ -119,22 +122,22 @@ function initMapUSA() {
     }else if (stateSumOld < stateSumNew) {
       // console.log("rise");
       if (stateSumNew > (staMax*7)) {
-        color = `#581845`
+        color = `red`
       }else if (stateSumNew > (staMax*6)) {
-        color = `#900C3F`
+        color = `#e37000`
       }else if (stateSumNew > (staMax*5)) {
-        color = `#C70039`
+        color = `#c09f00`
       }else if (stateSumNew > (staMax*4)) {
-        color = `#FF5733`
+        color = `#9bc02c`
         
       }else if (stateSumNew > (staMax*3)) {
-        color = `#FFC300`
+        color = `#77da7a`
         
       }else if (stateSumNew > (staMax*2)) {
-        color = `#FFEB00`
+        color = `#5fefc0`
         
       }else if (stateSumNew > staMax){
-        color = `#FFDA00`
+        color = `#72fff9`
       } else {
         color = `white`
       }
@@ -237,29 +240,29 @@ function initMapUSA() {
                 color = `red`;
                 polygon.setOptions({fillColor: color, strokeColor: color});
               }else if (cntyAveg1 > (cntyMax*6)) {
-                color = `#900C3F`;
+                color = `#e37000`;
                 polygon.setOptions({fillColor: color});
 
               }else if (cntyAveg1 > (cntyMax*5)) {
-                color = `#C70039`;
+                color = `#c09f00`;
                 polygon.setOptions({fillColor: color});
 
               }else if (cntyAveg1 > (cntyMax*4)) {
-                color = `#FF5733`;
+                color = `#9bc02c`;
                 polygon.setOptions({fillColor: color});
                 
               }else if (cntyAveg1 > (cntyMax*3)) {
-                color = `#FFC300`;
+                color = `#77da7a`;
                 polygon.setOptions({fillColor: color});
 
                 
               }else if (cntyAveg1 > (cntyMax*2)) {
-                color = `#FFEB00`;
+                color = `#5fefc0`;
                 polygon.setOptions({fillColor: color});
                 
                 
               }else if (cntyAveg1 > (cntyMax)){
-                color = `#FFDA00`;
+                color = `#72fff9`;
                 polygon.setOptions({fillColor: color});
 
               } else {
@@ -303,7 +306,7 @@ function initMapUSA() {
                   }
                 })
                 var options = {
-                  title: `${polygon.id} Daily Cases`,
+                  title: `${polygon.id} Predicted Cases`,
                   hAxis: {title: 'Dates'},
                   vAxis: {title: `Cases`},
                   width: `100`,
@@ -328,24 +331,35 @@ function initMapUSA() {
     });
 //populates infowindow with chart for states
     polygon.addListener('mouseover', () => {
+      var chartCalc = [];
       polygon.setOptions({fillOpacity: 1})
       console.log(polygon.id);
       $.each(state, function(index, item) {
         if (item.state === polygon.id) {
-          
+          $.each(stateDATA, (num, val) => {
+            if (val.state === polygon.id) {
+              chartCalc.push(val)
+            }
+          })
           infowindow.setPosition(item.center);
           infowindow.setContent(item.state + `<br><div id="chart"/>`);
           infowindow.setMap(mapUSA)
           google.charts.load('current', {packages: ['corechart']});
           google.charts.setOnLoadCallback(drawChart);
         }
+        // var caseDiff = [];
+        // for (x = 0; x < chartCalc.length; x++) {
+        //   var temp = chartCalc[x]["cases"];
+        //   var temp2 = chartCalc[x+1]["cases"];
+        //   console.log(temp2-temp)
+        // }
         function drawChart() {
           var data = new google.visualization.DataTable({
             cols: [
               {lable: `Date`, type: `date`},
               {lable: `Cases`, type: `number`}
             ]});
-            $.each(toCalc, function(k, v) {
+            $.each(chartCalc, function(k, v) {
               var year = v.date.substring(0,4);
               var month = v.date.substring(5,7);
               var day = v.date.substring(8,10);
@@ -353,7 +367,7 @@ function initMapUSA() {
               data.addRow([new Date(year, month -1, day), v.cases])
             });
           var options = {
-            title: `${polygon.id} Daily Cases`,
+            title: `${polygon.id} Total Cases`,
             hAxis: {title: 'Dates'},
             vAxis: {title: `Cases`},
             width: `100`,
@@ -377,7 +391,7 @@ function calculateAndDisplayRoute(
   directionsService,
   markerArray,
   stepDisplay,
-  map,
+  mapUSA,
   originInput,
   destInput
 ) {
@@ -417,7 +431,7 @@ function showSteps(directionResult, markerArray, stepDisplay, mapUSA) {
   for (let i = 0; i < myRoute.steps.length; i++) {
     const marker = (markerArray[i] =
       markerArray[i] || new google.maps.Marker());
-      // marker.setMap(map);
+      // marker.setMap(mapUSA);
       marker.setPosition(myRoute.steps[i].start_location);
       attachInstructionText(
         stepDisplay,
@@ -433,6 +447,6 @@ function attachInstructionText(stepDisplay, marker, text, mapUSA) {
     // Open an info window when the marker is clicked on, containing the text
     // of the step.
     stepDisplay.setContent(text);
-    stepDisplay.open(map, marker);
+    stepDisplay.open(mapUSA, marker);
   });
 }

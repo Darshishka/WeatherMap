@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>COVID County Weather Map</title>
+    <title>COVID Prediction Weather Map</title>
+    <link rel="icon" href="../USA/assets/images/coronavirus-icon.png">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -55,7 +56,7 @@
   </head>
   <body>
     <header>
-      <h1 id="title">(Ready on December 16) COVID-19 County Weather Map</h1>
+      <h1 id="title">COVID-19 Prediction Weather Map</h1>
     </header>
     <!-- <div class="dropdown">
       <a id="stateControlA" class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,9 +78,18 @@
       <btn id="routeGo" style="font-weight: bold;" class="btn">Go</btn>
     </div>
     <div id="warnings-panel"></div>
+    <div id="mapKey" style="position: relative; padding: 10px; margin: 20px; background-color: lightgray;" class="row">
+      High Rise<div class="col" id="barVal" style="background-color: red; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVal" style="background-color: #e37000; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVal" style="background-color: #c09f00; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVal" style="background-color: #9bc02c; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVal" style="background-color: #77da7a; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVar" style="background-color: #5fefc0; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVar" style="background-color: #72fff9; width: 20px; height: 15px;"></div>
+      <div class="col" id="barVar" style="background-color: white; width: 20px; height: 15px;"></div>Low Rise
+    </div>
     <div id="mapWrapper" style="position: relative;">
       <div id="map" class="border border-dark allign-self-center"></div>
-      <div id="mapKey" style="position: absolute;"></div>
     </div>
       
     <div id="content" data-spy="scroll" data-target="navbar" data-offset="0">
